@@ -1,11 +1,11 @@
-import {AppProvider} from "./context/AppContext.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 import Router from "./routes/Router.jsx";
 
 function App() {
   return (
-    <AppProvider>
-        <Router />
-    </AppProvider>
+    <AuthProvider>
+      <Router />
+    </AuthProvider>
   );
 }
 

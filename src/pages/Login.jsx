@@ -1,6 +1,6 @@
-import { useState, useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { AppContext } from "../context/AppContext";
+import { AuthContext } from "../context/AuthContext";
 import { PATHS } from '../routes/paths';
 
 export default function Login() {
@@ -8,7 +8,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { isAuthenticated, login: contextLogin } = useContext(AppContext);
+  const { isAuthenticated, login: contextLogin } = useContext(AuthContext);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -27,7 +27,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center" style={{background: 'linear-gradient(135deg, #010030 0%, #00033d 50%, #160078 100%)'}}>
+    <div className="min-h-screen flex items-center justify-center bg-[#05081b]">
       <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-2xl p-8 w-full max-w-md border border-white/20">
         <h2 className="text-3xl font-bold text-center text-white mb-6">Iniciar sesión</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -48,7 +48,7 @@ export default function Login() {
           <button
             type="submit"
             className="text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105"
-            style={{background: 'linear-gradient(135deg, #7226ff 0%, #160078 100%)'}}
+            style={{ background: 'linear-gradient(135deg, #7226ff 0%, #160078 100%)' }}
           >
             Iniciar sesión
           </button>
