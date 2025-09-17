@@ -4,29 +4,28 @@ import { login as loginApi } from "../api/auth";
 export const AppContext = createContext();
 
 export function AppProvider({ children }) {
-  const [token, setToken] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-    if (storedToken) setToken(storedToken);
+    if (storedToken) setIsAuthenticated(true);
   }, []);
 
   const login = async (credentials) => {
     const data = await loginApi(credentials);
-    setToken(data.access_token);
+    setIsAuthenticated(true);
     localStorage.setItem("token", data.access_token);
     return data;
   };
 
   const logout = () => {
-    setToken(null);
+    setIsAuthenticated(false);
     localStorage.removeItem("token")
   };
 
-  const isAuthenticated = !!token;
 
   return (
-    <AppContext.Provider value={{ token, login, logout, isAuthenticated }}>
+    <AppContext.Provider value={{ login, logout, isAuthenticated }}>
       {children}
     </AppContext.Provider>
   );

@@ -1,55 +1,63 @@
-import { useState } from 'react';
-import { login } from "../api/auth"; // tu archivo donde definiste login
+import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
+import { PATHS } from '../routes/paths';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { isAuthenticated, login: contextLogin } = useContext(AppContext);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(PATHS.DASHBOARD);
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await login({ email, password });
-      localStorage.setItem('token', data.access_token);
-      navigate('/dashboard');
-    } catch (err) {
+      await contextLogin({ email, password });
+      navigate(PATHS.DASHBOARD);
+    } catch {
       setError('Credenciales inválidas');
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-blue-700 to-blue-400">
-      <div className="bg-white bg-opacity-90 rounded-xl shadow-lg p-8 w-full max-w-md">
-        <h2 className="text-3xl font-bold text-center text-blue-900 mb-6">Iniciar sesión</h2>
+    <div className="min-h-screen flex items-center justify-center" style={{background: 'linear-gradient(135deg, #010030 0%, #00033d 50%, #160078 100%)'}}>
+      <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-2xl p-8 w-full max-w-md border border-white/20">
+        <h2 className="text-3xl font-bold text-center text-white mb-6">Iniciar sesión</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="px-4 py-2 rounded-lg border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 text-blue-900 placeholder-blue-400"
+            className="px-4 py-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white/5 text-white placeholder-gray-300 backdrop-blur-sm"
           />
           <input
             type="password"
             placeholder="Contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="px-4 py-2 rounded-lg border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 text-blue-900 placeholder-blue-400"
+            className="px-4 py-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white/5 text-white placeholder-gray-300 backdrop-blur-sm"
           />
           <button
             type="submit"
-            className="bg-gradient-to-r from-blue-700 to-blue-400 text-white font-semibold py-2 rounded-lg shadow-md hover:from-blue-800 hover:to-blue-500 transition-colors"
+            className="text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105"
+            style={{background: 'linear-gradient(135deg, #7226ff 0%, #160078 100%)'}}
           >
             Iniciar sesión
           </button>
-          {error && <p className="text-red-600 text-center">{error}</p>}
+          {error && <p className="text-red-400 text-center font-medium">{error}</p>}
         </form>
-        <p className="text-center mt-4 text-blue-700">
+        <p className="text-center mt-6 text-gray-200">
           ¿No tienes cuenta?{' '}
           <span
-            className="underline cursor-pointer hover:text-blue-900 font-semibold"
+            className="underline cursor-pointer hover:text-white font-semibold transition-colors duration-200 text-purple-300"
             onClick={() => navigate('/register')}
           >
             Regístrate aquí
