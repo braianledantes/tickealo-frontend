@@ -1,11 +1,15 @@
+import {AppProvider} from "./context/AppContext.jsx";
+import Router from "./routes/Router.jsx";
+import { BrowserRouter } from "react-router-dom";
+
 function App() {
   return (
-    <div>
-      <h1 className='text-3xl font-bold underline'>
-        Hello World! This is Tickealo!
-      </h1>
-    </div>
-  )
+    <AppProvider>
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+    </AppProvider>
+  );
 }
 
-export default App
+export default App;
