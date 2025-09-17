@@ -4,6 +4,10 @@ import { AppContext } from "../context/AppContext";
 import { PATHS } from "../routes/paths";
 
 export default function Register() {
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [cuit, setCuit] = useState("");
+  const [direccion, setDireccion] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -20,13 +24,27 @@ export default function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError(""); // Limpiar errores previos
-    
+
     // Validación básica
-    if (!email || !password) {
+    if (!nombre || !apellido || !cuit || !direccion || !email || !password) {
       setError("Por favor, completa todos los campos");
       return;
     }
-    
+
+    // Validación simple de CUIT (solo comprobación de formato básico)
+    const cuitDigits = cuit.replace(/[^0-9]/g, "");
+    if (cuitDigits.length < 10) {
+      setError("CUIT inválido. Ingresá al menos 10 dígitos.");
+      return;
+    }
+
+    // Validación simple de email
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(email)) {
+      setError("Correo electrónico inválido.");
+      return;
+    }
+
     // Aquí deberías llamar a tu API de registro
     // Simulación de registro exitoso:
     localStorage.setItem("token", "demo_token");
@@ -39,8 +57,36 @@ export default function Register() {
         <h2 className="text-3xl font-bold text-center text-white mb-6">Registrarse</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
+            type="text"
+            placeholder="Nombre"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            className="px-4 py-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white/5 text-white placeholder-gray-300 backdrop-blur-sm"
+          />
+          <input
+            type="text"
+            placeholder="Apellido"
+            value={apellido}
+            onChange={(e) => setApellido(e.target.value)}
+            className="px-4 py-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white/5 text-white placeholder-gray-300 backdrop-blur-sm"
+          />
+          <input
+            type="text"
+            placeholder="CUIT"
+            value={cuit}
+            onChange={(e) => setCuit(e.target.value)}
+            className="px-4 py-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white/5 text-white placeholder-gray-300 backdrop-blur-sm"
+          />
+          <input
+            type="text"
+            placeholder="Dirección"
+            value={direccion}
+            onChange={(e) => setDireccion(e.target.value)}
+            className="px-4 py-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white/5 text-white placeholder-gray-300 backdrop-blur-sm"
+          />
+          <input
             type="email"
-            placeholder="Email"
+            placeholder="Correo electrónico"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="px-4 py-3 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white/5 text-white placeholder-gray-300 backdrop-blur-sm"
