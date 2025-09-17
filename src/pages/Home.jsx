@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { AppContext } from "../context/AppContext";
-import { PATHS } from "../routes/paths";
 import logotipo from "../assets/logotipo.png";
+import { AuthContext } from "../context/AuthContext";
+import { PATHS } from "../routes/paths";
 
 export default function Home() {
-  const { isAuthenticated } = useContext(AppContext);
+  const { isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -43,15 +43,15 @@ export default function Home() {
               <button
                 onClick={handleLogin}
                 className="text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300 shadow-lg transform hover:scale-105 hover:shadow-blue-500/25"
-                style={{background: 'linear-gradient(135deg, #160078 0%, #00033d 100%)'}}
+                style={{ background: 'linear-gradient(135deg, #160078 0%, #00033d 100%)' }}
               >
                 Iniciar Sesión
               </button>
-              
+
               <button
                 onClick={handleRegister}
                 className="text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300 shadow-lg transform hover:scale-105 hover:shadow-purple-500/25"
-                style={{background: 'linear-gradient(135deg, #7226ff 0%, #160078 100%)'}}
+                style={{ background: 'linear-gradient(135deg, #7226ff 0%, #160078 100%)' }}
               >
                 Registrarse
               </button>
@@ -60,14 +60,13 @@ export default function Home() {
             <button
               onClick={handleDashboard}
               className="text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-purple-500/25 transform hover:scale-105"
-              style={{background: 'linear-gradient(135deg, #7226ff 0%, #160078 100%)'}}
+              style={{ background: 'linear-gradient(135deg, #7226ff 0%, #160078 100%)' }}
             >
               Ir al Dashboard
             </button>
           )}
         </div>
       </header>
-
 
       {/* Clientes Section */}
       <section className="w-full max-w-7xl mx-auto px-6 py-12">
@@ -82,6 +81,7 @@ export default function Home() {
               className="absolute inset-0 bg-cover bg-center"
               style={{ backgroundImage: "url('https://estadiosdeargentina.com.ar/wp-content/uploads/2014/02/estadio-ruca-che-neuquen2-1.jpg')" }}
               aria-hidden="true"
+
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
             <div className="absolute inset-0 flex items-end p-6">
@@ -160,6 +160,7 @@ export default function Home() {
               </div>
             </div>
           </div>        
+ 
         </div>
       </section>
 
