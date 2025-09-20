@@ -10,10 +10,10 @@ export default function Sidebar() {
   const { logout, user } = useContext(AuthContext);
 
   const items = [
-    { key: "dashboard", label: "Dashboard", to: PATHS?.DASHBOARD || "/dashboard" },
-    { key: "eventos", label: "Eventos", to: PATHS?.EVENTOS || "/eventos/eventos" },
-    { key: "creditos", label: "Creditos", to: PATHS?.PROFILE || "/creditos" },
-    { key: "equipo", label: "Equipo", to: PATHS?.SETTINGS || "/equipo" },
+    { key: "dashboard", label: "Dashboard", to: PATHS.DASHBOARD},
+    { key: "eventos", label: "Eventos", to: PATHS.EVENTOS },
+    { key: "creditos", label: "Creditos", to: PATHS.CREDITOS },
+    { key: "equipo", label: "Equipo", to: PATHS.EQUIPO },
   ];
 
   const isActive = (to) => location.pathname === to || location.pathname.startsWith(to + "/");

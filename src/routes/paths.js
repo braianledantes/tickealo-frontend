@@ -3,7 +3,7 @@ export const PATHS = {
   LOGIN: '/login',
   REGISTER: '/register',
   DASHBOARD: '/dashboard',
-  EVENTOS: '/eventos/eventos',
+  EVENTOS: '/eventos',
   EQUIPO: '/equipo',
   CREDITOS: '/creditos',
   PERFIL: '/perfil',

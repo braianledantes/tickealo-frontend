@@ -46,7 +46,7 @@ export default function Login() {
         </form>
         <p className="text-center mt-6 text-gray-200">
           ¿No tienes una cuenta?{' '}
-          <ButtonLink  to="/register" text="Regístrate aquí "/>
+          <ButtonLink  to={PATHS.REGISTER} text="Regístrate aquí "/>
         </p>
       </div>
       <div className="gradient-triangle"></div>
