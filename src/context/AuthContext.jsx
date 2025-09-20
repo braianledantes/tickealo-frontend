@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { login as loginApi } from "../api/auth";
+import * as apiAuth from "../api/auth";
 
 export const AuthContext = createContext();
 
@@ -14,10 +14,11 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (credentials) => {
-    const data = await loginApi(credentials);
+    const data = await apiAuth.login(credentials);
     setIsAuthenticated(true);
     localStorage.setItem(TOKEN_KEY, data.access_token);
     return data;
+    // Lógica para iniciar sesión OJO
   };
 
   const logout = () => {
@@ -25,10 +26,17 @@ export function AuthProvider({ children }) {
     localStorage.removeItem(TOKEN_KEY)
   };
 
+  const registrarProductora = async (data) => {
+    const res = await apiAuth.registerProductora(data);
+    
+    return res;
+  }
+
 
   return (
-    <AuthContext.Provider value={{ login, logout, isAuthenticated }}>
+    <AuthContext.Provider value={{ login, logout, registrarProductora,  isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );
+
 }

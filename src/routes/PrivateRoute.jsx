@@ -7,7 +7,7 @@ export default function PrivateRoute({ children }) {
   const { isAuthenticated } = useContext(AuthContext);
 
   if (!isAuthenticated) {
-    return <Navigate to={PATHS.LOGIN} replace />;
+    //return <Navigate to={PATHS.LOGIN} replace />;
   }
 
   return children;
