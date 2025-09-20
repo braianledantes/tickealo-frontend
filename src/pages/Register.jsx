@@ -4,6 +4,8 @@ import { AuthContext } from "../context/AuthContext";
 import { PATHS } from "../routes/paths";
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
+import ImageUploader from "../components/ImageUploader/ImageUploader";
+import ButtonLink from '../components/ButtonLink/ButtonLink';
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -79,49 +81,46 @@ export default function Register() {
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Columna 1 - Datos de la Productora */}
           <div className="flex flex-col gap-4">
+            <h1 className="text-gray-300 px-2">Datos de la Productora</h1>
+
+            <ImageUploader label="Imagen de Perfil (opcional)" onFileSelect={(file) => setImagenPerfil(file)} />
+
             <Input
-              placeholder="Nombre de la Productora"
+              placeholder="Nombre"
               type="text"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
             />
-            <Input
-              placeholder="CUIT"
-              type="text"
-              value={cuit}
-              onChange={(e) => setCuit(e.target.value)}
-            />
+
+            {/* CUIT y Teléfono en la misma fila */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Input
+                placeholder="CUIT"
+                type="text"
+                value={cuit}
+                onChange={(e) => setCuit(e.target.value)}
+              />
+              <Input
+                placeholder="Teléfono"
+                type="text"
+                value={telefono}
+                onChange={(e) => setTelefono(e.target.value)}
+              />
+            </div>
+            
             <Input
               placeholder="Dirección"
               type="text"
               value={direccion}
               onChange={(e) => setDireccion(e.target.value)}
             />
-            <Input
-              placeholder="Teléfono"
-              type="text"
-              value={telefono}
-              onChange={(e) => setTelefono(e.target.value)}
-            />
 
-            <label
-              htmlFor="imagenPerfil"
-              className="text-white font-medium mb-2"
-            >
-              Imagen de Perfil (opcional)
-            </label>
-            <input
-              type="file"
-              id="imagenPerfil"
-              name="imagenPerfil"
-              accept="image/*"
-              onChange={(e) => setImagenPerfil(e.target.files[0])}
-              className="px-4 py-2 rounded-lg bg-[#080C22] text-white placeholder-gray-300 focus:outline-none"
-            />
           </div>
 
           {/* Columna 2 - Datos de Usuario */}
           <div className="flex flex-col gap-4">
+            <h1 className="text-gray-300 px-2">Datos del Dueño</h1>
+
             <Input
               placeholder="Nombre de Usuario"
               type="text"
@@ -150,12 +149,18 @@ export default function Register() {
             )}
           </div>
         </form>
+
+        <p className="text-center mt-6 text-gray-200">
+          ¿Ya tienes una cuenta?{" "}
+          <ButtonLink to={PATHS.LOGIN} text="Inicia sesión aquí " />
+        </p>
       </div>
 
       <div className="gradient-triangle"></div>
     </div>
   );
 }
+
 
 
 
