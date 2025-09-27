@@ -1,12 +1,11 @@
-import React from "react";
+
 import { CreditCard, User } from "lucide-react";
+import LoadingSpinner from "./LoadingSpinner";
 
 export default function BankCard({ cuenta, onChange, edit = false }) {
   if (!cuenta) {
     return (
-      <p className="text-red-500 mt-4">
-        No tienes una cuenta bancaria configurada. Configúrala antes de crear eventos.
-      </p>
+        <LoadingSpinner/>
     );
   }
 
