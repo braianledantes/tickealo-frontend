@@ -4,8 +4,8 @@ import { AuthContext } from "../context/AuthContext";
 import { PATHS } from "../routes/paths";
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
-import ImageUploader from "../components/ImageUploader/ImageUploader";
 import ButtonLink from '../components/ButtonLink/ButtonLink';
+import ProfilePictureUploader from "../components/Images/ProfilePictureUploader";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -68,13 +68,17 @@ export default function Register() {
 
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center bg-[#05081b]">
-      {/* Logo */}
-      <div className="flex items-center gap-2 text-white font-bold text-xl mb-8">
-        TICKEALO <img src="/tickealo.svg" alt="Logo Tickealo" className="w-6 h-6" />
+      {/* Gradient */}
+      <div className="gradient-triangle absolute -top-30 w-full z-0"></div>
+
+      {/* Logo TICKEALO */}
+      <div className="flex items-center gap-2 text-white font-bold text-2xl absolute top-20 z-20">
+        TICKEALO <img src="/tickealo.svg" alt="Logo Tickealo" className="w-7 h-7" />
       </div>
 
+
       {/* Card de registro */}
-      <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-2xl p-8 w-full max-w-3xl border border-white/20">
+      <div className="">
         <h2 className="text-xl font-semibold text-center text-white mb-6">Registrarse</h2>
 
         {/* Formulario */}
@@ -83,7 +87,7 @@ export default function Register() {
           <div className="flex flex-col gap-4">
             <h1 className="text-gray-300 px-2">Datos de la Productora</h1>
 
-            <ImageUploader label="Imagen de Perfil (opcional)" onFileSelect={(file) => setImagenPerfil(file)} />
+            <ProfilePictureUploader label="Imagen de Perfil (opcional)" onFileSelect={(file) => setImagenPerfil(file)} />
 
             <Input
               placeholder="Nombre"
@@ -155,8 +159,6 @@ export default function Register() {
           <ButtonLink to={PATHS.LOGIN} text="Inicia sesión aquí " />
         </p>
       </div>
-
-      <div className="gradient-triangle"></div>
     </div>
   );
 }

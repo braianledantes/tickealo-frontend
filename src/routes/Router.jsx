@@ -6,10 +6,9 @@ import Register from "../pages/Register";
 import Eventos from "../pages/Eventos/Eventos";
 import Perfil from "../pages/Perfil";
 import Creditos from "../pages/Creditos";
+import Cobros from "../pages/Cobros";
 import Equipo from "../pages/Equipo";
-import Nuevoevento from "../pages/Eventos/Nuevoevento";
-import Metodopago from "../pages/Eventos/MetodoPago";
-import Data from "../pages/Eventos/Data";
+import NuevoEvento from "../pages/Eventos/Nuevoevento";
 import { PATHS } from "./paths";
 import PrivateRoute from "./PrivateRoute";
 
@@ -58,28 +57,19 @@ export default function Router() {
         />
 
         <Route
+          path={PATHS.COBROS}
+          element={
+            <PrivateRoute>
+              <Cobros />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
           path={PATHS.NUEVOEVENTO}
           element={
             <PrivateRoute>
-              <Nuevoevento />
-            </PrivateRoute>
-          }
-        />
-
-        <Route
-          path={PATHS.METODOPAGO}
-          element={
-            <PrivateRoute>
-              <Metodopago />
-            </PrivateRoute>
-          }
-        />
-
-        <Route
-          path={PATHS.DATA}
-          element={
-            <PrivateRoute>
-              <Data />
+              <NuevoEvento />
             </PrivateRoute>
           }
         />

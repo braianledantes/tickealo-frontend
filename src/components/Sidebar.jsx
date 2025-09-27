@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { PATHS } from "../routes/paths";
-import { LogOut, CalendarMinus2, CreditCard, Users, UserSquare } from "lucide-react";
+import { LogOut, CalendarMinus2, CreditCard, Users, PiggyBank , UserSquare } from "lucide-react";
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -13,6 +13,7 @@ export default function Sidebar() {
     { key: "dashboard", label: "Dashboard", to: PATHS.DASHBOARD},
     { key: "eventos", label: "Eventos", to: PATHS.EVENTOS },
     { key: "creditos", label: "Creditos", to: PATHS.CREDITOS },
+    { key: "cobros", label: "Cobros", to: PATHS.COBROS },
     { key: "equipo", label: "Equipo", to: PATHS.EQUIPO },
   ];
 
@@ -26,6 +27,8 @@ export default function Sidebar() {
         return CalendarMinus2;
       case "creditos":
         return CreditCard;
+      case "cobros":
+        return PiggyBank;
       case "equipo":
         return Users;
       default:
@@ -34,7 +37,7 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-64 bg-white/10 backdrop-blur-sm border-r border-white/20 flex flex-col">
+    <aside className="w-64 h-screen bg-white/10 backdrop-blur-sm border-r border-white/20 flex flex-col">
       <div className="p-4 border-b border-white/20">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white font-semibold">

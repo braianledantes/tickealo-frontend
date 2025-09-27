@@ -1,0 +1,11 @@
+import api from './axiosConfig';
+
+export const crearEvento = async (formData) => {
+  const response = await api.post('/api/eventos', formData);
+  return response.data;
+};
+
+export const subirImagenEvento = async (eventoId, formDataImages) => {
+  const response = await api.patch(`/api/eventos/${eventoId}/imagenes`, formDataImages);
+  return response.data;
+};

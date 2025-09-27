@@ -9,3 +9,8 @@ export const registerProductora = async (formData) => {
   const response = await api.post(`/api/auth/register-productora`, formData);
   return response.data;
 };
+
+export const crearEvento = async (formData) => {
+  const response = await api.post('/api/eventos', formData);
+  return response.data;
+};

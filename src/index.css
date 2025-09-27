@@ -22,13 +22,31 @@ body, #root {
 
 .gradient-triangle {
   position: absolute;
-  bottom: -100px;
   left: 50%;
   transform: translateX(-50%);
   width: 400px;
   height: 400px;
-  background: radial-gradient(ellipse at bottom, #160078 0%, transparent 70%);
+  background: radial-gradient(ellipse at top, #160078 0%, transparent 70%);
   animation: pulseGradient 3s ease-in-out infinite;
   filter: blur(40px);
   pointer-events: none;
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+input[type="datetime-local"]::-moz-inner-spin-button,
+input[type="datetime-local"]::-moz-calendar-picker-indicator {
+  display: none;
+  -moz-appearance: none;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #080C22 inset !important;
+  -webkit-text-fill-color: white !important;
+  background-color: #080C22 !important;
+  border: none !important;
 }

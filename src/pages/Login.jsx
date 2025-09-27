@@ -31,27 +31,32 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen relative flex flex-col items-center justify-center bg-[#05081b]">
-      <div className="flex items-center gap-2 text-white font-bold text-2xl mb-8"> TICKEALO <img src="/tickealo.svg" alt="Logo Tickealo" className="w-7 h-7" /> </div>
-      <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-2xl p-8 w-full max-w-md border border-white/20">
-        <h2 className="text-xl font-semibold text-center text-white/90 mb-6">Bienvenido!</h2>
+    <div className="min-h-screen relative flex flex-col justify-center items-center bg-[#05081b]">
+
+      {/* Gradient */}
+      <div className="gradient-triangle absolute -top-30 w-full z-0"></div>
+
+      {/* Logo TICKEALO */}
+      <div className="flex items-center gap-2 text-white font-bold text-2xl absolute top-20 z-20">
+        TICKEALO <img src="/tickealo.svg" alt="Logo Tickealo" className="w-7 h-7" />
+      </div>
+
+      {/* Contenedor del formulario */}
+      <div className="w-full max-w-md px-6">
+        <h2 className="text-2xl font-regular-base text-center text-white/90 mb-4">Bienvenido!</h2>
+
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <Input icon={<AtSign />} placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-
-            <Input icon={<KeyRound />} placeholder="Contraseña" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-
-            <Button text="Iniciar sesión"/>
-
+          <Input icon={<AtSign />} placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Input icon={<KeyRound />} placeholder="Contraseña" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <Button text="Iniciar sesión"/>
           {error && <p className="text-red-400 text-center font-base-regular">{error}</p>}
         </form>
 
         <p className="text-center mt-6 text-gray-200">
           ¿No tienes una cuenta?{' '}
-          <ButtonLink  to={PATHS.REGISTER} text="Regístrate aquí "/>
+          <ButtonLink  to={PATHS.REGISTER} text="Regístrate aquí"/>
         </p>
-        
       </div>
-      <div className="gradient-triangle"></div>
     </div>
   );
 }

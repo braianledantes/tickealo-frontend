@@ -76,5 +76,3 @@ export default function ProfilePictureUploader({ onFileSelect, textPadding = "px
     </div>
   );
 }
-
-
