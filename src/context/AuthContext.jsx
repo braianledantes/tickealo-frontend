@@ -90,15 +90,19 @@ export function AuthProvider({ children }) {
   };
 
   const getEventos = async () => {
-    try {
-      if (!user?.id) return []; // si no hay usuario logueado
-      const response = await api.get(`/api/productora/${user.id}/eventos`);
-      return response.data;
-    } catch (err) {
-      console.error("Error obteniendo eventos:", err);
-      return [];
-    }
-  };
+  try {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) throw new Error("No hay token disponible");
+
+    const response = await apiEventos.getEventos(token);
+
+    // si tu API devuelve { data: [...] }, ajusta:
+    return response?.data || [];
+  } catch (err) {
+    console.error("Error obteniendo eventos:", err);
+    return [];
+  }
+};
   return (
     <AuthContext.Provider
       value={{

@@ -3,28 +3,33 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Eventos() {
-  const { user, getEventos } = useContext(AuthContext);
+  const { user, getEventos } = useContext(AuthContext); // usamos getEventos del context
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Obtener eventos de la productora logueada
   useEffect(() => {
-    const fetchEvents = async () => {
-      if (!user) return;
+    if (!user) return;
+
+    const fetchEventos = async () => {
       setLoading(true);
+      setError(null);
+
       try {
-        const data = await getEventos(); // ya debería usar user.id dentro del context
-        setEvents(data?.data || []); // fallback a array vacío
+        const data = await getEventos();
+         console.log("Eventos recibidos:", data);
+        setEvents(data);
       } catch (err) {
         console.error("Error al obtener eventos:", err);
-        setEvents([]); // fallback por seguridad
+        setError(err.message || "Error desconocido");
+        setEvents([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchEvents();
+    fetchEventos();
   }, [user, getEventos]);
 
   const handleNewEvent = () => {
@@ -32,10 +37,9 @@ export default function Eventos() {
   };
 
   return (
-    <main className="max-w-7xl mx-auto">
+    <main className="max-w-7xl mx-auto px-4">
       <h2 className="text-3xl font-bold text-white mb-6">Eventos</h2>
 
-      {/* Botón nuevo evento */}
       <div className="flex justify-end mb-8">
         <button
           onClick={handleNewEvent}
@@ -46,15 +50,12 @@ export default function Eventos() {
         </button>
       </div>
 
-      {/* Resultados */}
       {loading ? (
-        <div className="text-center text-gray-400 py-20">
-          Cargando eventos...
-        </div>
-      ) : !events || events.length === 0 ? (
-        <div className="text-center text-gray-400 py-20">
-          No hay eventos disponibles
-        </div>
+        <div className="text-center text-gray-400 py-20">Cargando eventos...</div>
+      ) : error ? (
+        <div className="text-center text-red-500 py-20">{error}</div>
+      ) : events.length === 0 ? (
+        <div className="text-center text-gray-400 py-20">No hay eventos disponibles</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {events.map((ev) => (

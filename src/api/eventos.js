@@ -10,7 +10,11 @@ export const subirImagenEvento = async (eventoId, formDataImages) => {
   return response.data;
 };
 
-export const getEventos = async (idProductora) => {
-  const response = await api.get(`/api/productora/${idProductora}/eventos`);
+export const getEventos = async (token) => {
+  const response = await api.get(`/api/eventos`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response.data;
-}
+};
