@@ -91,13 +91,14 @@ export function AuthProvider({ children }) {
 
   const getEventos = async () => {
     try {
-      return await apiEventos.getEventos();
+      if (!user?.id) return []; // si no hay usuario logueado
+      const response = await api.get(`/api/productora/${user.id}/eventos`);
+      return response.data;
     } catch (err) {
       console.error("Error obteniendo eventos:", err);
       return [];
     }
   };
-
   return (
     <AuthContext.Provider
       value={{
