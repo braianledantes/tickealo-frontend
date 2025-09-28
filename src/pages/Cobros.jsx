@@ -4,7 +4,7 @@ import Button from "../components/Button/Button";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 
-export default function Creditos() {
+export default function Cobros() {
   const { crearCuentaBancaria, getCuentasBancarias } = useContext(AuthContext);
 
   const [cuenta, setCuenta] = useState(null);
@@ -52,25 +52,18 @@ export default function Creditos() {
   };
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-[#010030] via-[#00033d] to-[#160078]">
-      <Sidebar />
-      <main className="flex-1 p-6">
-        <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-bold text-white mb-6">Metodo de cobro</h2>
+    <div className="max-w-7xl mx-auto">
+      <h2 className="text-3xl font-bold text-white mb-6">Metodo de cobro</h2>
           
-          <p className="text-gray-200 mb-6">
-            Edita los datos de tu cuenta bancaria directamente en la tarjeta.
-          </p>
+      <p className="text-gray-200 mb-6"> Edita los datos de tu cuenta bancaria directamente en la tarjeta. </p>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* BankCard editable */}
-            <BankCard cuenta={cuenta} onChange={handleCuentaChange} edit={true} />
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* BankCard editable */}
+        <BankCard cuenta={cuenta} onChange={handleCuentaChange} edit={true} />
 
-            {/* Instrucciones separadas */}
-            <div className="mt-4">
-              <label className="text-white font-semibold mb-1 block" htmlFor="instrucciones">
-                Instrucciones
-              </label>
+        {/* Instrucciones separadas */}
+        <div className="mt-4">
+          <label className="text-white font-semibold mb-1 block" htmlFor="instrucciones"> Instrucciones</label>
               <textarea
                 id="instrucciones"
                 value={instrucciones}
@@ -81,10 +74,8 @@ export default function Creditos() {
               />
             </div>
 
-            <Button type="submit" text="Guardar" />
-          </form>
-        </div>
-      </main>
+        <Button type="submit" text="Guardar" />
+      </form>
     </div>
   );
 }

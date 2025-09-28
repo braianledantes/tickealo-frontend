@@ -24,15 +24,11 @@ export default function Eventos() {
   }, [events, search, status]);
 
   const handleNewEvent = () => {
-    navigate("/eventos/nuevoevento");
+    navigate("nuevoevento");
   };
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-[#010030] via-[#00033d] to-[#160078]">
-      <Sidebar />
-
-      <main className="flex-1 p-6">
-        <div className="max-w-7xl mx-auto">
+    <main className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold text-white mb-6">Eventos</h2>
 
           {/* Controles: búsqueda + estado + nuevo */}
@@ -132,8 +128,6 @@ export default function Eventos() {
               </div>
             )}
           </div>
-        </div>
-      </main>
-    </div>
+    </main>
   );
 }

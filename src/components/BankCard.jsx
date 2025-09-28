@@ -57,7 +57,7 @@ export default function BankCard({ cuenta, onChange, edit = false }) {
               className={inputStyle + " text-lg"}
               value={cuenta.alias}
               onChange={(e) => handleFieldChange("alias", e.target.value)}
-              placeholder="Alias"
+              placeholder="---"
             />
           ) : (
             <p className="text-lg font-medium">{cuenta.alias}</p>

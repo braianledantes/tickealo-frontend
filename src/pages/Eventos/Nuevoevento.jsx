@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import Sidebar from "../../components/Sidebar";
 import PrimerPaso from "../../components/Pasos/PrimerPaso";
 import SegundoPaso from "../../components/Pasos/SegundoPaso";
 import TercerPaso from "../../components/Pasos/TercerPaso";
 import { AuthContext } from "../../context/AuthContext";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export default function NuevoEvento() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -83,13 +83,10 @@ export default function NuevoEvento() {
     fetchCuenta();
   }, []);
 
-  if (!cuentaBancaria) return <p>Cargando datos de la cuenta bancaria...</p>;
+  if (!cuentaBancaria) return <main className="flex-1 p-6 h-screen overflow-y-auto scrollbar-none"> <LoadingSpinner /> </main>;
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-[#010030] via-[#00033d] to-[#160078]">
-      <Sidebar />
-      <main className="flex-1 p-6 h-screen overflow-y-auto">
-        <div className="max-w-5xl mx-auto ">
+    <main className="flex-1 p-6 h-screen overflow-y-auto scrollbar-none">
           <h2 className="text-3xl font-bold text-white mb-6">Nuevo evento</h2>
 
           {currentStep === 1 && (
@@ -113,8 +110,6 @@ export default function NuevoEvento() {
               loading={loading}
             />
           )}
-        </div>
-      </main>
-    </div>
+    </main>
   );
 }

@@ -9,35 +9,53 @@ export const TOKEN_KEY = "token";
 
 export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem(TOKEN_KEY);
-    if (storedToken) setIsAuthenticated(true);
+    if (storedToken) {
+      setIsAuthenticated(true);
+      // 🔹 Pedimos el perfil al backend
+      apiAuth.me()
+        .then((data) => setUser(data))
+        .catch(() => {
+          setIsAuthenticated(false);
+          setUser(null);
+          localStorage.removeItem(TOKEN_KEY);
+        });
+    }
   }, []);
 
   const login = async (credentials) => {
-    const data = await apiAuth.login(credentials);
-    setIsAuthenticated(true);
-    localStorage.setItem(TOKEN_KEY, data.access_token);
-    return data;
-    // Lógica para iniciar sesión OJO
+    try {
+      const data = await apiAuth.login(credentials);
+      if (data?.access_token) {
+        localStorage.setItem(TOKEN_KEY, data.access_token);
+        setIsAuthenticated(true);
+        // 🔹 Traemos el perfil apenas loguea
+        const profile = await apiAuth.me();
+        setUser(profile);
+      }
+      return data;
+    } catch (err) {
+      console.error("Error en login:", err);
+      return { error: err.message };
+    }
   };
 
   const logout = () => {
     setIsAuthenticated(false);
-    localStorage.removeItem(TOKEN_KEY)
+    setUser(null);
+    localStorage.removeItem(TOKEN_KEY);
   };
 
   const registrarProductora = async (data) => {
-    const res = await apiAuth.registerProductora(data);
-    
-    return res;
-  }
+    return await apiAuth.registerProductora(data);
+  };
 
   const crearEvento = async (formData) => {
     try {
-      const res = await apiEventos.crearEvento(formData);
-      return res;
+      return await apiEventos.crearEvento(formData);
     } catch (err) {
       console.error("Error creando evento:", err);
       return { error: err.message };
@@ -46,8 +64,7 @@ export function AuthProvider({ children }) {
 
   const subirImagenEvento = async (eventoId, formDataImages) => {
     try {
-      const res = await apiEventos.subirImagenEvento(eventoId, formDataImages);
-      return res;
+      return await apiEventos.subirImagenEvento(eventoId, formDataImages);
     } catch (err) {
       console.error("Error subiendo imágenes:", err);
       return { error: err.message };
@@ -56,18 +73,16 @@ export function AuthProvider({ children }) {
 
   const crearCuentaBancaria = async (data) => {
     try {
-      const res = await apiCuentaBancaria.crearCuentaBancaria(data);
-      return res;
+      return await apiCuentaBancaria.crearCuentaBancaria(data);
     } catch (err) {
       console.error("Error creando cuenta bancaria:", err);
       return { error: err.message };
     }
   };
 
-    const getCuentasBancarias = async () => {
+  const getCuentasBancarias = async () => {
     try {
-      const res = await apiCuentaBancaria.getCuentasBancarias();
-      return res;
+      return await apiCuentaBancaria.getCuentasBancarias();
     } catch (err) {
       console.error("Error obteniendo cuentas bancarias:", err);
       return [];
@@ -75,9 +90,20 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ login, logout, registrarProductora, crearEvento, subirImagenEvento, crearCuentaBancaria, getCuentasBancarias, isAuthenticated }}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        user,
+        login,
+        logout,
+        registrarProductora,
+        crearEvento,
+        subirImagenEvento,
+        crearCuentaBancaria,
+        getCuentasBancarias,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
-
 }

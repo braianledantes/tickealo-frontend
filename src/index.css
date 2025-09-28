@@ -50,3 +50,7 @@ input:-webkit-autofill {
   background-color: #080C22 !important;
   border: none !important;
 }
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}

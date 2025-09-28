@@ -5,6 +5,11 @@ export const login = async (credentials) => {
   return response.data;
 };
 
+export const me = async () => {
+  const response = await api.get(`/api/auth/me`);
+  return response.data;
+};
+
 export const registerProductora = async (formData) => {
   const response = await api.post(`/api/auth/register-productora`, formData);
   return response.data;

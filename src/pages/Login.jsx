@@ -6,6 +6,7 @@ import { AtSign , KeyRound } from 'lucide-react';
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
 import ButtonLink from '../components/ButtonLink/ButtonLink';
+import Logo from '../components/Logo';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -33,13 +34,7 @@ export default function Login() {
   return (
     <div className="min-h-screen relative flex flex-col justify-center items-center bg-[#05081b]">
 
-      {/* Gradient */}
-      <div className="gradient-triangle absolute -top-30 w-full z-0"></div>
-
-      {/* Logo TICKEALO */}
-      <div className="flex items-center gap-2 text-white font-bold text-2xl absolute top-20 z-20">
-        TICKEALO <img src="/tickealo.svg" alt="Logo Tickealo" className="w-7 h-7" />
-      </div>
+      <div className="absolute top-10"><Logo /></div>
 
       {/* Contenedor del formulario */}
       <div className="w-full max-w-md px-6">

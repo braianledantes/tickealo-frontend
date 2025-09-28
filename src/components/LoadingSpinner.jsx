@@ -1,8 +1,8 @@
-export default function LoadingSpinner({ size = 64, borderWidth = 8 }) {
+export default function LoadingSpinner({ size = 64, borderWidth = 8 , className=""}) {
   return (
-    <div className="flex justify-center items-center h-64">
+    <div className="flex items-center justify-center w-full h-full">
       <div
-        className="rounded-full animate-spin"
+        className={`rounded-full animate-spin ${className}`}
         style={{
           width: size,
           height: size,
