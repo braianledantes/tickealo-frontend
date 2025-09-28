@@ -9,3 +9,8 @@ export const subirImagenEvento = async (eventoId, formDataImages) => {
   const response = await api.patch(`/api/eventos/${eventoId}/imagenes`, formDataImages);
   return response.data;
 };
+
+export const getEventos = async () => {
+  const response = await api.get('/api/eventos');
+  return response.data;
+}

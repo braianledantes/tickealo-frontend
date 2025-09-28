@@ -23,12 +23,6 @@ export default function NuevoEvento() {
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
 
-  // Calcular capacidad total
-  const calcularCapacidadTotal = (entradas) => {
-    if (!entradas) return 0;
-    return entradas.reduce((total, entrada) => total + (entrada.cantidad || 0), 0);
-  };
-
   // Submit final
   const handleSubmit = async (finalStepData) => {
     const finalData = { ...formData, ...finalStepData };
@@ -45,7 +39,6 @@ export default function NuevoEvento() {
         lugar: finalData.lugar,
         entradas: finalData.entradas,
         cuentaBancariaId: finalData.cuentaBancariaId || 1,
-        capacidadTotal: calcularCapacidadTotal(finalData.entradas),
       };
 
       // Paso 1: Crear evento

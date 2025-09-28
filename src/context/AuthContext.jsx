@@ -89,6 +89,15 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const getEventos = async () => {
+    try {
+      return await apiEventos.getEventos();
+    } catch (err) {
+      console.error("Error obteniendo eventos:", err);
+      return [];
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -101,6 +110,7 @@ export function AuthProvider({ children }) {
         subirImagenEvento,
         crearCuentaBancaria,
         getCuentasBancarias,
+        getEventos,
       }}
     >
       {children}
