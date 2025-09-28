@@ -1,35 +1,77 @@
-import React from 'react';
-import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
+import { useNavigate } from "react-router-dom";
+import { MapPin } from "lucide-react"; // 🔹 Icono ubicación
 
-const EventCard = ({ event }) => {
-  const isActive = new Date(event.inicioAt) > new Date();
+export default function EventCard({ evento }) {
+  const navigate = useNavigate();
 
-  return (
-    <div className="bg-white/5 rounded-xl overflow-hidden shadow-lg">
-      <img
-        src={event.portadaUrl}
-        alt={event.nombre}
-        className="w-full h-48 object-cover"
-      />
-      <div className="p-4">
-        <h3 className="text-lg font-semibold text-white">{event.nombre}</h3>
-        <p className="text-sm text-gray-300">{event.descripcion}</p>
-        <p className="text-sm text-gray-400">
-          {format(new Date(event.inicioAt), 'dd MMM yyyy HH:mm', { locale: es })}
-        </p>
-        <p className="text-sm text-gray-400">
-          {event.lugar.direccion}, {event.lugar.ciudad}, {event.lugar.provincia}
-        </p>
-        {isActive && (
-          <span className="inline-block mt-2 px-3 py-1 text-xs font-semibold text-emerald-600 bg-emerald-200 rounded-full">
-            Activo
-          </span>
-        )}
-      </div>
-    </div>
-  );
+  const handleClick = () => {
+    navigate(`/eventos/${evento.id}`); // 🔹 Ajusta la ruta según tu app
+  };
+
+  const formatFecha = (fechaIso) => {
+  if (!fechaIso) return "Fecha no definida";
+  try {
+    const fecha = new Date(fechaIso);
+    return fecha.toLocaleString("es-AR", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  } catch {
+    return "Fecha inválida";
+  }
 };
 
-export default EventCard;
+return (
+  <div
+    onClick={handleClick}
+    className="overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10 
+               transition transform scale-95 hover:scale-100 cursor-pointer flex flex-col 
+               shadow-md hover:shadow-xl rounded-b-xl"
+    style={{ transition: "transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease" }}
+  >
+    {/* Imagen portada */}
+    <div className="w-full aspect-[20/13] bg-gray-800 relative">
+      {evento.portadaUrl ? (
+        <img
+          src={evento.portadaUrl}
+          alt={evento.nombre}
+          className="w-full h-full object-cover"
+        />
+      ) : (
+        <div className="w-full h-full flex items-center justify-center text-gray-500">
+          Sin portada
+        </div>
+      )}
 
+      {/* Estado */}
+      <span
+        className={`absolute -top-2 -right-2 m-2 px-3 py-1 rounded-bl-xl text-xs tracking-wide font-medium shadow-md ${
+          evento.cancelado
+            ? "bg-amber-500/80 text-white"
+            : "bg-emerald-500/80 text-white"
+        }`}
+      >
+        {evento.cancelado ? "CANCELADO" : "ACTIVO"}
+      </span>
+    </div>
+
+    {/* Info */}
+    <div className="p-4">
+      <h3 className="text-lg font-semibold text-white mb-2">{evento.nombre}</h3>
+
+      {/* Mostrar inicio y fin */}
+      <p className="text-sm mb-1" style={{ color: "#A5A6AD" }}>
+        {formatFecha(evento.inicioAt)} - {formatFecha(evento.finAt)}
+      </p>
+
+      <div className="flex items-center text-sm font-medium" style={{ color: "#20347F" }}>
+        <MapPin size={16} className="mr-1" />
+        {evento.lugar?.direccion || "Ubicación no disponible"}
+      </div>
+    </div>
+  </div>
+);
+}

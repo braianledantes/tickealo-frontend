@@ -4,7 +4,6 @@ import * as apiEventos from "../api/eventos";
 import * as apiCuentaBancaria from "../api/cuentaBancaria";
 
 export const AuthContext = createContext();
-
 export const TOKEN_KEY = "token";
 
 export function AuthProvider({ children }) {
@@ -15,7 +14,6 @@ export function AuthProvider({ children }) {
     const storedToken = localStorage.getItem(TOKEN_KEY);
     if (storedToken) {
       setIsAuthenticated(true);
-      // 🔹 Pedimos el perfil al backend
       apiAuth.me()
         .then((data) => setUser(data))
         .catch(() => {
@@ -32,7 +30,6 @@ export function AuthProvider({ children }) {
       if (data?.access_token) {
         localStorage.setItem(TOKEN_KEY, data.access_token);
         setIsAuthenticated(true);
-        // 🔹 Traemos el perfil apenas loguea
         const profile = await apiAuth.me();
         setUser(profile);
       }
@@ -90,19 +87,17 @@ export function AuthProvider({ children }) {
   };
 
   const getEventos = async () => {
-  try {
-    const token = localStorage.getItem(TOKEN_KEY);
-    if (!token) throw new Error("No hay token disponible");
+    try {
+      const token = localStorage.getItem(TOKEN_KEY);
+      if (!token) throw new Error("No hay token disponible");
 
-    const response = await apiEventos.getEventos(token);
+      return await apiEventos.getEventos(token);
+    } catch (err) {
+      console.error("Error obteniendo eventos:", err);
+      return [];
+    }
+  };
 
-    // si tu API devuelve { data: [...] }, ajusta:
-    return response?.data || [];
-  } catch (err) {
-    console.error("Error obteniendo eventos:", err);
-    return [];
-  }
-};
   return (
     <AuthContext.Provider
       value={{
