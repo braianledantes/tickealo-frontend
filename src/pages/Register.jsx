@@ -4,8 +4,9 @@ import { AuthContext } from "../context/AuthContext";
 import { PATHS } from "../routes/paths";
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
-import ButtonLink from '../components/ButtonLink/ButtonLink';
+import ButtonLink from '../components/Button/ButtonLink';
 import ProfilePictureUploader from "../components/Images/ProfilePictureUploader";
+import Logo from "../components/Logo";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -31,7 +32,6 @@ export default function Register() {
     }
 
     try {
-      // Creamos FormData para enviar archivo + datos
       const formData = new FormData();
       formData.append("username", username);
       formData.append("nombre", nombre);
@@ -40,12 +40,8 @@ export default function Register() {
       formData.append("telefono", telefono);
       formData.append("email", email);
       formData.append("password", password);
+      if (imagenPerfil) formData.append("imagenPerfil", imagenPerfil);
 
-      if (imagenPerfil) {
-        formData.append("imagenPerfil", imagenPerfil);
-      }
-
-      // Llamamos al método del contexto que hace la petición al backend
       const response = await registrarProductora(formData);
 
       console.log("Respuesta del registro:", response);
@@ -59,101 +55,42 @@ export default function Register() {
 
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center bg-[#05081b]">
-      {/* Gradient */}
-      <div className="gradient-triangle absolute -top-30 w-full z-0"></div>
+      <div className="absolute top-10"><Logo /></div>
 
-      {/* Logo TICKEALO */}
-      <div className="flex items-center gap-2 text-white font-bold text-2xl absolute top-20 z-20">
-        TICKEALO <img src="/tickealo.svg" alt="Logo Tickealo" className="w-7 h-7" />
-      </div>
-
-
-      {/* Card de registro */}
-      <div className="">
+      <div className="justify-center items-center max-w-3xl">
         <h2 className="text-xl font-semibold text-center text-white mb-6">Registrarse</h2>
+        <div className="w-70 mx-auto mb-6">
+          <ProfilePictureUploader label="Imagen de Perfil (opcional)" onFileSelect={(file) => setImagenPerfil(file)} />
+        </div>
 
-        {/* Formulario */}
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Columna 1 - Datos de la Productora */}
           <div className="flex flex-col gap-4">
             <h1 className="text-gray-300 px-2">Datos de la Productora</h1>
-
-            <ProfilePictureUploader label="Imagen de Perfil (opcional)" onFileSelect={(file) => setImagenPerfil(file)} />
-
-            <Input
-              placeholder="Nombre"
-              type="text"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-            />
-
-            {/* CUIT y Teléfono en la misma fila */}
+            <Input placeholder="Nombre" type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Input
-                placeholder="CUIT"
-                type="text"
-                value={cuit}
-                onChange={(e) => setCuit(e.target.value)}
-              />
-              <Input
-                placeholder="Teléfono"
-                type="text"
-                value={telefono}
-                onChange={(e) => setTelefono(e.target.value)}
-              />
+              <Input placeholder="CUIT" type="text" value={cuit} onChange={(e) => setCuit(e.target.value)} />
+              <Input placeholder="Teléfono" type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} />
             </div>
-            
-            <Input
-              placeholder="Dirección"
-              type="text"
-              value={direccion}
-              onChange={(e) => setDireccion(e.target.value)}
-            />
-
+            <Input placeholder="Dirección" type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)} />
           </div>
 
-          {/* Columna 2 - Datos de Usuario */}
           <div className="flex flex-col gap-4">
             <h1 className="text-gray-300 px-2">Datos del Dueño</h1>
-
-            <Input
-              placeholder="Nombre de Usuario"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <Input
-              placeholder="Email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Input
-              placeholder="Contraseña"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <Input placeholder="Nombre de Usuario" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+            <Input placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <Input placeholder="Contraseña" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
 
-          {/* Botón y errores - ocupar ancho completo */}
           <div className="col-span-1 md:col-span-2 flex flex-col gap-4">
             <Button text="Registrarse" />
-            {error && (
-              <p className="text-red-400 text-center font-medium">{error}</p>
-            )}
+            {error && <p className="text-red-400 text-center font-medium">{error}</p>}
           </div>
         </form>
 
         <p className="text-center mt-6 text-gray-200">
-          ¿Ya tienes una cuenta?{" "}
-          <ButtonLink to={PATHS.LOGIN} text="Inicia sesión aquí " />
+          ¿Ya tienes una cuenta? <ButtonLink to={PATHS.LOGIN} text="Inicia sesión aquí " />
         </p>
       </div>
     </div>
   );
 }
-
-
-
-

@@ -114,7 +114,7 @@ export default function SegundoPaso({ onNext, onBack, initialData, cuentaBancari
 
         <BankCard cuenta={cuentaBancaria}/>
 
-        <div className="flex items-center mt-4 mb-6">
+        <div className="hidden flex items-center mt-4 mb-6">
           <input
             type="checkbox"
             id="cancelado"

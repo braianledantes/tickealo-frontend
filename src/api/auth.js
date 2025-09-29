@@ -5,8 +5,12 @@ export const login = async (credentials) => {
   return response.data;
 };
 
-export const me = async () => {
-  const response = await api.get(`/api/auth/me`);
+export const me = async (token) => {
+  const response = await api.get(`/api/auth/me`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response.data;
 };
 

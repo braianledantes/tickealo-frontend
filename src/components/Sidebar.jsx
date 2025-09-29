@@ -15,6 +15,7 @@ import Logo from "./Logo";
 
 export default function Sidebar() {
   const { logout, user } = useContext(AuthContext);
+  console.log("Usuario actual:", user);
   const [collapsed, setCollapsed] = useState(false);
 
   const items = [
@@ -68,9 +69,19 @@ export default function Sidebar() {
           collapsed ? "justify-center" : "gap-3"
         }`}
       >
-        <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white font-semibold">
-          {user?.username?.[0]?.toUpperCase() || "U"}
-        </div>
+        {user?.imagenUrl ? (
+          <img
+            src={user?.imagenUrl}
+            alt={user?.nombre || "Usuario"}
+            className="w-10 h-10 rounded-full object-cover"
+          />
+        ) : (
+          <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white font-semibold">
+            {user?.nombre?.[0]?.toUpperCase() || "U"}
+          </div>
+        )}
+
+
         {!collapsed && (
           <div>
             <h3 className="text-white font-semibold">{user?.username || "Usuario"}</h3>
