@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import Logo from "./Logo";
 
-
 export default function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -48,12 +47,18 @@ export default function Sidebar() {
   return (
     <aside
       className={`h-screen bg-[#05081b] backdrop-blur-sm border-r border-white/20 flex flex-col transition-all duration-300 ${
-        collapsed ? "w-22" : "w-64"
+        collapsed ? "w-20" : "w-64"
       }`}
     >
       {/* Toggle button */}
       <div className="flex items-center justify-between p-3">
-        <div>  {collapsed ? <img src="/tickealo.svg" alt="Tickealo" className="w-9 h-9" /> : <Logo/>  }</div>
+        <div>
+          {collapsed ? (
+            <img src="/tickealo.svg" alt="Tickealo" className="w-9 h-9" />
+          ) : (
+            <Logo />
+          )}
+        </div>
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="text-white hover:bg-white/10 p-1 rounded-full"
@@ -97,17 +102,17 @@ export default function Sidebar() {
                 onClick={() => navigate(it.to)}
                 className={`w-full flex items-center relative ${
                   collapsed ? "justify-center" : "gap-3 text-left"
-                } px-4 py-2 rounded-tr-full rounded-br-full transition-colors duration-200 ${
-                  active
-                    ? "text-white"
-                    : "text-gray-300 hover:bg-white/10"
+                } px-4 py-2 transition-colors duration-200 ${
+                  active && !collapsed ? "text-white" : "text-gray-300 hover:bg-white/10"
                 }`}
                 style={{
-                  backgroundColor: active ? "rgba(255,255,255,0.1)" : "transparent",
+                  backgroundColor: active && !collapsed ? "rgba(255,255,255,0.1)" : "transparent",
+                  borderTopRightRadius: collapsed ? 0 : "9999px",
+                  borderBottomRightRadius: collapsed ? 0 : "9999px",
                 }}
               >
-                {/* Indicador lateral solo si está activo */}
-                {active && !collapsed && (
+                {/* Indicador lateral degradado siempre visible en item activo */}
+                {active && (
                   <span
                     className="absolute left-0 top-0 h-full w-1 rounded-tr-full rounded-br-full"
                     style={{
@@ -116,15 +121,13 @@ export default function Sidebar() {
                   ></span>
                 )}
 
-                {Icon && <Icon className="h-5 w-5 inline-block z-10" />}
+                {Icon && <Icon className="h-5 w-5 z-10 flex-shrink-0" />}
                 {!collapsed && it.label}
               </button>
             );
           })}
         </nav>
       </div>
-
-
 
       {/* Logout */}
       <div className="p-4 mt-auto">
@@ -144,4 +147,3 @@ export default function Sidebar() {
     </aside>
   );
 }
-

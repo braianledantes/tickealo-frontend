@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ArrowRight } from "lucide-react";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
 import ImageUploader from "../Images/ImageUploader";
@@ -70,13 +71,13 @@ export default function PrimerPaso({ onNext, initialData }) {
 
       <div className="rounded-2xl border border-white/10 bg-[#05081b]/40 overflow-hidden">
         {/* Banner */}
-        <ImageUploader
-          onFileSelect={setBanner}
-          style="rounded-tl-2xl rounded-tr-2xl"
-          textPadding="px-8 pt-4"
+        <ImageUploader 
+          onFileSelect={(file) => setBanner(file)}
+          aspect="aspect-[11/4]"
+          message="Arrastrá o subí el banner de tu evento."
         />
 
-        <div className="p-6 md:p-8">
+        <div className="relative p-6 md:p-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-full">
             {/* Columna 1: Ubicación y Mapa */}
             
@@ -136,10 +137,10 @@ export default function PrimerPaso({ onNext, initialData }) {
 
                 {error && <p className="text-red-500 ml-3 mb-2 mt-4">{error}</p>}
               </div>
+            </div>
 
-              <div className="flex justify-end mt-8">
-                <Button type="button" text="Siguiente" onClick={handleContinue} />
-              </div>
+           <div className="absolute bottom-8 right-4 mt-8 w-[80px]">
+              <Button type="button" text={<ArrowRight />} onClick={handleContinue} />
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
 import BankCard from "../BankCard";
-import { X } from "lucide-react";
+import { X , ArrowRight, ArrowLeft} from "lucide-react";
 
 export default function SegundoPaso({ onNext, onBack, initialData, cuentaBancaria }) {
   const [entradas, setEntradas] = useState(
@@ -127,9 +127,14 @@ export default function SegundoPaso({ onNext, onBack, initialData, cuentaBancari
 
         {error && <p className="text-red-500">{error}</p>}
 
-        <div className="flex gap-4">
-          <Button type="button" text="Atrás" onClick={onBack} />
-          <Button type="button" text="Finalizar" onClick={handleContinue} />
+        <div className="relative pt-10 flex gap-4">
+          <div className="absolute bottom-2 left-4  w-[80px]">
+            <Button type="button" text={<ArrowLeft />} onClick={onBack} />
+          </div>
+
+          <div className="absolute bottom-2 right-4 w-[80px]">
+            <Button type="button" text={<ArrowRight />} onClick={handleContinue} />
+          </div>
         </div>
       </div>
     </div>
