@@ -1,81 +1,127 @@
-import Sidebar from "../components/Sidebar";
 import BankCard from "../components/BankCard";
 import Button from "../components/Button/Button";
+import SecondaryButton from "../components/Button/SecondaryButton";
+import LoadingSpinner from "../components/LoadingSpinner";
+import InputTextArea from "../components/InputTextArea";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Cobros() {
-  const { crearCuentaBancaria, getCuentasBancarias } = useContext(AuthContext);
+  const { 
+    cuentaBancaria, 
+    getCuentaBancarias, 
+    crearCuentaBancaria, 
+    eliminarCuentaBancaria
+  } = useContext(AuthContext);
 
-  const [cuenta, setCuenta] = useState(null);
   const [instrucciones, setInstrucciones] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [cuentaTemp, setCuentaTemp] = useState({});
+  const [errores, setErrores] = useState({});
 
-  // Traer la cuenta existente al cargar la página
+  // Cargar cuenta bancaria al montar
   useEffect(() => {
     const fetchCuenta = async () => {
+      setLoading(true);
       try {
-        const data = await getCuentasBancarias(); 
-        if (data) {
-          setCuenta(data);
-          setInstrucciones(data.instrucciones || "");
-        }
+        const data = await getCuentaBancarias();
+        if (data) setInstrucciones(data.instrucciones || "");
       } catch (err) {
-        console.error(err);
+        console.error("Error cargando cuenta bancaria:", err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchCuenta();
   }, []);
 
-  const handleCuentaChange = (updatedCuenta) => {
-    setCuenta(updatedCuenta);
-  };
+  const validarCampos = () => {
+    const nuevosErrores = {};
+    if (!cuentaTemp.nombreTitular) nuevosErrores.nombreTitular = "El nombre del titular es obligatorio.";
+    if (!cuentaTemp.cbu || cuentaTemp.cbu.length !== 22) nuevosErrores.cbu = "El CBU debe tener 22 dígitos.";
+    if (!cuentaTemp.alias) nuevosErrores.alias = "El alias es obligatorio.";
+    if (!cuentaTemp.nombreBanco) nuevosErrores.nombreBanco = "Debe seleccionar un banco.";
 
-  const handleInstruccionesChange = (e) => {
-    setInstrucciones(e.target.value);
+    setErrores(nuevosErrores);
+    return Object.keys(nuevosErrores).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!cuenta) return;
+    if (!validarCampos()) return;
 
     try {
-      const nuevaCuenta = await crearCuentaBancaria({
-        ...cuenta,
-        instrucciones,
-      });
-      setCuenta(nuevaCuenta);
-      alert("Cuenta bancaria guardada correctamente");
+      if (!cuentaBancaria) {
+        await crearCuentaBancaria({ ...cuentaTemp, instrucciones });
+        alert("Cuenta bancaria creada correctamente");
+      } else {
+        alert("No se puede actualizar la cuenta bancaria, solo crear o eliminar");
+      }
     } catch (err) {
-      console.error(err);
+      console.error("Error creando cuenta bancaria:", err.response?.data || err.message);
       alert("Error al guardar la cuenta bancaria");
     }
   };
 
+  if (loading) 
+    return (
+      <main className="flex-1 p-6 h-screen overflow-y-auto scrollbar-none">
+        <LoadingSpinner />
+      </main>
+    );
+
   return (
-    <div className="max-w-7xl mx-auto">
-      <h2 className="text-3xl font-bold text-white mb-6">Metodo de cobro</h2>
-          
-      <p className="text-gray-200 mb-6"> Edita los datos de tu cuenta bancaria directamente en la tarjeta. </p>
+    <div className="bg-[#05081b]/40 rounded-2xl shadow-2xl p-8 border border-white/20 mb-20 max-w-5xl mx-auto">
+      <h2 className="text-3xl font-bold text-white mb-6">Método de cobro</h2>
+      
+      <p className="text-gray-200 mb-6">
+        Aquí puedes agregar los datos de tu cuenta bancaria y notas sobre los pagos de tus eventos.
+      </p>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* BankCard editable */}
-        <BankCard cuenta={cuenta} onChange={handleCuentaChange} edit={true} />
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div>
+          <BankCard 
+            cuenta={cuentaBancaria || cuentaTemp} 
+            onChange={setCuentaTemp} 
+            edit={true} 
+            errores={errores}
+          />
+        </div>
 
-        {/* Instrucciones separadas */}
-        <div className="mt-4">
-          <label className="text-white font-semibold mb-1 block" htmlFor="instrucciones"> Instrucciones</label>
-              <textarea
-                id="instrucciones"
-                value={instrucciones}
-                onChange={handleInstruccionesChange}
-                placeholder="Agrega instrucciones especiales para esta cuenta..."
-                className="w-full p-3 rounded-xl bg-white/10 text-white placeholder-white/50 outline-none resize-none"
-                rows={4}
-              />
-            </div>
-
-        <Button type="submit" text="Guardar" />
+        <div className="pt-3">
+          <InputTextArea
+            label="Notas sobre el cobro"
+            placeholder="Escribe aquí cualquier detalle o instrucción especial sobre los pagos de tus eventos..."
+            value={instrucciones}
+            onChange={(e) => setInstrucciones(e.target.value)}
+            maxLength={300}
+          />
+        </div>
       </form>
+
+      <div className="mt-6 flex flex-col md:flex-row justify-center md:justify-end gap-4">
+        {cuentaBancaria ? (
+          <>
+            <Button type="submit" text="Guardar" onClick={handleSubmit} />
+            <SecondaryButton
+              text="Eliminar"
+              onClick={async () => {
+                if (confirm("¿Seguro que quieres eliminar la cuenta bancaria?")) {
+                  try {
+                    await eliminarCuentaBancaria();
+                    alert("Cuenta bancaria eliminada correctamente");
+                  } catch (err) {
+                    console.error(err);
+                    alert("Error al eliminar la cuenta bancaria");
+                  }
+                }
+              }}
+            />
+          </>
+        ) : (
+          <Button type="submit" text="Guardar" onClick={handleSubmit} className="w-full" />
+        )}
+      </div>
     </div>
   );
 }

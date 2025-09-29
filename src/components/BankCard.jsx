@@ -1,14 +1,6 @@
-
 import { CreditCard, User } from "lucide-react";
-import LoadingSpinner from "./LoadingSpinner";
 
-export default function BankCard({ cuenta, onChange, edit = false }) {
-  if (!cuenta) {
-    return (
-        <LoadingSpinner/>
-    );
-  }
-
+export default function BankCard({ cuenta = {}, onChange, edit = true, errores = {} }) {
   const bancos = [
     { name: "Banco Nación" },
     { name: "Santander" },
@@ -24,86 +16,75 @@ export default function BankCard({ cuenta, onChange, edit = false }) {
   const inputStyle =
     "bg-transparent w-full outline-none text-white font-medium placeholder-white/50";
 
-  return (
-    <div className="relative w-full max-w-4xl mx-auto p-6 rounded-2xl shadow-xl text-white bg-gradient-to-r from-blue-700 to-indigo-800 overflow-hidden mt-6">
-      <div className="flex justify-between items-center mb-6">
-        <h4 className="text-lg font-semibold tracking-wider">Cuenta Bancaria vinculada</h4>
-        <CreditCard className="w-6 h-6 text-white/80" />
-      </div>
+  const errorStyle = "text-red-500 text-sm mt-1";
 
+  return (
+    <div
+      className="relative w-full max-w-4xl mx-auto p-6 rounded-2xl shadow-xl text-white overflow-hidden mt-6"
+      style={{
+        background: "linear-gradient(135deg, #03055F 0%, #03055F 20%, #00B4D8 100%)",
+      }}
+    >
       {/* Titular */}
-      <div className="mb-4">
-        <p className="text-sm text-white/70 uppercase">Titular</p>
-        {edit ? (
+      <div className="mb-6 flex items-center justify-between">
+        <div className="w-full">
+          <p className="text-sm text-white/70 uppercase mb-1">Titular</p>
           <input
-            className={inputStyle + " text-xl"}
-            value={cuenta.nombreTitular}
+            className={inputStyle + " text-xl w-full"}
+            value={cuenta?.nombreTitular || ""}
             onChange={(e) => handleFieldChange("nombreTitular", e.target.value)}
             placeholder="Nombre del titular"
           />
-        ) : (
-          <p className="text-xl font-bold flex items-center gap-2">
-            <User className="w-4 h-4" /> {cuenta.nombreTitular}
-          </p>
-        )}
+          {errores.nombreTitular && <p className={errorStyle}>{errores.nombreTitular}</p>}
+        </div>
+        <CreditCard className="w-6 h-6 text-white/80 ml-4" />
       </div>
 
-      {/* Alias, CBU y Banco */}
-      <div className="mb-4 grid grid-cols-1 lg:grid-cols-3 gap-4">
+      {/* CBU */}
+      <div className="mb-4">
+        <p className="text-sm text-white/70 uppercase mb-1">CBU</p>
+        <input
+          className={inputStyle + " text-lg w-full"}
+          value={cuenta?.cbu || ""}
+          onChange={(e) => handleFieldChange("cbu", e.target.value)}
+          placeholder="CBU"
+        />
+        {errores.cbu && <p className={errorStyle}>{errores.cbu}</p>}
+      </div>
+
+      {/* Alias y Banco */}
+      <div className="mb-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div>
-          <p className="text-sm text-white/70 uppercase">Alias</p>
-          {edit ? (
-            <input
-              className={inputStyle + " text-lg"}
-              value={cuenta.alias}
-              onChange={(e) => handleFieldChange("alias", e.target.value)}
-              placeholder="---"
-            />
-          ) : (
-            <p className="text-lg font-medium">{cuenta.alias}</p>
-          )}
+          <p className="text-sm text-white/70 uppercase mb-1">Alias</p>
+          <input
+            className={inputStyle + " text-lg w-full"}
+            value={cuenta?.alias || ""}
+            onChange={(e) => handleFieldChange("alias", e.target.value)}
+            placeholder="---"
+          />
+          {errores.alias && <p className={errorStyle}>{errores.alias}</p>}
         </div>
 
         <div>
-          <p className="text-sm text-white/70 uppercase">CBU</p>
-          {edit ? (
-            <input
-              className={inputStyle + " text-lg"}
-              value={cuenta.cbu}
-              onChange={(e) => handleFieldChange("cbu", e.target.value)}
-              placeholder="CBU"
-            />
-          ) : (
-            <p className="text-lg font-medium">{cuenta.cbu}</p>
-          )}
-        </div>
-
-        <div className="flex flex-col justify-end">
-          <p className="text-sm text-white/70 uppercase">Banco</p>
-          {edit ? (
-            <select
-              className={inputStyle + " text-lg bg-white/10 rounded-lg p-2"}
-              value={cuenta.nombreBanco}
-              onChange={(e) => handleFieldChange("nombreBanco", e.target.value)}
-            >
-              <option value="" disabled>
-                Selecciona un banco
+          <p className="text-sm text-white/70 uppercase mb-1">Banco</p>
+          <select
+            className={inputStyle + " text-lg bg-white/10 rounded-lg p-2 w-full"}
+            value={cuenta?.nombreBanco || ""}
+            onChange={(e) => handleFieldChange("nombreBanco", e.target.value)}
+          >
+            <option value="" disabled>
+              Selecciona un banco
+            </option>
+            {bancos.map((banco) => (
+              <option key={banco.name} value={banco.name}>
+                {banco.name}
               </option>
-              {bancos.map((banco) => (
-                <option key={banco.name} value={banco.name}>
-                  {banco.name}
-                </option>
-              ))}
-            </select>
-          ) : (
-            <p className="text-lg font-medium flex items-center gap-2">
-              
-            </p>
-          )}
+            ))}
+          </select>
+          {errores.nombreBanco && <p className={errorStyle}>{errores.nombreBanco}</p>}
         </div>
       </div>
     </div>
   );
 }
-
 

@@ -15,6 +15,7 @@ export default function Eventos() {
 
   useEffect(() => {
     if (!user) return;
+    console.log(user);
 
     const fetchEventos = async () => {
       setLoading(true);

@@ -5,7 +5,7 @@ import { PATHS } from '../routes/paths';
 import { AtSign , KeyRound } from 'lucide-react';
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
-import ButtonLink from '../components/ButtonLink/ButtonLink';
+import ButtonLink from '../components/Button/ButtonLink';
 import Logo from '../components/Logo';
 
 export default function Login() {

@@ -9,12 +9,14 @@ export const TOKEN_KEY = "token";
 export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+  const [cuentaBancaria, setCuentaBancaria] = useState(null); // ✅ Mover aquí
 
+  // Al iniciar la app, chequeamos si hay token
   useEffect(() => {
     const storedToken = localStorage.getItem(TOKEN_KEY);
     if (storedToken) {
       setIsAuthenticated(true);
-      apiAuth.me()
+      apiAuth.me(storedToken)
         .then((data) => setUser(data))
         .catch(() => {
           setIsAuthenticated(false);
@@ -30,7 +32,7 @@ export function AuthProvider({ children }) {
       if (data?.access_token) {
         localStorage.setItem(TOKEN_KEY, data.access_token);
         setIsAuthenticated(true);
-        const profile = await apiAuth.me();
+        const profile = await apiAuth.me(data.access_token);
         setUser(profile);
       }
       return data;
@@ -43,13 +45,24 @@ export function AuthProvider({ children }) {
   const logout = () => {
     setIsAuthenticated(false);
     setUser(null);
+    setCuentaBancaria(null); // Limpiar cuenta al logout
     localStorage.removeItem(TOKEN_KEY);
   };
 
-  const registrarProductora = async (data) => {
-    return await apiAuth.registerProductora(data);
+  const registrarProductora = async (formData) => {
+    try {
+      const response = await apiAuth.registerProductora(formData);
+      if (!response?.error && formData.get("email") && formData.get("password")) {
+        await login({ email: formData.get("email"), password: formData.get("password") });
+      }
+      return response;
+    } catch (err) {
+      console.error("Error registrando productora:", err);
+      return { error: err.message };
+    }
   };
 
+  // Eventos
   const crearEvento = async (formData) => {
     try {
       return await apiEventos.crearEvento(formData);
@@ -68,33 +81,62 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const getEventos = async () => {
+    try {
+      const token = localStorage.getItem(TOKEN_KEY);
+      if (!token) throw new Error("No hay token disponible");
+      return await apiEventos.getEventos(token);
+    } catch (err) {
+      console.error("Error obteniendo eventos:", err);
+      return [];
+    }
+  };
+
+  // Cuentas bancarias
   const crearCuentaBancaria = async (data) => {
     try {
-      return await apiCuentaBancaria.crearCuentaBancaria(data);
+      const res = await apiCuentaBancaria.crearCuentaBancaria(data);
+      setCuentaBancaria(res);
+      return res;
     } catch (err) {
       console.error("Error creando cuenta bancaria:", err);
       return { error: err.message };
     }
   };
 
-  const getCuentasBancarias = async () => {
+  const getCuentaBancarias = async () => {
     try {
-      return await apiCuentaBancaria.getCuentasBancarias();
+      const data = await apiCuentaBancaria.getCuentaBancarias();
+      setCuentaBancaria(data);
+      return data;
     } catch (err) {
+      // Si es 404, devolvemos null en vez de tirar error feo
+      if (err.response?.status === 404) {
+        setCuentaBancaria(null);
+        return null;
+      }
       console.error("Error obteniendo cuentas bancarias:", err);
-      return [];
+      return null;
     }
   };
 
-  const getEventos = async () => {
+  const actualizarCuenta = async (data) => {
     try {
-      const token = localStorage.getItem(TOKEN_KEY);
-      if (!token) throw new Error("No hay token disponible");
-
-      return await apiEventos.getEventos(token);
+      const res = await apiCuentaBancaria.actualizarCuentaBancaria(data);
+      setCuentaBancaria(res);
+      return res;
     } catch (err) {
-      console.error("Error obteniendo eventos:", err);
-      return [];
+      console.error(err);
+      return null;
+    }
+  };
+
+  const eliminarCuenta = async () => {
+    try {
+      await apiCuentaBancaria.eliminarCuentaBancaria();
+      setCuentaBancaria(null);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -108,9 +150,12 @@ export function AuthProvider({ children }) {
         registrarProductora,
         crearEvento,
         subirImagenEvento,
-        crearCuentaBancaria,
-        getCuentasBancarias,
         getEventos,
+        cuentaBancaria,
+        crearCuentaBancaria,
+        getCuentaBancarias,
+        actualizarCuenta,
+        eliminarCuenta,
       }}
     >
       {children}
