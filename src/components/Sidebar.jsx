@@ -15,8 +15,8 @@ import Logo from "./Logo";
 
 export default function Sidebar() {
   const { logout, user } = useContext(AuthContext);
-  console.log("Usuario actual:", user);
   const [collapsed, setCollapsed] = useState(false);
+    const [hoverLogo, setHoverLogo] = useState(false);
 
   const items = [
     { key: "eventos", label: "Eventos", to: PATHS.EVENTOS },
@@ -46,21 +46,43 @@ export default function Sidebar() {
         collapsed ? "w-20" : "w-64"
       }`}
     >
-      {/* Toggle button */}
-      <div className="flex items-center justify-between p-3">
-        <div>
-          {collapsed ? (
-            <img src="/tickealo.svg" alt="Tickealo" className="w-9 h-9" />
-          ) : (
-            <Logo />
-          )}
-        </div>
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className="text-white hover:bg-white/10 p-1 rounded-full"
-        >
-          {collapsed ? <ChevronsRight className="w-5 h-5" /> : <ChevronsLeft className="w-5 h-5" />}
-        </button>
+      {/* Logo */}
+      <div
+        className="flex items-center justify-center p-3 relative"
+        onMouseEnter={() => setHoverLogo(true)}
+        onMouseLeave={() => setHoverLogo(false)}
+      >
+        {/* Logo visible cuando no hay hover */}
+        {collapsed && !hoverLogo && (
+          <img
+            src="/tickealo.svg"
+            alt="Tickealo"
+            className="w-9 h-9 transition-opacity duration-200 cursor-pointer"
+            onClick={() => setCollapsed(false)}
+          />
+        )}
+
+        {collapsed && hoverLogo && (
+          <button
+            onClick={() => setCollapsed(false)}
+            className="cursor-pointer text-white bg-[#FFFFFF1A] w-9 h-9 flex items-center justify-center rounded-full transition-all duration-200"
+          >
+            <ChevronsRight className="w-5 h-5" />
+          </button>
+        )}
+
+        {!collapsed && (
+          <div className="relative flex items-center">
+            <Logo className="cursor-pointer" />
+
+            <button
+              onClick={() => setCollapsed(true)}
+              className="absolute -right-13 cursor-pointer text-white bg-[#191D31] shadow-lg hover:bg-[#03045E] w-9 h-9 flex items-center justify-center rounded-full transition-all duration-200"
+            >
+              <ChevronsLeft className="w-5 h-5" />
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Usuario */}
@@ -114,14 +136,19 @@ export default function Sidebar() {
                       : "text-gray-300 hover:bg-white/10"
                   } ${
                     !collapsed ? "rounded-r-full" : ""
-                  }`
+                  } group` // Necesario para hover interno
                 }
               >
                 {({ isActive }) => (
                   <>
-                    {/* Indicador lateral degradado siempre visible en item activo */}
+                    {/* Indicador lateral degradado activo */}
                     {isActive && (
                       <span className="absolute left-0 top-0 h-full w-1 rounded-tr-full rounded-br-full bg-gradient-to-b from-[#03055F] via-[#00B4D8] via-[#90E0EF] to-[#CAF0F8]"></span>
+                    )}
+
+                    {/* Indicador lateral degradado solo en hover */}
+                    {!collapsed && !isActive && (
+                      <span className="absolute left-0 top-0 h-full w-1 rounded-tr-full rounded-br-full bg-gradient-to-b from-[#03055F] via-[#00B4D8] via-[#90E0EF] to-[#CAF0F8] opacity-0 group-hover:opacity-30 transition-opacity duration-200"></span>
                     )}
 
                     {Icon && <Icon className="h-5 w-5 z-10 flex-shrink-0" />}
