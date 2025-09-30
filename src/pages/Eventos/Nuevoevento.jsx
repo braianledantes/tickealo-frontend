@@ -1,16 +1,24 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PrimerPaso from "../../components/Pasos/PrimerPaso";
 import SegundoPaso from "../../components/Pasos/SegundoPaso";
 import TercerPaso from "../../components/Pasos/TercerPaso";
-import { AuthContext } from "../../context/AuthContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function NuevoEvento() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({});
   const { getCuentasBancarias, crearEvento, subirImagenEvento } = useContext(AuthContext);
-  const [cuentaBancaria, setCuentaBancaria] = useState(null);
+  const [cuentaBancaria, setCuentaBancaria] = useState(undefined);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (cuentaBancaria === null) {
+      navigate("/dashboard/cobros"); // redirige a la página de cobros si no hay cuenta
+    }
+  }, [cuentaBancaria, navigate]);
 
   // Avanzar de paso
   const handleNext = (stepData) => {
@@ -76,7 +84,7 @@ export default function NuevoEvento() {
     fetchCuenta();
   }, []);
 
-  if (!cuentaBancaria) return <main className="flex-1 p-6 h-screen overflow-y-auto scrollbar-none"> <LoadingSpinner /> </main>;
+  if (cuentaBancaria === undefined) { return <LoadingSpinner />;}
 
   return (
     <main className="flex-1 p-6 h-screen overflow-y-auto scrollbar-none">

@@ -45,7 +45,7 @@ export default function TextArea({
         value={value}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={`resize-none w-full min-h-[200px] p-4 pb-7 text-white rounded-lg bg-[#080C22] shadow-inner shadow-white/10 placeholder-pink outline-none ${borderClass} selection:bg-blue-500/30 selection:text-white`}
+        className={`resize-none w-full min-h-[160px] p-4 pb-7 text-white rounded-lg bg-[#080C22] shadow-inner shadow-white/10 placeholder-pink outline-none ${borderClass} selection:bg-blue-500/30 selection:text-white`}
       />
 
       {/* Contador de caracteres si quedan ≤100 */}

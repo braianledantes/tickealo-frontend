@@ -104,7 +104,7 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const getCuentaBancarias = async () => {
+  const getCuentasBancarias = async () => {
     try {
       const data = await apiCuentaBancaria.getCuentaBancarias();
       setCuentaBancaria(data);
@@ -120,7 +120,7 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const actualizarCuenta = async (data) => {
+  const actualizarCuentaBancaria = async (data) => {
     try {
       const res = await apiCuentaBancaria.actualizarCuentaBancaria(data);
       setCuentaBancaria(res);
@@ -131,7 +131,7 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const eliminarCuenta = async () => {
+  const eliminarCuentaBancaria = async () => {
     try {
       await apiCuentaBancaria.eliminarCuentaBancaria();
       setCuentaBancaria(null);
@@ -153,9 +153,9 @@ export function AuthProvider({ children }) {
         getEventos,
         cuentaBancaria,
         crearCuentaBancaria,
-        getCuentaBancarias,
-        actualizarCuenta,
-        eliminarCuenta,
+        getCuentasBancarias,
+        actualizarCuentaBancaria,
+        eliminarCuentaBancaria,
       }}
     >
       {children}
