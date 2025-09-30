@@ -1,7 +1,7 @@
 import { AtSign, KeyRound } from 'lucide-react';
 import { useContext, useState } from 'react';
 import Button from '../components/Button/Button';
-import ButtonLink from '../components/ButtonLink/ButtonLink';
+import ButtonLink from '../components/Button/ButtonLink';
 import Input from '../components/Input/Input';
 import Logo from '../components/Logo';
 import { AuthContext } from "../context/AuthContext";
