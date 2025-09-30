@@ -31,11 +31,11 @@ export function AuthProvider({ children }) {
         localStorage.setItem(TOKEN_KEY, data.access_token);
         setIsAuthenticated(true);
         const profile = await apiAuth.me();
+        console.log("Perfil obtenido:", profile);
         setUser(profile);
       }
       return data;
     } catch (err) {
-      console.error("Error en login:", err);
       return { error: err.message };
     }
   };
@@ -47,7 +47,19 @@ export function AuthProvider({ children }) {
   };
 
   const registrarProductora = async (data) => {
-    return await apiAuth.registerProductora(data);
+    try {
+      const res = await apiAuth.registerProductora(data);
+      if (res?.access_token) {
+        localStorage.setItem(TOKEN_KEY, res.access_token);
+        setIsAuthenticated(true);
+        const profile = await apiAuth.me();
+        console.log("Perfil obtenido:", profile);
+        setUser(profile);
+      }
+      return res;
+    } catch (err) {
+      return { error: err.message };
+    }
   };
 
   const crearEvento = async (formData) => {

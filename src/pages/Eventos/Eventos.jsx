@@ -1,13 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
-import EventCard from "../../components/Eventos/EventCard";
 import EventBanner from "../../components/Eventos/EventBanner";
-import EventLoading from "../../components/Eventos/EventLoading"; 
+import EventCard from "../../components/Eventos/EventCard";
+import EventLoading from "../../components/Eventos/EventLoading";
+import { AuthContext } from "../../context/AuthContext";
+import { NavLink } from "react-router-dom";
 
 export default function Eventos() {
   const { user, getEventos } = useContext(AuthContext);
-  const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -35,10 +34,6 @@ export default function Eventos() {
 
     fetchEventos();
   }, [user, getEventos]);
-
-  const handleNewEvent = () => {
-    navigate("nuevoevento");
-  };
 
   return (
     <main className="max-w-7xl mx-auto px-4">
@@ -72,13 +67,13 @@ export default function Eventos() {
             </button>
           </div>
 
-          <button
-            onClick={handleNewEvent}
+          <NavLink
+            to="/dashboard/nuevoevento"
             className="px-4 py-2 rounded-lg bg-[#00B4D8] text-white shadow hover:bg-[#13c2e3] focus:outline-none focus:ring-2 focus:ring-[#00B4D8]/50 transition flex items-center gap-2"
           >
             <span>Evento</span>
             <span className="text-xl leading-none font-bold">+</span>
-          </button>
+          </NavLink>
         </div>
       </div>
 

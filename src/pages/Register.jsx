@@ -18,14 +18,7 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
-  const { isAuthenticated, registrarProductora } = useContext(AuthContext);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate(PATHS.DASHBOARD);
-    }
-  }, [isAuthenticated, navigate]);
+  const { registrarProductora } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,14 +48,12 @@ export default function Register() {
       // Llamamos al método del contexto que hace la petición al backend
       const response = await registrarProductora(formData);
 
+      console.log("Respuesta del registro:", response);
       if (response?.error) {
         setError(response.error);
-      } else {
-        navigate(PATHS.DASHBOARD);
-      }
+      } 
     } catch (err) {
-      console.error(err);
-      setError("No se pudo conectar con el servidor");
+      setError("Error al registrar. Intenta nuevamente.\n" + err.response.data.message);
     }
   };
 
