@@ -11,11 +11,11 @@ export const getCuentaBancarias = async () => {
 };
 
 export const actualizarCuentaBancaria = async (data) => {
-  const response = await api.patch("/cuenta-bancaria", data);
+  const response = await api.patch("/api/cuenta-bancaria", data);
   return response.data;
 };
 
 export const eliminarCuentaBancaria = async () => {
-  const response = await api.delete("/cuenta-bancaria");
+  const response = await api.delete("/api/cuenta-bancaria");
   return response.data;
 };

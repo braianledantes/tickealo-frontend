@@ -1,7 +1,7 @@
 import api from './axiosConfig';
 
 export const login = async (credentials) => {
-  const response = await api.post(`/api/auth/login`, credentials);
+  const response = await api.post(`/api/auth/login-productora`, credentials);
   return response.data;
 };
 

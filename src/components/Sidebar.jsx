@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { PATHS } from "../routes/paths";
 import {
@@ -14,21 +14,16 @@ import {
 import Logo from "./Logo";
 
 export default function Sidebar() {
-  const navigate = useNavigate();
-  const location = useLocation();
   const { logout, user } = useContext(AuthContext);
   console.log("Usuario actual:", user);
   const [collapsed, setCollapsed] = useState(false);
 
   const items = [
-    { key: "eventos", label: "Eventos", to: PATHS.DASHBOARD + "/eventos" },
-    { key: "creditos", label: "Créditos", to: PATHS.DASHBOARD + "/creditos" },
-    { key: "cobros", label: "Cobros", to: PATHS.DASHBOARD + "/cobros" },
-    { key: "equipo", label: "Equipo", to: PATHS.DASHBOARD + "/equipo" },
+    { key: "eventos", label: "Eventos", to: PATHS.EVENTOS },
+    { key: "creditos", label: "Créditos", to: PATHS.CREDITOS },
+    { key: "cobros", label: "Cobros", to: PATHS.COBROS },
+    { key: "equipo", label: "Equipo", to: PATHS.EQUIPO },
   ];
-
-  const isActive = (to) =>
-    location.pathname === to || location.pathname.startsWith(to + "/");
 
   const renderIcon = (key) => {
     switch (key) {
@@ -91,11 +86,13 @@ export default function Sidebar() {
           <div>
             <h3 className="text-white font-semibold">{user?.nombre || "Usuario"}</h3>
             <button
+            <h3 className="text-white font-semibold">{user?.username || "Usuario"}</h3>
+            <NavLink
+              to={PATHS.DASHBOARD + "/perfil"}
               className="text-sm text-gray-300 hover:text-white flex items-center gap-1"
-              onClick={() => navigate(PATHS.DASHBOARD + "/perfil")}
             >
               Tu perfil
-            </button>
+            </NavLink>
           </div>
         )}
       </div>
@@ -105,36 +102,35 @@ export default function Sidebar() {
         <nav className="space-y-2">
           {items.map((it) => {
             const Icon = renderIcon(it.key);
-            const active = isActive(it.to);
 
             return (
-              <button
+              <NavLink
+                to={it.to}
                 key={it.key}
-                onClick={() => navigate(it.to)}
-                className={`w-full flex items-center relative ${
-                  collapsed ? "justify-center" : "gap-3 text-left"
-                } px-4 py-2 transition-colors duration-200 ${
-                  active && !collapsed ? "text-white" : "text-gray-300 hover:bg-white/10"
-                }`}
-                style={{
-                  backgroundColor: active && !collapsed ? "rgba(255,255,255,0.1)" : "transparent",
-                  borderTopRightRadius: collapsed ? 0 : "9999px",
-                  borderBottomRightRadius: collapsed ? 0 : "9999px",
-                }}
+                className={({ isActive }) =>
+                  `w-full flex items-center relative px-4 py-2 transition-colors duration-200 ${
+                    collapsed ? "justify-center" : "gap-3 text-left"
+                  } ${
+                    isActive && !collapsed 
+                      ? "text-white bg-white/10 rounded-r-full" 
+                      : "text-gray-300 hover:bg-white/10"
+                  } ${
+                    !collapsed ? "rounded-r-full" : ""
+                  }`
+                }
               >
-                {/* Indicador lateral degradado siempre visible en item activo */}
-                {active && (
-                  <span
-                    className="absolute left-0 top-0 h-full w-1 rounded-tr-full rounded-br-full"
-                    style={{
-                      background: "linear-gradient(to bottom, #03055F, #00B4D8, #90E0EF, #CAF0F8)",
-                    }}
-                  ></span>
-                )}
+                {({ isActive }) => (
+                  <>
+                    {/* Indicador lateral degradado siempre visible en item activo */}
+                    {isActive && (
+                      <span className="absolute left-0 top-0 h-full w-1 rounded-tr-full rounded-br-full bg-gradient-to-b from-[#03055F] via-[#00B4D8] via-[#90E0EF] to-[#CAF0F8]"></span>
+                    )}
 
-                {Icon && <Icon className="h-5 w-5 z-10 flex-shrink-0" />}
-                {!collapsed && it.label}
-              </button>
+                    {Icon && <Icon className="h-5 w-5 z-10 flex-shrink-0" />}
+                    {!collapsed && it.label}
+                  </>
+                )}
+              </NavLink>
             );
           })}
         </nav>
@@ -145,11 +141,10 @@ export default function Sidebar() {
         <button
           onClick={() => {
             logout();
-            navigate(PATHS.HOME || "/");
           }}
           className={`w-full flex items-center ${
             collapsed ? "justify-center" : "gap-2"
-          } px-4 py-2 text-white hover:bg-white/10 rounded-full transition-colors duration-200`}
+          } px-4 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-full transition-colors duration-200`}
         >
           <LogOut className="h-5 w-5" />
           {!collapsed && "Cerrar sesión"}

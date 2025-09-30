@@ -33,11 +33,11 @@ export function AuthProvider({ children }) {
         localStorage.setItem(TOKEN_KEY, data.access_token);
         setIsAuthenticated(true);
         const profile = await apiAuth.me(data.access_token);
+        console.log("Perfil obtenido:", profile);
         setUser(profile);
       }
       return data;
     } catch (err) {
-      console.error("Error en login:", err);
       return { error: err.message };
     }
   };
@@ -62,7 +62,7 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // Eventos
+
   const crearEvento = async (formData) => {
     try {
       return await apiEventos.crearEvento(formData);
@@ -104,9 +104,9 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const getCuentaBancarias = async () => {
+  const getCuentasBancarias = async () => {
     try {
-      const data = await apiCuentaBancaria.getCuentaBancarias();
+      const data = await apiCuentaBancaria.getCuentasBancarias();
       setCuentaBancaria(data);
       return data;
     } catch (err) {
@@ -120,7 +120,7 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const actualizarCuenta = async (data) => {
+  const actualizarCuentaBancaria = async (data) => {
     try {
       const res = await apiCuentaBancaria.actualizarCuentaBancaria(data);
       setCuentaBancaria(res);
@@ -131,7 +131,7 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const eliminarCuenta = async () => {
+  const eliminarCuentaBancaria = async () => {
     try {
       await apiCuentaBancaria.eliminarCuentaBancaria();
       setCuentaBancaria(null);
@@ -153,9 +153,9 @@ export function AuthProvider({ children }) {
         getEventos,
         cuentaBancaria,
         crearCuentaBancaria,
-        getCuentaBancarias,
-        actualizarCuenta,
-        eliminarCuenta,
+        getCuentasBancarias,
+        actualizarCuentaBancaria,
+        eliminarCuentaBancaria,
       }}
     >
       {children}

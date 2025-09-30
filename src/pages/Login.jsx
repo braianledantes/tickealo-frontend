@@ -1,5 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { AtSign, KeyRound } from 'lucide-react';
+import { useContext, useState } from 'react';
+import Button from '../components/Button/Button';
+import ButtonLink from '../components/Button/ButtonLink';
+import Input from '../components/Input/Input';
+import Logo from '../components/Logo';
 import { AuthContext } from "../context/AuthContext";
 import { PATHS } from '../routes/paths';
 import { AtSign , KeyRound } from 'lucide-react';
@@ -12,22 +16,22 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
-  const { isAuthenticated, login: contextLogin } = useContext(AuthContext);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate(PATHS.DASHBOARD);
-    }
-  }, [isAuthenticated, navigate]);
+  const { login } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await contextLogin({ email, password });
-      navigate(PATHS.DASHBOARD);
-    } catch {
-      setError('Credenciales inválidas');
+    if (!email || !password) {
+      setError('Por favor, completa todos los campos');
+      return;
+    }
+    setError('');
+
+    const res = await login({ email, password });
+    if (res.error) {
+      setError('Credenciales inválidas, intenta nuevamente.');
+    } else {
+      setError('');
+      // Redirigir o actualizar la UI según sea necesario
     }
   };
 

@@ -6,7 +6,7 @@ export default function ButtonLink({to, text}) {
   
   return (
     <span
-      className="underline cursor-pointer hover:text-white font-semibold transition-colors duration-200 text-[#20347F]"
+      className="underline cursor-pointer hover:text-white font-semibold transition-colors duration-200 text-blue-700"
       onClick={() => navigate(to)}
     >
       {text}
