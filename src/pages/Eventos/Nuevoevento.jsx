@@ -63,6 +63,7 @@ export default function NuevoEvento() {
         if (finalData.portada) formDataImages.append("portada", finalData.portada);
 
         const updated = await subirImagenEvento(created.id, formDataImages);
+        navigate('/dashboard/eventos')
       }
     } catch (err) {
       console.error("Error en handleSubmit:", err);

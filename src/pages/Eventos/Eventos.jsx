@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import EventBanner from "../../components/Eventos/EventBanner";
 import EventCard from "../../components/Eventos/EventCard";
 import EventLoading from "../../components/Eventos/EventLoading";
@@ -6,7 +7,9 @@ import { AuthContext } from "../../context/AuthContext";
 import { NavLink } from "react-router-dom";
 
 export default function Eventos() {
-  const { user, getEventos } = useContext(AuthContext);
+
+  const { user, getEventosByProductora} = useContext(AuthContext);
+ 
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,8 +24,7 @@ export default function Eventos() {
       setError(null);
 
       try {
-        const data = await getEventos();
-        console.log("Eventos recibidos:", data);
+        const data= await getEventosByProductora();
         setEvents(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("Error al obtener eventos:", err);
@@ -34,10 +36,10 @@ export default function Eventos() {
     };
 
     fetchEventos();
-  }, [user, getEventos]);
+  }, [user, getEventosByProductora]);
 
   return (
-    <main className="max-w-7xl mx-auto px-4">
+    <main className="max-w-7xl w-full mx-auto px-4">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold text-white">Eventos</h2>

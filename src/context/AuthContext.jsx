@@ -172,7 +172,17 @@ export function AuthProvider({ children }) {
       console.error("Error eliminando validador:", err.message);
       return { error: err.message };
     }
-};
+  };
+
+  const getEventosByProductora = async () => {
+    try {
+      const eventosProductora = await apiProductora.getEventosByProductora();
+      return eventosProductora;
+    } catch (err) {
+      console.error("Error obteniendo eventos de productora:", err);
+      return [];
+    }
+  }
 
   return (
     <AuthContext.Provider
@@ -193,6 +203,7 @@ export function AuthProvider({ children }) {
         getMiembrosEquipo,
         agregarMiembroEquipo,
         eliminarMiembroEquipo,
+        getEventosByProductora,
       }}
     >
       {children}

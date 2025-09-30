@@ -16,6 +16,9 @@ export default function BankCard({ cuenta = {}, onChange, edit = true, label }) 
   const inputStyle =
     "bg-transparent w-full outline-none text-white font-medium placeholder-white/50";
 
+  const inputStyleDropdown =
+    "bg-[#03055] w-full outline-none text-white font-medium placeholder-[ #00B4D8]";
+
   const displayValue = (value) => value || "---";
 
   return (
@@ -28,10 +31,10 @@ export default function BankCard({ cuenta = {}, onChange, edit = true, label }) 
 
       <div
         className="relative w-full max-w-4xl mx-auto p-6 rounded-2xl shadow-xl text-white overflow-hidden"
-        style={{
-          background:
-            "linear-gradient(135deg, #03055F 0%, #03055F 20%, #00B4D8 100%)",
-        }}
+        // style={{
+        //   background:
+        //     "linear-gradient(135deg, #03055F 0%, #03055F 20%, #00B4D8 100%)",
+        // }}
       >
         {/* Titular */}
         <div className="mb-6 flex items-center justify-between">
@@ -50,7 +53,6 @@ export default function BankCard({ cuenta = {}, onChange, edit = true, label }) 
               <p className="text-xl text-white">{displayValue(cuenta?.nombreTitular)}</p>
             )}
           </div>
-          <CreditCard className="w-6 h-6 text-white/80 ml-4" />
         </div>
 
         {/* CBU */}
@@ -88,7 +90,7 @@ export default function BankCard({ cuenta = {}, onChange, edit = true, label }) 
             <p className="text-sm text-white/70 uppercase mb-1">Banco</p>
             {edit ? (
               <select
-                className={inputStyle + " text-lg bg-white/10 rounded-lg p-2 w-full"}
+                className={inputStyleDropdown + " text-lg bg-[#03055F] rounded-lg p-2 w-full"}
                 value={cuenta?.nombreBanco || ""}
                 onChange={(e) => handleFieldChange("nombreBanco", e.target.value)}
               >

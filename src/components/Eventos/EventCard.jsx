@@ -29,10 +29,9 @@ return (
     className="overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10 
                transition transform scale-95 hover:scale-100 cursor-pointer flex flex-col 
                shadow-md hover:shadow-xl rounded-b-xl"
-    style={{ transition: "transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease" }}
   >
     {/* Imagen portada */}
-    <div className="w-full aspect-[20/13] bg-gray-800 relative">
+    <div className="w-full h-60 aspect-[20/13] bg-gray-800 relative">
       {evento.portadaUrl ? (
         <img
           src={evento.portadaUrl}

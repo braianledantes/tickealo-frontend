@@ -30,6 +30,9 @@ export default function Login() {
     }
   };
 
+  console.log("URL login:", import.meta.env.VITE_API_URL + '/api/auth/login-productora');
+
+
   return (
     <div className="min-h-screen relative flex flex-col justify-center items-center bg-[#05081b]">
 
