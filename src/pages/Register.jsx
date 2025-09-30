@@ -7,6 +7,7 @@ import Button from '../components/Button/Button';
 import ButtonLink from '../components/Button/ButtonLink';
 import ProfilePictureUploader from "../components/Images/ProfilePictureUploader";
 import Logo from "../components/Logo";
+import { validarProductora } from "../utils/validarProductora";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -19,15 +20,19 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [touched, setTouched] = useState(false); 
+  
   const { registrarProductora } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setTouched(true);
     setError("");
 
-    // Validación básica
-    if (!nombre || !cuit || !direccion || !telefono || !email || !password || !username) {
-      setError("Por favor, completa todos los campos");
+    // Validación antes de enviar
+    const errores = validarProductora({ nombre, cuit, direccion, telefono, username, email, password });
+    if (Object.keys(errores).length > 0) {
+      setError(Object.values(errores).join(". "));
       return;
     }
 
@@ -44,14 +49,14 @@ export default function Register() {
 
       const response = await registrarProductora(formData);
 
-      console.log("Respuesta del registro:", response);
       if (response?.error) {
         setError(response.error);
       } 
     } catch (err) {
-      setError("Error al registrar. Intenta nuevamente.\n" + err.response.data.message);
+      setError("Error al registrar. Intenta nuevamente.\n" + err.response?.data?.message || err.message);
     }
   };
+
 
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center bg-[#05081b]">
@@ -66,19 +71,19 @@ export default function Register() {
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col gap-4">
             <h1 className="text-gray-300 px-2">Datos de la Productora</h1>
-            <Input placeholder="Nombre" type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} />
+            <Input placeholder="Nombre" type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} error={!nombre} showError={touched} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Input placeholder="CUIT" type="text" value={cuit} onChange={(e) => setCuit(e.target.value)} />
-              <Input placeholder="Teléfono" type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} />
+              <Input placeholder="CUIT" type="text" value={cuit} onChange={(e) => setCuit(e.target.value)} error={!cuit} showError={touched} />
+              <Input placeholder="Teléfono" type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)}  error={!telefono} showError={touched}  />
             </div>
-            <Input placeholder="Dirección" type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)} />
+            <Input placeholder="Dirección" type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)}  error={!direccion} showError={touched}  />
           </div>
 
           <div className="flex flex-col gap-4">
             <h1 className="text-gray-300 px-2">Datos del Dueño</h1>
-            <Input placeholder="Nombre de Usuario" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-            <Input placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <Input placeholder="Contraseña" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <Input placeholder="Nombre de Usuario" type="text" value={username} onChange={(e) => setUsername(e.target.value)}  error={!username} showError={touched} />
+            <Input placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)}  error={!email} showError={touched}  />
+            <Input placeholder="Contraseña" type="password" value={password} onChange={(e) => setPassword(e.target.value)}  error={!password} showError={touched} />
           </div>
 
           <div className="col-span-1 md:col-span-2 flex flex-col gap-4">
