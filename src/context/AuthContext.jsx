@@ -141,25 +141,38 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const agregarMiembroEquipo = async ( email ) => {
+  const getMiembrosEquipo = async () => {
+    const token = localStorage.getItem("TOKEN_KEY");
     try {
-      const data = await apiProductora.agregarValidador(email);
-      return data;
+      const miembros = await apiProductora.getEquipo(token);
+      return miembros;
+    } catch (error) {
+      console.error("Error obteniendo miembros del equipo:", error);
+      return [];
+    }
+  };
+
+  const agregarMiembroEquipo = async (email) => {
+    const token = localStorage.getItem(TOKEN_KEY); 
+    try {
+      const response = await apiProductora.agregarValidador(email, token);
+      return response;
     } catch (err) {
       console.error("Error agregando validador:", err.message);
       return { error: err.message };
     }
-  }
+  };
 
-    const eliminarMiembroEquipo = async (email) => {
+  const eliminarMiembroEquipo = async (email) => {
+    const token = localStorage.getItem(TOKEN_KEY); 
     try {
-      const data = await apiProductora.eliminarValidador(email);
-      return data;
+      const response = await apiProductora.eliminarValidador(email, token);
+      return response;
     } catch (err) {
       console.error("Error eliminando validador:", err.message);
       return { error: err.message };
     }
-  };
+};
 
   return (
     <AuthContext.Provider
@@ -177,6 +190,7 @@ export function AuthProvider({ children }) {
         getCuentasBancarias,
         actualizarCuentaBancaria,
         eliminarCuentaBancaria,
+        getMiembrosEquipo,
         agregarMiembroEquipo,
         eliminarMiembroEquipo,
       }}
