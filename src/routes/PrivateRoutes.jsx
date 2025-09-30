@@ -4,7 +4,7 @@ import Cobros from "../pages/Cobros";
 import Creditos from "../pages/Creditos";
 import Equipo from "../pages/Equipo";
 import Eventos from "../pages/Eventos/Eventos";
-import NuevoEvento from "../pages/Eventos/NuevoEvento";
+import NuevoEvento from "../pages/Eventos/Nuevoevento";
 import Perfil from "../pages/Perfil";
 import { PATHS } from "./paths";
 

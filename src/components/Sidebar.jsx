@@ -85,8 +85,6 @@ export default function Sidebar() {
         {!collapsed && (
           <div>
             <h3 className="text-white font-semibold">{user?.nombre || "Usuario"}</h3>
-            <button
-            <h3 className="text-white font-semibold">{user?.username || "Usuario"}</h3>
             <NavLink
               to={PATHS.DASHBOARD + "/perfil"}
               className="text-sm text-gray-300 hover:text-white flex items-center gap-1"

@@ -5,7 +5,7 @@ export const crearCuentaBancaria = async (data) => {
   return response.data;
 };
 
-export const getCuentaBancarias = async () => {
+export const getCuentasBancarias = async () => {
   const res = await api.get('/api/cuenta-bancaria');
   return res.data;
 };
