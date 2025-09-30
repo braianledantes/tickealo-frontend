@@ -1,13 +1,30 @@
 import { useNavigate } from "react-router-dom";
 import { MapPin } from "lucide-react";
-import { PATHS } from "../../routes/paths";
+import { getEventoById } from "../api/apiEventos";
 
-export default function EventBanner({ evento }) {
-  const navigate = useNavigate();
+export default function EventDetails({ }) {
+    const { id } = useParams(); // Obtiene el id del parámetro de la URL
+    const [evento, setEvento] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+      useEffect(() => {
+    const fetchEvento = async () => {
+      try {
+        const data = await getEventoById(id);
+        setEvento(data);
+      } catch (err) {
+        setError("Error al cargar el evento");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchEvento();
+  }, [id]);
 
-  const handleClick = () => {
-    navigate(PATHS.UNEVENTO.replace(':id', evento.id));
-  };
+  if (loading) return <p>Cargando evento...</p>;
+  if (error) return <p>{error}</p>;
+  if (!evento) return <p>Evento no encontrado</p>;
+
 
   const formatFecha = (fechaIso) => {
     if (!fechaIso) return "Fecha no definida";

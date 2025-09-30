@@ -5,6 +5,11 @@ export const crearEvento = async (formData) => {
   return response.data;
 };
 
+export const getEventoById = async (id) => {
+  const res = await api.get(`/api/eventos/${id}`);
+  return res.data;
+};
+
 export const subirImagenEvento = async (eventoId, formDataImages) => {
   const response = await api.patch(`/api/eventos/${eventoId}/imagenes`, formDataImages);
   return response.data;

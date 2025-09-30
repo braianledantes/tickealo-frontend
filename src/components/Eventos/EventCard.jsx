@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { MapPin } from "lucide-react"; // 🔹 Icono ubicación
+import { PATHS } from "../../routes/paths";
+import { MapPin } from "lucide-react";
 
 export default function EventCard({ evento }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/eventos/${evento.id}`); // 🔹 Ajusta la ruta según tu app
+    navigate(PATHS.UNEVENTO.replace(':id', evento.id));
   };
 
   const formatFecha = (fechaIso) => {
@@ -16,8 +17,6 @@ export default function EventCard({ evento }) {
       day: "2-digit",
       month: "long",
       year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
     });
   } catch {
     return "Fecha inválida";
@@ -51,7 +50,7 @@ return (
         className={`absolute -top-2 -right-2 m-2 px-3 py-1 rounded-bl-xl text-xs tracking-wide font-medium shadow-md ${
           evento.cancelado
             ? "bg-amber-500/80 text-white"
-            : "bg-emerald-500/80 text-white"
+            : "bg-[#00DF81]  text-white"
         }`}
       >
         {evento.cancelado ? "CANCELADO" : "ACTIVO"}

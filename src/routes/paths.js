@@ -8,5 +8,6 @@ export const PATHS = {
   CREDITOS: '/dashboard/creditos',
   PERFIL: '/dashboard/perfil',
   NUEVOEVENTO: '/dashboard/eventos/nuevoevento',
+  UNEVENTO: '/dashboard/eventos/:id',
   COBROS: '/dashboard/cobros',
 };

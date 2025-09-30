@@ -6,6 +6,7 @@ import Equipo from "../pages/Equipo";
 import Eventos from "../pages/Eventos/Eventos";
 import NuevoEvento from "../pages/Eventos/Nuevoevento";
 import Perfil from "../pages/Perfil";
+import UnEvento from "../pages/Eventos/EventoUno";
 import { PATHS } from "./paths";
 
 export function PrivateRoutes() {
@@ -14,6 +15,7 @@ export function PrivateRoutes() {
       <Route path={PATHS.DASHBOARD + "/*"} element={ <DashboardLayout /> }>
         <Route path='eventos' element={<Eventos />} />
         <Route path='nuevoevento' element={<NuevoEvento />} />
+        <Route path='eventos/:id' element={< UnEvento />} />
         <Route path='perfil' element={<Perfil />} />
         <Route path='creditos' element={<Creditos />} />
         <Route path='cobros' element={<Cobros />} />

@@ -1,19 +1,28 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Camera, X } from "lucide-react";
 
 export default function ImageUploader({
   onFileSelect,
-  aspect = "aspect-[11/4]", // por defecto banner
+  aspect = "aspect-[11/4]",
   message = "Arrastrá o subí la imagen de tu evento",
   style = "",
+  value, 
+  readOnly = false,
 }) {
   const [preview, setPreview] = useState(null);
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef(null);
+  
+  useEffect(() => {
+    if (value && typeof value === "string") {
+      setPreview(value);
+    }
+  }, [value]);
 
   const handleFiles = (file) => {
     if (!file) return;
-    setPreview(URL.createObjectURL(file));
+    const objectUrl = URL.createObjectURL(file);
+    setPreview(objectUrl);
     onFileSelect?.(file);
   };
 
@@ -27,7 +36,6 @@ export default function ImageUploader({
     if (inputRef.current) inputRef.current.value = null;
   };
 
-  // Eventos drag & drop
   const handleDragOver = (e) => {
     e.preventDefault();
     setDragOver(true);
@@ -49,11 +57,11 @@ export default function ImageUploader({
       <div
         className={`w-full ${aspect} border-2 border-dashed ${
           dragOver ? "border-blue-500 bg-blue-50" : "border-black"
-        } cursor-pointer flex items-center justify-center bg-[#080C22] overflow-hidden relative ${style}`}
-        onClick={() => inputRef.current.click()}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
+        } flex items-center justify-center bg-[#080C22] overflow-hidden relative ${style}`}
+        onClick={() => !readOnly && inputRef.current.click()}
+        onDragOver={readOnly ? undefined : handleDragOver}
+        onDragLeave={readOnly ? undefined : handleDragLeave}
+        onDrop={readOnly ? undefined : handleDrop}
       >
         {preview ? (
           <>
@@ -62,18 +70,20 @@ export default function ImageUploader({
               alt="Uploaded"
               className="w-full h-full object-cover"
             />
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleRemove();
-              }}
-              className="absolute bottom-2 right-2 flex items-center gap-1 bg-white/80 hover:bg-white p-1 rounded-full shadow text-red-500 text-xs"
-              title="Remover imagen"
-            >
-              <X className="w-5 h-5" />
-              <span className="text-[10px]">Remover</span>
-            </button>
+            {!readOnly && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleRemove();
+                }}
+                className="absolute bottom-2 right-2 flex items-center gap-1 bg-white/80 hover:bg-white p-1 rounded-full shadow text-red-500 text-xs"
+                title="Remover imagen"
+              >
+                <X className="w-5 h-5" />
+                <span className="text-[10px]">Remover</span>
+              </button>
+            )}
           </>
         ) : (
           <div className="flex flex-col items-center justify-center text-gray-400 pointer-events-none text-center px-2">
@@ -83,13 +93,15 @@ export default function ImageUploader({
         )}
       </div>
 
-      <input
-        type="file"
-        accept="image/*"
-        ref={inputRef}
-        onChange={handleChange}
-        className="hidden"
-      />
+      {!readOnly && (
+        <input
+          type="file"
+          accept="image/*"
+          ref={inputRef}
+          onChange={handleChange}
+          className="hidden"
+        />
+      )}
     </div>
   );
 }
