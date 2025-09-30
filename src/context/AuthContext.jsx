@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import * as apiAuth from "../api/auth";
 import * as apiEventos from "../api/eventos";
 import * as apiCuentaBancaria from "../api/cuentaBancaria";
+import * as apiProductora from "../api/productora";
 
 export const AuthContext = createContext();
 export const TOKEN_KEY = "token";
@@ -140,6 +141,26 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const agregarMiembroEquipo = async ( email ) => {
+    try {
+      const data = await apiProductora.agregarValidador(email);
+      return data;
+    } catch (err) {
+      console.error("Error agregando validador:", err.message);
+      return { error: err.message };
+    }
+  }
+
+    const eliminarMiembroEquipo = async (email) => {
+    try {
+      const data = await apiProductora.eliminarValidador(email);
+      return data;
+    } catch (err) {
+      console.error("Error eliminando validador:", err.message);
+      return { error: err.message };
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -156,6 +177,8 @@ export function AuthProvider({ children }) {
         getCuentasBancarias,
         actualizarCuentaBancaria,
         eliminarCuentaBancaria,
+        agregarMiembroEquipo,
+        eliminarMiembroEquipo,
       }}
     >
       {children}
