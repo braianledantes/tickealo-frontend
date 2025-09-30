@@ -9,7 +9,7 @@ export const TOKEN_KEY = "token";
 export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
-  const [cuentaBancaria, setCuentaBancaria] = useState(null); // ✅ Mover aquí
+  const [cuentaBancaria, setCuentaBancaria] = useState(null); 
 
   // Al iniciar la app, chequeamos si hay token
   useEffect(() => {

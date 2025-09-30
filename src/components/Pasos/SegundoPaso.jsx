@@ -112,7 +112,7 @@ export default function SegundoPaso({ onNext, onBack, initialData, cuentaBancari
           </button>
         </div>
 
-        <BankCard cuenta={cuentaBancaria}/>
+        <BankCard  label="Cuenta bancaria vinculada" cuenta={cuentaBancaria} edit={false} />
 
         <div className="hidden flex items-center mt-4 mb-6">
           <input
@@ -127,7 +127,7 @@ export default function SegundoPaso({ onNext, onBack, initialData, cuentaBancari
 
         {error && <p className="text-red-500">{error}</p>}
 
-        <div className="relative pt-10 flex gap-4">
+        <div className="relative pt-20 flex gap-4">
           <div className="absolute bottom-2 left-4  w-[80px]">
             <Button type="button" text={<ArrowLeft />} onClick={onBack} />
           </div>
