@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Button from "../Button/Button";
 import ImageUploader from "../Images/ImageUploader";
-import TextArea from "../InputTextArea";
+import TextArea from "../Input/InputTextArea";
 import { X , ArrowRight, ArrowLeft} from "lucide-react";
 
 export default function TercerPaso({ onBack, onSubmit, initialData }) {

@@ -7,12 +7,12 @@ import { Trash2 } from "lucide-react";
  * @param {Function} onEliminar - Callback para eliminar miembro (recibe email)
  * @param {Boolean} loading - Si está cargando (deshabilita botones)
  */
-export default function MiembrosList({ miembros = [], onEliminar, loading = false }) {
+export default function MiembrosList({ miembros = [], text = "",onEliminar, loading = false }) {
   if (!miembros.length) return null;
 
   return (
     <div className="space-y-2">
-      <h3 className="text-[#A5A6AD] font-bold mb-2 tracking-wide">MIEMBROS ACTUALES</h3>
+      <h3 className="text-[#A5A6AD] font-bold mb-2 tracking-wide">{text}</h3>
       <ul>
         {miembros.map((m, i) => {
           const miembro = m.user || m.cliente || {};

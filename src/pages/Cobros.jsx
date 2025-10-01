@@ -2,7 +2,7 @@ import BankCard from "../components/BankCard";
 import Button from "../components/Button/Button";
 import SecondaryButton from "../components/Button/SecondaryButton";
 import LoadingSpinner from "../components/LoadingSpinner";
-import InputTextArea from "../components/InputTextArea";
+import InputTextArea from "../components/Input/InputTextArea";
 import { validarCuentaBancaria } from "../utils/validacionesCuentaBancaria";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";

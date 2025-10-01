@@ -106,6 +106,7 @@ export default function Equipo() {
       {/* Lista de miembros reutilizando el componente */}
       <MiembrosList
         miembros={miembros}
+        text="MIEMBROS ACTUALES"
         onEliminar={handleEliminar}
         loading={loading}
       />

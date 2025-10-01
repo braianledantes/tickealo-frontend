@@ -1,14 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { Pencil, ChartColumn } from "lucide-react";
 import { getEventoById } from "../../api/eventos";
-
-import Input from "../../components/Input/Input";
-import TextArea from "../../components/InputTextArea";
-import ImageUploader from "../../components/Images/ImageUploader";
-import BankCard from "../../components/BankCard";
+import EventDetail from "../../components/Eventos/EventDetail";
+import EventModified from "../../components/Eventos/EventModified";
+import EventLoading from "../../components/Eventos/EventLoading";
 import MiembrosList from "../../components/Eventos/MiembroList";
-import LocationEventSelector from "../../components/LocationEventSelector/LocationEventSelector";
 import { AuthContext } from "../../context/AuthContext";
+import IconInput from "../../components/Input/IconInput";
 
 export default function UnEvento() {
   const { id } = useParams();
@@ -18,6 +17,9 @@ export default function UnEvento() {
   const [miembros, setMiembros] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const [editing, setEditing] = useState(false);
+  const [showChart, setShowChart] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,126 +41,80 @@ export default function UnEvento() {
     };
 
     fetchData();
-  }, [id]); 
+  }, [id]);
 
   if (loading) return <p className="text-white">Cargando evento...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
   if (!evento) return <p className="text-white">Evento no encontrado</p>;
 
-  const getPreviewSrc = (value) =>
-    value instanceof File ? URL.createObjectURL(value) : value;
+  if (showChart) {
+    console.log(
+      "No está queriendo renderizar nada, solo que no está hecha la página jeje"
+    );
+  }
 
   return (
     <div className="max-w-7xl w-full mx-auto px-4">
-      <h2 className="text-3xl font-bold text-white mb-4"> {evento?.nombre}</h2>
-     <div className="grid grid-cols-1 lg:grid-cols-10 gap-8">
-      {/* Columna izquierda */}
-      <div className="lg:col-span-7">
-        {/* Banner */}
-        {evento.bannerUrl ? (
-          <ImageUploader
-            onFileSelect={() => {}}
-            aspect="aspect-[11/4]"
-            value={getPreviewSrc(evento.bannerUrl)}
-            readOnly
+      {/* Header */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 mb-4">
+        <h2 className="text-3xl font-bold text-white">
+          {evento?.nombre}{" "}
+          {editing ? (
+            <span className="text-sm ml-2 text-[#A5A6AD] tracking-wide">
+              MODO EDICIÓN
+            </span>
+          ) : showChart ? (
+            <span className="text-sm ml-2 text-[#0077B6] tracking-wide">
+              ESTADÍSTICAS DEL EVENTO
+            </span>
+          ) : null}
+        </h2>
+
+        {/* Botones de acción */}
+        <div className="flex justify-end gap-4">
+          <IconInput
+            icon={<Pencil />}
+            active={editing}
+            onClick={() => {
+              setEditing((prev) => !prev);
+              setShowChart(false); 
+            }}
           />
-        ) : (
-          <div className="w-full aspect-[11/4] flex items-center justify-center bg-gray-800 text-gray-500 rounded-lg">
-            Sin banner
-          </div>
-        )}
-
-        {/* Datos básicos */}
-        <div className="border border-white/10 bg-[#05081b]/40 p-6 space-y-8">
-          {/* Nombre y fechas */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-x-6 gap-y-4">
-            <Input 
-              label="Nombre del evento" placeholder={evento?.nombre} 
-              value={evento.nombre} readOnly
-            />
-
-            <Input
-              label="Fecha de inicio"
-              placeholder={evento?.inicioAt}
-              value={new Date(evento.inicioAt).toLocaleString("es-AR")}
-              readOnly
-            />
-
-            <Input
-              label="Fecha de fin"
-              placeholder={evento?.finAt}
-              value={new Date(evento.finAt).toLocaleString("es-AR")}
-              readOnly
-            />
-          </div>
-
-          {/* Ubicación y portada */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-4">
-            <div className="space-y-10">
-              <Input
-                label="Direccion del evento"
-                placeholder={evento.lugar?.direccion}
-                value={evento.lugar?.direccion || ""}
-                readOnly
-              />
-              <LocationEventSelector
-                direccion={evento.lugar?.direccion || ""}
-                ciudad={evento.lugar?.ciudad || ""}
-                provincia={evento.lugar?.provincia || ""}
-                latitud={evento.lugar?.latitud}
-                longitud={evento.lugar?.longitud}
-                readOnly
-              />
-            </div>
-
-            <div className="space-y-4">
-              {evento.portadaUrl ? (
-                <ImageUploader
-                  onFileSelect={() => {}}
-                  aspect="aspect-[20/13]"
-                  value={getPreviewSrc(evento.portadaUrl)}
-                  readOnly
-                />
-              ) : (
-                <div className="w-full aspect-[20/13] flex items-center justify-center bg-gray-800 text-gray-500 rounded-lg">
-                  Sin portada
-                </div>
-              )}
-              <TextArea label="Descripcion del evento" value={evento.descripcion} readOnly />
-            </div>
-          </div>
-
-          {/* Entradas */}
-          <h3 className="text-white text-2xl font-bold mb-4">Entradas</h3>
-          {evento.entradas?.map((entrada, i) => (
-            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Input placeholder="Tipo de entrada" value={entrada.tipo} readOnly />
-              <Input placeholder="Precio" value={entrada.precio} readOnly />
-              <Input placeholder="Cantidad" value={entrada.cantidad} readOnly />
-            </div>
-          ))}
-
-          {/* Cuenta bancaria */}
-          <h3 className="text-white text-2xl font-bold mb-4">Cobros</h3>
-          <BankCard label="Cuenta bancaria asociada" cuenta={evento.cuentaBancaria} edit={false} />
+          <IconInput
+            icon={<ChartColumn />}
+            active={showChart}
+            onClick={() => {
+              setShowChart((prev) => !prev);
+              setEditing(false); 
+            }}
+          />
         </div>
       </div>
 
-      {/* Columna derecha - Validadores */}
-      <div className="lg:col-span-3 space-y-6">
-        {/* Validadores del evento */}
-        <div className="rounded-2xl border border-white/10 bg-[#05081b]/40 p-6">
-          <h3 className="text-white text-xl font-bold mb-4">Validadores del evento</h3>
+      {/* Contenido principal */}
+      <div className="grid grid-cols-1 lg:grid-cols-10 gap-8">
+        <div className="lg:col-span-7">
+          {showChart ? (
+            <EventLoading type="detail" />
+          ) : editing ? (
+            <EventModified evento={evento} />
+          ) : (
+            <EventDetail evento={evento} />
+          )}
+        </div>
+
+        {/* Columna derecha - Validadores */}
+        <div className="lg:col-span-3 space-y-6">
+          <div className="rounded-2xl border border-white/10 bg-[#05081b]/40 p-6">
             <MiembrosList
-            miembros={miembros || []}
-            onEliminar={null}
-            loading={false}
-          />
+              miembros={miembros || []}
+              text="VALIDADORES DEL EVENTO"
+              onEliminar={null}
+              loading={false}
+            />
+          </div>
         </div>
-
       </div>
-
-     </div>
     </div>
   );
 }

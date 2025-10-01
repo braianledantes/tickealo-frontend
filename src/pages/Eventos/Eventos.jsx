@@ -5,6 +5,7 @@ import EventLoading from "../../components/Eventos/EventLoading";
 import { AuthContext } from "../../context/AuthContext";
 import { NavLink } from "react-router-dom";
 import { LayoutGrid, LayoutList} from "lucide-react";
+import IconInput from "../../components/Input/IconInput";
 
 export default function Eventos() {
 
@@ -48,26 +49,16 @@ export default function Eventos() {
         <div className="flex gap-3">
           {/* Botones vista */}
           <div className="flex gap-2">
-            <button
+            <IconInput
+              icon={<LayoutGrid/>}
+              active={view === "grid"}
               onClick={() => setView("grid")}
-              className={`px-3 py-1 rounded-full cursor-pointer ${
-                view === "grid"
-                  ? "bg-[#03045E] text-white"
-                  : "bg-gray-800 text-gray-300"
-              }`}
-            >
-              <LayoutGrid  className="w-4 h-4" />
-            </button>
-            <button
+            />
+            <IconInput
+              icon={<LayoutList />}
+              active={view === "list"}
               onClick={() => setView("list")}
-              className={`px-3 py-1 rounded-full cursor-pointer ${
-                view === "list"
-                  ? "bg-[#03045E] text-white"
-                  : "bg-gray-800 text-gray-300"
-              }`}
-            >
-              <LayoutList  className="w-4 h-4" />
-            </button>
+            />
           </div>
 
           <NavLink
