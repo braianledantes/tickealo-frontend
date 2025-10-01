@@ -5,13 +5,16 @@ import SegundoPaso from "../../components/Pasos/SegundoPaso";
 import TercerPaso from "../../components/Pasos/TercerPaso";
 import PrimerPasoLoading from "../../components/Pasos/PasosLoading"; // importa tu componente nuevo
 import { AuthContext } from "../../context/AuthContext";
-import LoadingSpinner from "../../components/LoadingSpinner";
+import { EventoContext } from "../../context/EventoContext";
+
 
 export default function NuevoEvento() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({});
-  const { getCuentasBancarias, crearEvento, subirImagenEvento } =
-    useContext(AuthContext);
+
+  const { crearEvento, subirImagenEvento } = useContext(EventoContext);
+  const { getCuentasBancarias} = useContext(AuthContext);
+
   const [cuentaBancaria, setCuentaBancaria] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();

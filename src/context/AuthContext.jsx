@@ -63,36 +63,6 @@ export function AuthProvider({ children }) {
     }
   };
 
-
-  const crearEvento = async (formData) => {
-    try {
-      return await apiEventos.crearEvento(formData);
-    } catch (err) {
-      console.error("Error creando evento:", err);
-      return { error: err.message };
-    }
-  };
-
-  const subirImagenEvento = async (eventoId, formDataImages) => {
-    try {
-      return await apiEventos.subirImagenEvento(eventoId, formDataImages);
-    } catch (err) {
-      console.error("Error subiendo imágenes:", err);
-      return { error: err.message };
-    }
-  };
-
-  const getEventos = async () => {
-    try {
-      const token = localStorage.getItem(TOKEN_KEY);
-      if (!token) throw new Error("No hay token disponible");
-      return await apiEventos.getEventos(token);
-    } catch (err) {
-      console.error("Error obteniendo eventos:", err);
-      return [];
-    }
-  };
-
   // Cuentas bancarias
   const crearCuentaBancaria = async (data) => {
     try {
@@ -192,9 +162,6 @@ export function AuthProvider({ children }) {
         login,
         logout,
         registrarProductora,
-        crearEvento,
-        subirImagenEvento,
-        getEventos,
         cuentaBancaria,
         crearCuentaBancaria,
         getCuentasBancarias,

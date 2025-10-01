@@ -1,10 +1,13 @@
 import { AuthProvider } from "./context/AuthContext.jsx";
+import { EventoProvider } from "./context/EventoContext.jsx";
 import Router from "./routes/Router.jsx";
 
 function App() {
   return (
     <AuthProvider>
-      <Router />
+      <EventoProvider>
+        <Router />
+      </EventoProvider>
     </AuthProvider>
   );
 }

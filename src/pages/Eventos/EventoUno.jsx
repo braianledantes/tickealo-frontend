@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Pencil, ChartColumn } from "lucide-react";
 import { getEventoById } from "../../api/eventos";
 import EventDetail from "../../components/Eventos/EventDetail";
@@ -7,11 +7,15 @@ import EventModified from "../../components/Eventos/EventModified";
 import EventLoading from "../../components/Eventos/EventLoading";
 import MiembrosList from "../../components/Eventos/MiembroList";
 import { AuthContext } from "../../context/AuthContext";
+import { EventoContext } from "../../context/EventoContext";
 import IconInput from "../../components/Input/IconInput";
 
 export default function UnEvento() {
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const { getMiembrosEquipo } = useContext(AuthContext);
+  const { subirImagenEvento, actualizarEvento, eliminarEvento } = useContext(EventoContext);
 
   const [evento, setEvento] = useState(null);
   const [miembros, setMiembros] = useState([]);
@@ -30,7 +34,6 @@ export default function UnEvento() {
         setEvento(dataEvento);
 
         const dataValidadores = await getMiembrosEquipo();
-        console.log("Validadores de la productora:", dataValidadores);
         setMiembros(dataValidadores || []);
       } catch (err) {
         console.error(err);
@@ -42,6 +45,55 @@ export default function UnEvento() {
 
     fetchData();
   }, [id]);
+
+  const handleActualizar = async (dataEvento, banner, portada) => {
+    try {
+      const payload = {
+        nombre: dataEvento.nombre,
+        descripcion: dataEvento.descripcion,
+        inicioAt: new Date(dataEvento.inicioAt).toISOString(),
+        finAt: new Date(dataEvento.finAt).toISOString(),
+        cancelado: dataEvento.cancelado ?? false,
+        lugar: dataEvento.lugar,
+        entradas: dataEvento.entradas,
+        cuentaBancariaId: dataEvento.cuentaBancariaId || 1,
+      };
+
+      const res = await actualizarEvento(evento.id, payload);
+
+      if (res?.error) {
+        alert("Error actualizando evento: " + res.error);
+        return;
+      }
+
+      if (banner || portada) {
+        const formDataImages = new FormData();
+        if (banner) formDataImages.append("banner", banner);
+        if (portada) formDataImages.append("portada", portada);
+
+        await subirImagenEvento(evento.id, formDataImages);
+      }
+
+      setEvento((prev) => ({ ...prev, ...payload }));
+
+      alert("Evento actualizado correctamente");
+    } catch (err) {
+      console.error(err);
+      alert("Ocurrió un error al actualizar el evento");
+    }
+  };
+
+
+  const handleDelete = async (id) => {
+    if (window.confirm("¿Seguro que querés eliminar este evento?")) {
+      const res = await eliminarEvento(id);
+      if (!res?.error) {
+        navigate("/dashboard/eventos"); 
+      } else {
+        alert("Error eliminando evento: " + res.error);
+      }
+    }
+  };
 
   if (loading) return <p className="text-white">Cargando evento...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
@@ -97,9 +149,9 @@ export default function UnEvento() {
           {showChart ? (
             <EventLoading type="detail" />
           ) : editing ? (
-            <EventModified evento={evento} />
+            <EventModified evento={evento} onUpdate={handleActualizar}  />
           ) : (
-            <EventDetail evento={evento} />
+            <EventDetail evento={evento} onDelete={() => handleDelete(evento.id)} />
           )}
         </div>
 

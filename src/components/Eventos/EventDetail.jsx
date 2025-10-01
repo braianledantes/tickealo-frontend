@@ -4,7 +4,7 @@ import ImageUploader from "../../components/Images/ImageUploader";
 import BankCard from "../../components/BankCard";
 import DeleteButton from "../Button/DeleteButton";
 
-export default function EventDetail({ evento }) {
+export default function EventDetail({ evento, onDelete}) {
     const getPreviewSrc = (value) =>
     value instanceof File ? URL.createObjectURL(value) : value;
   return (
@@ -95,7 +95,7 @@ export default function EventDetail({ evento }) {
 
            <div className="relative pb-13">
             <div className="absolute right-2 max-w-xl">
-                <DeleteButton text="Eliminar" />
+                {onDelete && <DeleteButton text="Eliminar" onClick={onDelete} />}
             </div>
            </div>
         </div>
