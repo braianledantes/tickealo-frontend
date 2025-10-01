@@ -39,7 +39,7 @@ export default function MiembrosList({ miembros = [], onEliminar, loading = fals
                 )}
                 <div>
                   <p className="text-white text-xl font-semibold">{nombre}</p>
-                  <p className="text-gray-400 text-sm">{email}</p>
+                  <p className="hidden lg:block text-gray-400 text-sm">{email}</p>
                 </div>
               </div>
 

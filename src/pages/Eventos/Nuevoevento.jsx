@@ -3,20 +3,22 @@ import { useNavigate } from "react-router-dom";
 import PrimerPaso from "../../components/Pasos/PrimerPaso";
 import SegundoPaso from "../../components/Pasos/SegundoPaso";
 import TercerPaso from "../../components/Pasos/TercerPaso";
+import PrimerPasoLoading from "../../components/Pasos/PasosLoading"; // importa tu componente nuevo
 import { AuthContext } from "../../context/AuthContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
 export default function NuevoEvento() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({});
-  const { getCuentasBancarias, crearEvento, subirImagenEvento } = useContext(AuthContext);
+  const { getCuentasBancarias, crearEvento, subirImagenEvento } =
+    useContext(AuthContext);
   const [cuentaBancaria, setCuentaBancaria] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (cuentaBancaria === null) {
-      navigate("/dashboard/cobros"); // redirige a la página de cobros si no hay cuenta
+      navigate("/dashboard/cobros"); // redirige si explícitamente no hay cuenta
     }
   }, [cuentaBancaria, navigate]);
 
@@ -37,7 +39,6 @@ export default function NuevoEvento() {
     setLoading(true);
 
     try {
-      // Objeto que espera el backend
       const evento = {
         nombre: finalData.nombre,
         descripcion: finalData.descripcion,
@@ -62,9 +63,10 @@ export default function NuevoEvento() {
         if (finalData.banner) formDataImages.append("banner", finalData.banner);
         if (finalData.portada) formDataImages.append("portada", finalData.portada);
 
-        const updated = await subirImagenEvento(created.id, formDataImages);
-        navigate('/dashboard/eventos')
+        await subirImagenEvento(created.id, formDataImages);
       }
+
+      navigate("/dashboard/eventos");
     } catch (err) {
       console.error("Error en handleSubmit:", err);
     } finally {
@@ -85,33 +87,41 @@ export default function NuevoEvento() {
     fetchCuenta();
   }, []);
 
-  if (!cuentaBancaria === undefined) return <main className="flex-1 p-6 h-screen overflow-y-auto scrollbar-none"> <LoadingSpinner /> </main>;
+  // Mostrar spinner mientras se carga
+  if (cuentaBancaria === undefined) {
+    return (
+      <main className="flex-1 p-6 h-screen overflow-y-auto scrollbar-none">
+        <PrimerPasoLoading />
+      </main>
+    );
+  }
 
+  // Render normal si tiene cuenta bancaria
   return (
     <main className="flex-1 p-6 h-screen overflow-y-auto scrollbar-none">
-          <h2 className="text-3xl font-bold text-white mb-6">Nuevo evento</h2>
+      <h2 className="text-3xl font-bold text-white mb-6">Nuevo evento</h2>
 
-          {currentStep === 1 && (
-            <PrimerPaso onNext={handleNext} initialData={formData} />
-          )}
+      {currentStep === 1 && (
+        <PrimerPaso onNext={handleNext} initialData={formData} />
+      )}
 
-          {currentStep === 2 && (
-            <SegundoPaso
-              onNext={handleNext}
-              onBack={handleBack}
-              initialData={formData}
-              cuentaBancaria={cuentaBancaria}
-            />
-          )}
+      {currentStep === 2 && (
+        <SegundoPaso
+          onNext={handleNext}
+          onBack={handleBack}
+          initialData={formData}
+          cuentaBancaria={cuentaBancaria}
+        />
+      )}
 
-          {currentStep === 3 && (
-            <TercerPaso
-              onBack={handleBack}
-              onSubmit={handleSubmit}
-              initialData={formData}
-              loading={loading}
-            />
-          )}
+      {currentStep === 3 && (
+        <TercerPaso
+          onBack={handleBack}
+          onSubmit={handleSubmit}
+          initialData={formData}
+          loading={loading}
+        />
+      )}
     </main>
   );
 }

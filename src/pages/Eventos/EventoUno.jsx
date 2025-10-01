@@ -12,10 +12,10 @@ import { AuthContext } from "../../context/AuthContext";
 
 export default function UnEvento() {
   const { id } = useParams();
-  const { getValidadoresProductora } = useContext(AuthContext);
+  const { getMiembrosEquipo } = useContext(AuthContext);
 
   const [evento, setEvento] = useState(null);
-  const [validadoresProductora, setValidadoresProductora] = useState([]);
+  const [miembros, setMiembros] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -27,12 +27,9 @@ export default function UnEvento() {
         const dataEvento = await getEventoById(id);
         setEvento(dataEvento);
 
-        // Cargar validadores de la productora
-        if (getValidadoresProductora) {
-          const dataValidadores = await getValidadoresProductora();
-          console.log("Validadores de la productora:", dataValidadores);
-          setValidadoresProductora(dataValidadores || []);
-        }
+        const dataValidadores = await getMiembrosEquipo();
+        console.log("Validadores de la productora:", dataValidadores);
+        setMiembros(dataValidadores || []);
       } catch (err) {
         console.error(err);
         setError("Error al cargar los datos del evento o validadores");
@@ -42,7 +39,7 @@ export default function UnEvento() {
     };
 
     fetchData();
-  }, [id]); // solo depende del id
+  }, [id]); 
 
   if (loading) return <p className="text-white">Cargando evento...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
@@ -52,7 +49,9 @@ export default function UnEvento() {
     value instanceof File ? URL.createObjectURL(value) : value;
 
   return (
-    <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-10 gap-8">
+    <div className="max-w-7xl w-full mx-auto px-4">
+      <h2 className="text-3xl font-bold text-white mb-4"> {evento?.nombre}</h2>
+     <div className="grid grid-cols-1 lg:grid-cols-10 gap-8">
       {/* Columna izquierda */}
       <div className="lg:col-span-7">
         {/* Banner */}
@@ -73,14 +72,21 @@ export default function UnEvento() {
         <div className="border border-white/10 bg-[#05081b]/40 p-6 space-y-8">
           {/* Nombre y fechas */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-x-6 gap-y-4">
-            <Input placeholder="Nombre del evento" value={evento.nombre} readOnly />
+            <Input 
+              label="Nombre del evento" placeholder={evento?.nombre} 
+              value={evento.nombre} readOnly
+            />
+
             <Input
-              placeholder="Fecha de inicio"
+              label="Fecha de inicio"
+              placeholder={evento?.inicioAt}
               value={new Date(evento.inicioAt).toLocaleString("es-AR")}
               readOnly
             />
+
             <Input
-              placeholder="Fecha de fin"
+              label="Fecha de fin"
+              placeholder={evento?.finAt}
               value={new Date(evento.finAt).toLocaleString("es-AR")}
               readOnly
             />
@@ -90,7 +96,8 @@ export default function UnEvento() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-4">
             <div className="space-y-10">
               <Input
-                placeholder="Dirección"
+                label="Direccion del evento"
+                placeholder={evento.lugar?.direccion}
                 value={evento.lugar?.direccion || ""}
                 readOnly
               />
@@ -117,7 +124,7 @@ export default function UnEvento() {
                   Sin portada
                 </div>
               )}
-              <TextArea value={evento.descripcion} readOnly />
+              <TextArea label="Descripcion del evento" value={evento.descripcion} readOnly />
             </div>
           </div>
 
@@ -132,7 +139,8 @@ export default function UnEvento() {
           ))}
 
           {/* Cuenta bancaria */}
-          <BankCard label="Cuenta bancaria" cuenta={evento.cuentaBancaria} edit={false} />
+          <h3 className="text-white text-2xl font-bold mb-4">Cobros</h3>
+          <BankCard label="Cuenta bancaria asociada" cuenta={evento.cuentaBancaria} edit={false} />
         </div>
       </div>
 
@@ -142,13 +150,15 @@ export default function UnEvento() {
         <div className="rounded-2xl border border-white/10 bg-[#05081b]/40 p-6">
           <h3 className="text-white text-xl font-bold mb-4">Validadores del evento</h3>
             <MiembrosList
-            miembros={validadoresProductora || []}
+            miembros={miembros || []}
             onEliminar={null}
             loading={false}
           />
         </div>
 
       </div>
+
+     </div>
     </div>
   );
 }

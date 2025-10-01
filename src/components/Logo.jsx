@@ -11,7 +11,7 @@ export default function HeaderLogo() {
 
       {/* Logo TICKEALO clickeable */}
       <div
-        className="flex items-center gap-2 text-white font-bold text-2xl -z-20 p-4 justify-center cursor-pointer"
+        className="flex items-center gap-2 text-white font-bold text-2xl z-20 p-4 justify-center cursor-pointer"
         onClick={() => navigate(PATHS.DASHBOARD)}
       >
         TICKEALO <img src="/tickealo.svg" alt="Logo Tickealo" className="w-7 h-7" />

@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import EventBanner from "../../components/Eventos/EventBanner";
 import EventCard from "../../components/Eventos/EventCard";
 import EventLoading from "../../components/Eventos/EventLoading";
 import { AuthContext } from "../../context/AuthContext";
 import { NavLink } from "react-router-dom";
+import { LayoutGrid, LayoutList} from "lucide-react";
 
 export default function Eventos() {
 
@@ -13,7 +13,7 @@ export default function Eventos() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [view, setView] = useState("grid"); // "grid" | "list"
+  const [view, setView] = useState("grid"); 
 
   useEffect(() => {
     if (!user) return;
@@ -50,23 +50,23 @@ export default function Eventos() {
           <div className="flex gap-2">
             <button
               onClick={() => setView("grid")}
-              className={`px-3 py-1 rounded ${
+              className={`px-3 py-1 rounded-full cursor-pointer ${
                 view === "grid"
-                  ? "bg-[#00B4D8] text-white"
-                  : "bg-gray-700 text-gray-300"
+                  ? "bg-[#03045E] text-white"
+                  : "bg-gray-800 text-gray-300"
               }`}
             >
-              Grid
+              <LayoutGrid  className="w-4 h-4" />
             </button>
             <button
               onClick={() => setView("list")}
-              className={`px-3 py-1 rounded ${
+              className={`px-3 py-1 rounded-full cursor-pointer ${
                 view === "list"
-                  ? "bg-[#00B4D8] text-white"
-                  : "bg-gray-700 text-gray-300"
+                  ? "bg-[#03045E] text-white"
+                  : "bg-gray-800 text-gray-300"
               }`}
             >
-              Lista
+              <LayoutList  className="w-4 h-4" />
             </button>
           </div>
 
