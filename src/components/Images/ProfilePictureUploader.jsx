@@ -1,13 +1,19 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Camera } from "lucide-react";
 
-export default function ProfilePictureUploader({ onFileSelect, textPadding = "px-2 py-1" }) {
-  const [preview, setPreview] = useState(null);
+export default function ProfilePictureUploader({ onFileSelect, value = null, textPadding = "px-2 py-1" }) {
+  const [preview, setPreview] = useState(value);
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    // Actualizar preview si value cambia
+    setPreview(value);
+  }, [value]);
 
   const handleFiles = (file) => {
     if (!file) return;
-    setPreview(URL.createObjectURL(file));
+    const url = URL.createObjectURL(file);
+    setPreview(url);
     onFileSelect?.(file);
   };
 

@@ -6,6 +6,7 @@ import EventDetail from "../../components/Eventos/EventDetail";
 import EventModified from "../../components/Eventos/EventModified";
 import EventLoading from "../../components/Eventos/EventLoading";
 import MiembrosList from "../../components/Eventos/MiembroList";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import { AuthContext } from "../../context/AuthContext";
 import { EventoContext } from "../../context/EventoContext";
 import IconInput from "../../components/Input/IconInput";
@@ -95,7 +96,7 @@ export default function UnEvento() {
     }
   };
 
-  if (loading) return <p className="text-white">Cargando evento...</p>;
+  if (loading) return <LoadingSpinner />;
   if (error) return <p className="text-red-500">{error}</p>;
   if (!evento) return <p className="text-white">Evento no encontrado</p>;
 
@@ -111,15 +112,6 @@ export default function UnEvento() {
       <div className="grid grid-cols-1 lg:grid-cols-2 mb-4">
         <h2 className="text-3xl font-bold text-white">
           {evento?.nombre}{" "}
-          {editing ? (
-            <span className="text-sm ml-2 text-[#A5A6AD] tracking-wide">
-              MODO EDICIÓN
-            </span>
-          ) : showChart ? (
-            <span className="text-sm ml-2 text-[#0077B6] tracking-wide">
-              ESTADÍSTICAS DEL EVENTO
-            </span>
-          ) : null}
         </h2>
 
         {/* Botones de acción */}
@@ -141,6 +133,19 @@ export default function UnEvento() {
             }}
           />
         </div>
+      </div>
+
+      {/** SUBTITULO */}
+      <div className=" mb-4">
+        {editing ? (
+            <span className="font-bold text-sm text-[#A5A6AD] tracking-wide">
+              MODO EDICIÓN
+            </span>
+          ) : showChart ? (
+            <span className="font-bold text-sm text-[#0077B6] tracking-wide">
+              ESTADÍSTICAS DEL EVENTO
+            </span>
+          ) : null}
       </div>
 
       {/* Contenido principal */}

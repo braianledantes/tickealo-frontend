@@ -61,12 +61,7 @@ export default function Cobros() {
     }
   };
 
-  if (loading) 
-    return (
-      <main className="flex-1 p-6 h-screen overflow-y-auto scrollbar-none">
-        <LoadingSpinner />
-      </main>
-    );
+  if (loading) return <LoadingSpinner />
 
   return (
     <div className="bg-[#05081b]/40 rounded-2xl shadow-2xl p-8 border border-white/20 mb-20 max-w-5xl mx-auto">

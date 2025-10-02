@@ -38,3 +38,4 @@ export const eliminarValidador = async (userMail, token) => {
   );
   return response.data;
 };
+
