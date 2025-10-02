@@ -1,15 +1,15 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import EventBanner from "../../components/Eventos/EventBanner";
 import EventCard from "../../components/Eventos/EventCard";
 import EventLoading from "../../components/Eventos/EventLoading";
-import { AuthContext } from "../../context/AuthContext";
+import useAuth from "../../hooks/useAuth";
 import { NavLink } from "react-router-dom";
 import { LayoutGrid, LayoutList} from "lucide-react";
 import IconInput from "../../components/Input/IconInput";
 
 export default function Eventos() {
 
-  const { user, getEventosByProductora} = useContext(AuthContext);
+  const { user, getEventosByProductora} = useAuth();
  
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);

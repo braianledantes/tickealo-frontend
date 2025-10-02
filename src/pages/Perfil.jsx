@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { AuthContext } from "../context/AuthContext";
+import useAuth from "../../hooks/useAuth";
 import ProfilePictureUploader from "../components/Images/ProfilePictureUploader";
 import Input from "../components/Input/Input";
 import IconInput from "../components/Input/IconInput";
@@ -8,7 +8,7 @@ import EventLoading from "../components/Eventos/EventLoading";
 import { Pencil, ChartColumn } from "lucide-react";
 
 export default function Perfil() {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   const [nombre, setNombre] = useState("");
   const [cuit, setCuit] = useState("");

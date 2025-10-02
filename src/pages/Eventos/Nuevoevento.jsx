@@ -1,19 +1,19 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PrimerPaso from "../../components/Pasos/PrimerPaso";
 import SegundoPaso from "../../components/Pasos/SegundoPaso";
 import TercerPaso from "../../components/Pasos/TercerPaso";
-import PrimerPasoLoading from "../../components/Pasos/PasosLoading"; // importa tu componente nuevo
-import { AuthContext } from "../../context/AuthContext";
-import { EventoContext } from "../../context/EventoContext";
+import PrimerPasoLoading from "../../components/Pasos/PasosLoading"; 
+import useEvento from "../../hooks/useEventos";
+import useCuentaBacaria from "../../hooks/useCuentaBancaria";
 
 
 export default function NuevoEvento() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({});
 
-  const { crearEvento, subirImagenEvento } = useContext(EventoContext);
-  const { getCuentasBancarias} = useContext(AuthContext);
+  const { crearEvento, subirImagenEvento } = useEvento();
+  const { getCuentasBancarias} = useCuentaBacaria();
 
   const [cuentaBancaria, setCuentaBancaria] = useState(undefined);
   const [loading, setLoading] = useState(false);

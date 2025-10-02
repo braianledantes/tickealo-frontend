@@ -4,8 +4,8 @@ import SecondaryButton from "../components/Button/SecondaryButton";
 import LoadingSpinner from "../components/LoadingSpinner";
 import InputTextArea from "../components/Input/InputTextArea";
 import { validarCuentaBancaria } from "../utils/validacionesCuentaBancaria";
-import { useState, useContext, useEffect } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useState, useEffect } from "react";
+import useCuentaBancaria from "../hooks/useCuentaBancaria"
 
 export default function Cobros() {
   const { 
@@ -14,7 +14,7 @@ export default function Cobros() {
     crearCuentaBancaria, 
     actualizarCuentaBancaria, 
     eliminarCuentaBancaria
-  } = useContext(AuthContext);
+  } = useCuentaBancaria()
 
   const [instrucciones, setInstrucciones] = useState("");
   const [loading, setLoading] = useState(true);

@@ -2,12 +2,11 @@ import { useState, useContext, useEffect } from "react";
 import Button from "../components/Button/Button";
 import Input from "../components/Input/Input";
 import { AtSign } from "lucide-react";
-import { AuthContext } from "../context/AuthContext";
+import useEquipo from "../hooks/useEquipo";
 import MiembrosList from "../components/Eventos/MiembroList"; 
 
 export default function Equipo() {
-  const { agregarMiembroEquipo, eliminarMiembroEquipo, getMiembrosEquipo } =
-    useContext(AuthContext);
+  const { agregarMiembroEquipo, eliminarMiembroEquipo, getMiembrosEquipo } = useEquipo();
 
   const [email, setEmail] = useState("");
   const [miembros, setMiembros] = useState([]);
@@ -44,8 +43,8 @@ export default function Equipo() {
     setLoading(true);
     setError("");
     try {
-      await agregarMiembroEquipo(email); // agregamos al backend
-      const data = await getMiembrosEquipo(); // refrescamos lista real
+      await agregarMiembroEquipo(email);
+      const data = await getMiembrosEquipo();
       setMiembros(data);
       setEmail("");
     } catch (err) {
@@ -60,7 +59,7 @@ export default function Equipo() {
     setError("");
     try {
       await eliminarMiembroEquipo(userEmail);
-      const data = await getMiembrosEquipo(); // refrescamos lista real
+      const data = await getMiembrosEquipo();
       setMiembros(data);
     } catch (err) {
       setError(err.response?.data?.message || err.message);

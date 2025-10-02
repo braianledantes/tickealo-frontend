@@ -1,11 +1,10 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import logotipo from "../assets/logotipo.png";
-import { AuthContext } from "../context/AuthContext";
+import useAuth from "../../hooks/useAuth";
 import { PATHS } from "../routes/paths";
 
 export default function Home() {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = () => {

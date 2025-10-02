@@ -7,16 +7,16 @@ import EventModified from "../../components/Eventos/EventModified";
 import EventLoading from "../../components/Eventos/EventLoading";
 import MiembrosList from "../../components/Eventos/MiembroList";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import { AuthContext } from "../../context/AuthContext";
-import { EventoContext } from "../../context/EventoContext";
+import useEvento from "../../hooks/useEventos";
+import useEquipo from "../../hooks/useEquipo";
 import IconInput from "../../components/Input/IconInput";
 
 export default function UnEvento() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { getMiembrosEquipo } = useContext(AuthContext);
-  const { subirImagenEvento, actualizarEvento, eliminarEvento } = useContext(EventoContext);
+  const { getMiembrosEquipo } = useEquipo();
+  const { subirImagenEvento, actualizarEvento, eliminarEvento } = useEvento();
 
   const [evento, setEvento] = useState(null);
   const [miembros, setMiembros] = useState([]);

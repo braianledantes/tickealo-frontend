@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import {useState } from "react";
+import useAuth from "../../hooks/useAuth";
 import { PATHS } from "../routes/paths";
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
@@ -22,7 +21,7 @@ export default function Register() {
   const [error, setError] = useState("");
   const [touched, setTouched] = useState(false); 
   
-  const { registrarProductora } = useContext(AuthContext);
+  const { registrarProductora } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

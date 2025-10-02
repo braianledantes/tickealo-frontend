@@ -1,17 +1,17 @@
 import { AtSign, KeyRound } from 'lucide-react';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import Button from '../components/Button/Button';
 import ButtonLink from '../components/Button/ButtonLink';
 import Input from '../components/Input/Input';
 import Logo from '../components/Logo';
-import { AuthContext } from "../context/AuthContext";
+import useAuth from "../../hooks/useAuth";
 import { PATHS } from '../routes/paths';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { login } = useContext(AuthContext);
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
