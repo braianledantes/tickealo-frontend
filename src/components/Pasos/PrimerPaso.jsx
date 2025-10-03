@@ -65,10 +65,6 @@ export default function PrimerPaso({ onNext, initialData }) {
 
   return (
     <div className="mb-20 max-w-5xl mx-auto">
-      <h3 className="text-2xl md:text-3xl font-bold text-white mb-6">
-        1. Completa los datos
-      </h3>
-
       <div className="rounded-2xl border border-white/10 bg-[#05081b]/40 overflow-hidden">
         {/* Banner */}
         <ImageUploader 

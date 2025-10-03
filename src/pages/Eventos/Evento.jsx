@@ -118,6 +118,7 @@ export default function Evento() {
         <div className="flex justify-end gap-4">
           <IconInput
             icon={<Pencil />}
+            title="Editar Evento" 
             active={editing}
             onClick={() => {
               setEditing((prev) => !prev);
@@ -126,6 +127,7 @@ export default function Evento() {
           />
           <IconInput
             icon={<ChartColumn />}
+            title="Estadisticas del Evento" 
             active={showChart}
             onClick={() => {
               setShowChart((prev) => !prev);

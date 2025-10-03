@@ -32,10 +32,6 @@ export default function TercerPaso({ onBack, onSubmit, initialData }) {
 
   return (
     <div className="mb-20 max-w-5xl mx-auto">
-      <h3 className="text-2xl md:text-3xl font-bold text-white mb-6">
-        1. Completa los datos
-      </h3>
-
       <div className="relative rounded-2xl border border-white/10 bg-[#05081b]/40 p-6 md:p-8 space-y-5 min-h-[430px]">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-full">
 

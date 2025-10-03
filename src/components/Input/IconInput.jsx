@@ -1,13 +1,16 @@
 import React from "react";
 
 export default function IconInput({ 
+  title, 
   icon, 
   active = false, 
   onClick, 
+  iconClassName = "w-5 h-5",
   className = "" 
 }) {
   return (
     <button
+      title={title}
       onClick={onClick}
       className={`
         px-3 py-2 rounded-full cursor-pointer transition-all duration-200
@@ -19,7 +22,7 @@ export default function IconInput({
         ${className}
       `}
     >
-      {icon && React.cloneElement(icon, { className: "w-5 h-5" })}
+      {icon && React.cloneElement(icon, { iconClassName })}
     </button>
   );
 }
