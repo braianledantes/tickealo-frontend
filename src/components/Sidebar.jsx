@@ -91,31 +91,48 @@ export default function Sidebar() {
           collapsed ? "justify-center" : "gap-3"
         }`}
       >
-        {user?.imagenUrl ? (
-          <img
-            src={user?.imagenUrl}
-            alt={user?.nombre || "Usuario"}
-            className="w-10 h-10 rounded-full object-cover"
-          />
+        {collapsed ? (
+          <NavLink to={PATHS.DASHBOARD + "/perfil"}>
+            {user?.imagenUrl ? (
+              <img
+                src={user?.imagenUrl}
+                alt={user?.nombre || "Usuario"}
+                className="w-10 h-10 rounded-full object-cover cursor-pointer"
+              />
+            ) : (
+              <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white font-semibold cursor-pointer">
+                {user?.nombre?.[0]?.toUpperCase() || "U"}
+              </div>
+            )}
+          </NavLink>
         ) : (
-          <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white font-semibold">
-            {user?.nombre?.[0]?.toUpperCase() || "U"}
-          </div>
-        )}
-
-
-        {!collapsed && (
-          <div>
-            <h3 className="text-white font-semibold">{user?.nombre || "Usuario"}</h3>
-            <NavLink
-              to={PATHS.DASHBOARD + "/perfil"}
-              className="text-sm text-gray-300 hover:text-white flex items-center gap-1"
-            >
-              Tu perfil
-            </NavLink>
-          </div>
+          <>
+            {user?.imagenUrl ? (
+              <img
+                src={user?.imagenUrl}
+                alt={user?.nombre || "Usuario"}
+                className="w-10 h-10 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white font-semibold">
+                {user?.nombre?.[0]?.toUpperCase() || "U"}
+              </div>
+            )}
+            <div>
+              <h3 className="text-white font-semibold">
+                {user?.nombre || "Usuario"}
+              </h3>
+              <NavLink
+                to={PATHS.DASHBOARD + "/perfil"}
+                className="text-sm text-gray-300 hover:text-white flex items-center gap-1"
+              >
+                Tu perfil
+              </NavLink>
+            </div>
+          </>
         )}
       </div>
+
 
       {/* Navigation */}
       <div className="p-4 flex-1">
