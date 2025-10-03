@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext} from "react";
 import * as apiEventos from "../api/eventos";
 
 export const EventoContext = createContext();

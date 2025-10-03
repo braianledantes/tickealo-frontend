@@ -19,7 +19,7 @@ export const registerProductora = async (formData) => {
   return response.data;
 };
 
-export const crearEvento = async (formData) => {
-  const response = await api.post('/api/eventos', formData);
+export const actualizarPerfilProductora = async (updateFormData) => {
+  const response = await api.patch(`/api/auth/productora-perfil`, updateFormData);
   return response.data;
-};
+}

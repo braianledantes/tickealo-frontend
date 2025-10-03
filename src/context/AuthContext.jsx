@@ -70,6 +70,16 @@ export function AuthProvider({ children }) {
     }
   }
 
+  const actualizarPerfilProductora = async ( updateFormData ) => {
+    try {
+      const response = await apiAuth.actualizarPerfilProductora( updateFormData);
+      return response;
+    } catch (err) {
+      console.error("Error actualizando el perfil de la productora", err);
+      return {error: err.message};
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -79,6 +89,7 @@ export function AuthProvider({ children }) {
         logout,
         registrarProductora,
         getEventosByProductora,
+        actualizarPerfilProductora
       }}
     >
       {children}
