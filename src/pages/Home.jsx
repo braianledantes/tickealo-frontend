@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import logotipo from "../assets/logotipo.png";
-import useAuth from "../../hooks/useAuth";
+import {useAuth} from "../hooks/useAuth";
 import { PATHS } from "../routes/paths";
 
 export default function Home() {

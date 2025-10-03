@@ -6,7 +6,7 @@ import Equipo from "../pages/Equipo";
 import Eventos from "../pages/Eventos/Eventos";
 import NuevoEvento from "../pages/Eventos/Nuevoevento";
 import Perfil from "../pages/Perfil";
-import UnEvento from "../pages/Eventos/EventoUno";
+import UnEvento from "../pages/Eventos/Evento";
 import { PATHS } from "./paths";
 
 export function PrivateRoutes() {

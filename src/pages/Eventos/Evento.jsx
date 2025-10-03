@@ -7,11 +7,11 @@ import EventModified from "../../components/Eventos/EventModified";
 import EventLoading from "../../components/Eventos/EventLoading";
 import MiembrosList from "../../components/Eventos/MiembroList";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import useEvento from "../../hooks/useEventos";
-import useEquipo from "../../hooks/useEquipo";
+import {useEvento} from "../../hooks/useEventos";
+import {useEquipo} from "../../hooks/useEquipo";
 import IconInput from "../../components/Input/IconInput";
 
-export default function UnEvento() {
+export default function Evento() {
   const { id } = useParams();
   const navigate = useNavigate();
 

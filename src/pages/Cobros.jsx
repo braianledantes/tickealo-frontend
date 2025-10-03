@@ -5,7 +5,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import InputTextArea from "../components/Input/InputTextArea";
 import { validarCuentaBancaria } from "../utils/validacionesCuentaBancaria";
 import { useState, useEffect } from "react";
-import useCuentaBancaria from "../hooks/useCuentaBancaria"
+import {useCuentaBancaria} from "../hooks/useCuentaBancaria"
 
 export default function Cobros() {
   const { 

@@ -1,5 +1,5 @@
 import {useState } from "react";
-import useAuth from "../../hooks/useAuth";
+import {useAuth} from "../hooks/useAuth";
 import { PATHS } from "../routes/paths";
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';

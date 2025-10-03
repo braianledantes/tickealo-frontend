@@ -4,7 +4,7 @@ import Button from '../components/Button/Button';
 import ButtonLink from '../components/Button/ButtonLink';
 import Input from '../components/Input/Input';
 import Logo from '../components/Logo';
-import useAuth from "../../hooks/useAuth";
+import {useAuth} from "../hooks/useAuth";
 import { PATHS } from '../routes/paths';
 
 export default function Login() {

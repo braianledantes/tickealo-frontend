@@ -4,8 +4,8 @@ import PrimerPaso from "../../components/Pasos/PrimerPaso";
 import SegundoPaso from "../../components/Pasos/SegundoPaso";
 import TercerPaso from "../../components/Pasos/TercerPaso";
 import PrimerPasoLoading from "../../components/Pasos/PasosLoading"; 
-import useEvento from "../../hooks/useEventos";
-import useCuentaBacaria from "../../hooks/useCuentaBancaria";
+import {useEvento} from "../../hooks/useEventos";
+import {useCuentaBancaria} from "../../hooks/useCuentaBancaria";
 
 
 export default function NuevoEvento() {
@@ -13,7 +13,7 @@ export default function NuevoEvento() {
   const [formData, setFormData] = useState({});
 
   const { crearEvento, subirImagenEvento } = useEvento();
-  const { getCuentasBancarias} = useCuentaBacaria();
+  const { getCuentasBancarias} = useCuentaBancaria();
 
   const [cuentaBancaria, setCuentaBancaria] = useState(undefined);
   const [loading, setLoading] = useState(false);

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import EventBanner from "../../components/Eventos/EventBanner";
 import EventCard from "../../components/Eventos/EventCard";
 import EventLoading from "../../components/Eventos/EventLoading";
-import useAuth from "../../hooks/useAuth";
+import {useAuth} from "../../hooks/useAuth";
 import { NavLink } from "react-router-dom";
 import { LayoutGrid, LayoutList} from "lucide-react";
 import IconInput from "../../components/Input/IconInput";
