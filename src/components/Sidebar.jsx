@@ -9,7 +9,8 @@ import {
   Users,
   PiggyBank,
   ChevronsLeft,
-  ChevronsRight
+  ChevronsRight,
+  Tickets
 } from "lucide-react";
 import Logo from "./Logo";
 
@@ -23,6 +24,7 @@ export default function Sidebar() {
     { key: "creditos", label: "Créditos", to: PATHS.CREDITOS },
     { key: "cobros", label: "Cobros", to: PATHS.COBROS },
     { key: "equipo", label: "Equipo", to: PATHS.EQUIPO },
+    { key: "entradas", label: "Entradas", to: PATHS.ENTRADAS },
   ];
 
   const renderIcon = (key) => {
@@ -35,6 +37,8 @@ export default function Sidebar() {
         return PiggyBank;
       case "equipo":
         return Users;
+      case "entradas":
+        return Tickets;
       default:
         return null;
     }

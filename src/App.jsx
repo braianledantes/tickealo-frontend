@@ -1,4 +1,5 @@
 import { AuthProvider } from "./context/AuthContext.jsx";
+import { ComprasProvider } from "./context/ComprasContext.jsx";
 import { CuentaBancariaProvider } from "./context/CuentaBancariaContext.jsx";
 import { EquipoProvider } from "./context/EquipoContext.jsx";
 import { EventoProvider } from "./context/EventoContext.jsx";
@@ -12,7 +13,9 @@ function App() {
         <CuentaBancariaProvider>
           <EventoProvider>
             <EquipoProvider>
-              <Router />
+              <ComprasProvider>
+                <Router />
+              </ComprasProvider>
             </EquipoProvider>
           </EventoProvider>
         </CuentaBancariaProvider>

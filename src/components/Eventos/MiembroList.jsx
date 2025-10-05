@@ -1,12 +1,5 @@
 import { Trash2 } from "lucide-react";
 
-/**
- * Componente reutilizable para mostrar lista de miembros.
- * 
- * @param {Array} miembros - Lista de miembros [{ user, cliente }]
- * @param {Function} onEliminar - Callback para eliminar miembro (recibe email)
- * @param {Boolean} loading - Si está cargando (deshabilita botones)
- */
 export default function MiembrosList({ miembros = [], text = "",onEliminar, loading = false }) {
   if (!miembros.length) return null;
 
