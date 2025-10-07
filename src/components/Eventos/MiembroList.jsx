@@ -16,7 +16,7 @@ export default function MiembrosList({ miembros = [], text = "",onEliminar, load
           return (
             <li
               key={i}
-              className="flex justify-between items-center p-3 rounded-lg hover:bg-white/5 transition"
+              className="flex justify-between items-center p-3 rounded-full hover:bg-white/5 transition"
             >
               <div className="flex items-center gap-3">
                 {imagen ? (
@@ -39,7 +39,7 @@ export default function MiembrosList({ miembros = [], text = "",onEliminar, load
               {onEliminar && (
                 <button
                   onClick={() => onEliminar(email)}
-                  className="text-red-400 hover:text-red-600"
+                  className="text-red-400 hover:text-red-600 p-4"
                   disabled={loading}
                 >
                   <Trash2 className="w-5 h-5" />

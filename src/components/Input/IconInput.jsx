@@ -5,7 +5,7 @@ export default function IconInput({
   icon, 
   active = false, 
   onClick, 
-  iconClassName = "w-5 h-5",
+  iconclassname = "w-5 h-5",
   className = "" 
 }) {
   return (
@@ -22,7 +22,7 @@ export default function IconInput({
         ${className}
       `}
     >
-      {icon && React.cloneElement(icon, { iconClassName })}
+      {icon && React.cloneElement(icon, { iconclassname })}
     </button>
   );
 }

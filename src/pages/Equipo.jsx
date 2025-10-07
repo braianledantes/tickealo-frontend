@@ -102,7 +102,7 @@ export default function Equipo() {
         </p>
       </div>
 
-      {/* Lista de miembros reutilizando el componente */}
+      {/* Lista de miembros*/}
       <MiembrosList
         miembros={miembros}
         text="MIEMBROS ACTUALES"

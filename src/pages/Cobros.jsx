@@ -6,6 +6,7 @@ import InputTextArea from "../components/Input/InputTextArea";
 import { validarCuentaBancaria } from "../utils/validacionesCuentaBancaria";
 import { useState, useEffect } from "react";
 import {useCuentaBancaria} from "../hooks/useCuentaBancaria"
+import DeleteButton from "../components/Button/DeleteButton";
 
 export default function Cobros() {
   const { 
@@ -104,16 +105,25 @@ export default function Cobros() {
           )}
         </div>
       </form>
-
-      <div className="mt-6 flex flex-col md:flex-row justify-center md:justify-end gap-4">
-        <Button
-          type="submit"
-          text={cuentaBancaria ? "Actualizar datos" : "Guardar"}
-          onClick={handleSubmit}
-          className="w-full md:w-auto"
-        />
-        {cuentaBancaria && (
+      
+      <div className="mt-6 flex flex-col md:flex-row justify-center md:justify-end gap-8">
+        { cuentaBancaria ? (
           <SecondaryButton
+            type="submit"
+            text="Actualizar datos"
+            onClick={handleSubmit}
+            className="w-full md:w-auto"
+          />
+        ): (
+          <Button
+            type="submit"
+            text="Guardar"
+            onClick={handleSubmit}
+            className="w-full md:w-auto"
+          />
+        )}
+        {cuentaBancaria && (
+          <DeleteButton
             text="Eliminar"
             onClick={async () => {
               if (confirm("¿Seguro que quieres eliminar la cuenta bancaria?")) {
