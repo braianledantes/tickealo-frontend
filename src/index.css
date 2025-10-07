@@ -14,7 +14,38 @@ body, #root {
   font-family: 'Poppins', sans-serif;
   overflow: hidden;
 }
+/* Texto global para subtitulos */
+h3 {
+  color: #A5A6AD;   
+  font-weight: 700;  
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em; 
+}
 
+
+/* Animación de panel compraId */
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out forwards;
+}
+
+@keyframes slide-out-right {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
+}
+.animate-slide-out-right {
+  animation: slide-out-right 0.3s ease-in forwards;
+}
+
+/* Desenfoque para panel compraId */
+.blur-auto{
+  backdrop-filter: blur(2px);
+}
+
+/* Animacion para fondo gradiente del logo */
 @keyframes pulseGradient {
   0%, 100% { opacity: 0.4; }
   50% { opacity: 1; }
@@ -32,18 +63,19 @@ body, #root {
   pointer-events: none;
 }
 
+/* Quitar icono default de date time */
 input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none;
   cursor: pointer;
 }
-
 input[type="datetime-local"]::-moz-inner-spin-button,
 input[type="datetime-local"]::-moz-calendar-picker-indicator {
   display: none;
   -moz-appearance: none;
 }
 
+/* Quitar auto-relleno predeterminado en el input */
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px #080C22 inset !important;
   -webkit-text-fill-color: white !important;
@@ -51,11 +83,12 @@ input:-webkit-autofill {
   border: none !important;
 }
 
+/* Quitar el scroll horizontal en las paginas */
 .scrollbar-none {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
 }
 
 .scrollbar-none::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none; 
 }

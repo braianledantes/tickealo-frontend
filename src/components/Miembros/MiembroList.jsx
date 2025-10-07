@@ -1,11 +1,16 @@
 import { Trash2 } from "lucide-react";
 
 export default function MiembrosList({ miembros = [], text = "",onEliminar, loading = false }) {
-  if (!miembros.length) return null;
 
   return (
     <div className="space-y-2">
       <h3 className="text-[#A5A6AD] font-bold mb-2 tracking-wide">{text}</h3>
+
+      {/* Mensaje cuando no hay miembros */}
+      {miembros.length === 0 && (
+        <p className="text-center text-gray-400 italic">No hay validadores.</p>
+      )}
+      
       <ul>
         {miembros.map((m, i) => {
           const miembro = m.user || m.cliente || {};

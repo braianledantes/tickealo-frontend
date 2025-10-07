@@ -5,7 +5,7 @@ import { getEventoById } from "../../api/eventos";
 import EventDetail from "../../components/Eventos/EventDetail";
 import EventModified from "../../components/Eventos/EventModified";
 import EventLoading from "../../components/Eventos/EventLoading";
-import MiembrosList from "../../components/Eventos/MiembroList";
+import MiembrosList from "../../components/Miembros/MiembroList";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import {useEvento} from "../../hooks/useEventos";
 import {useEquipo} from "../../hooks/useEquipo";

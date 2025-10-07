@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useCompras } from "../hooks/useCompras";
-import ComprasList from "../components/ComprasList"
+import ComprasList from "../components/Compras/ComprasList"
+import ComprasLoading from "../components/Compras/ComprasLoading";
 
 export default function Entradas() {
     const { getCompras } = useCompras();
@@ -16,10 +17,11 @@ export default function Entradas() {
           setLoading(true);
           setError("");
           try {
-            const response = await getCompras(); 
+            const response = await getCompras( page ); 
 
             setPaginas(response.pagination);
             setCompras(response.data);
+            setLoading(false)
           } catch (err) {
             setError("Error cargando miembros del equipo");
           } finally {
@@ -27,14 +29,14 @@ export default function Entradas() {
           }
         };
         fetchCompras();
-    }, []);
+    }, [page]);
 
     const handleNextPage = () => {
-      if (pagination.hasNextPage) setPage(page + 1);
+      if (paginas.hasNextPage) setPage(page + 1);
     };
 
     const handlePrevPage = () => {
-      if (pagination.hasPreviousPage) setPage(page - 1);
+      if (paginas.hasPreviousPage) setPage(page - 1);
     };
 
   return (
@@ -42,14 +44,20 @@ export default function Entradas() {
       <h2 className="text-3xl font-bold text-white mb-4">Entradas</h2>
       <p className="text-gray-200 mb-8">Controla y gestiona los pagos de entradas recibidos por tus clientes de forma rápida y segura.</p>
       
-      {/**CARD COMPRA */}
-      <ComprasList
-        pagination={paginas}
-        compras={compras}
-        text="TODAS LAS COMPRAS"
-        // onEliminar={handleEliminar}
-        loading={loading}
-      />
+      {loading ? (
+        <ComprasLoading />
+      ) : (
+        <ComprasList
+          compras={compras}
+          text="TODAS LAS COMPRAS"
+          loading={loading}
+          pagination={paginas}
+          onNextPage={handleNextPage}
+          onPrevPage={handlePrevPage}
+        />
+      )}
+
+      <p className="text-red-200 mt-8">{error}</p>
 
     </div>
   );

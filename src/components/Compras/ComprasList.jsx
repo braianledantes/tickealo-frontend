@@ -1,20 +1,13 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight, X} from "lucide-react";
+import ComprasDetail from "../Compras/ComprasDetail";
+import { formatearFecha } from "../../utils/formatearFecha";
 
 export default function ComprasList({ compras = [], text = "", loading = false, pagination, onNextPage, onPrevPage }) {
+  const [selectedCompraId, setSelectedCompraId] = useState(null);
+
   if (!compras.length) return null;
   
-  const formatearFecha = (fecha) => {
-    if (!fecha) return "-";
-    return new Date(fecha).toLocaleString("es-AR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
-  };
-
   // Colores según estado
   const estadoColor = {
     PENDIENTE: "bg-gray-500/30 border-1 border-gray-500 text-white px-2 py-1 rounded-lg",
@@ -22,13 +15,12 @@ export default function ComprasList({ compras = [], text = "", loading = false, 
     CANCELADA: "bg-red-500 text-white px-2 py-1 rounded-lg",
   };
 
-
   return (
     <div className="space-y-2">
       <h3 className="text-[#A5A6AD] font-bold mb-2 tracking-wide">{text}</h3>
       <div className="w-full">
         <ul>
-          <li className="p-3 mb-3 rounded-full grid place-items-center lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 text-white bg-white/5">
+          <li className="p-3 tracking-wider font-semibold mb-3 rounded-full grid place-items-center lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 text-white bg-white/5">
             <span>Id Compra</span>
             <span className="hidden lg:block md:block">Cliente</span>
             <span className="hidden lg:block ">Fecha</span>
@@ -45,16 +37,21 @@ export default function ComprasList({ compras = [], text = "", loading = false, 
                 key={i}
                 className="p-3 items-center place-items-center rounded-full hover:bg-white/5 transition grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 text-white"
               >
-                <span>#{c.id}</span>
+                <span className="font-semibold tracking-wide text-gray-500">#{c.id}</span>
                 <span className="hidden lg:block md:block">{nombre} {compra.apellido}</span>
-                <span className="hidden lg:block">{formatearFecha(c.createdAt)}</span>
+                <span className="hidden lg:block text-gray-500">{formatearFecha(c.createdAt)}</span>
                 <span className="hidden lg:block">{c.monto}</span>
                 <span className={`hidden lg:flex items-center ${estadoColor[c.estado] || ""}`}>
                   <span className={`w-2 h-2 mr-2 rounded-full ${c.estado === 'PENDIENTE' ? 'bg-gray-500' : c.estado === 'COMPLETADA' ? 'bg-green-500' : 'bg-red-500'}`}></span>
                   {c.estado}
                 </span>
                 <div>
-                  <span className="cursor-pointer text-blue-400 hover:text-blue-300">Ver más</span>
+                  <span
+                    onClick={() => setSelectedCompraId(c.id)}
+                    className="cursor-pointer text-blue-400 hover:text-blue-300"
+                  >
+                    Ver más
+                  </span>
                 </div>
               </li>
             );
@@ -90,6 +87,9 @@ export default function ComprasList({ compras = [], text = "", loading = false, 
           
         </div>
       )}
+
+      {/* DETALLE COMPRA */}
+      {selectedCompraId && ( <ComprasDetail compraId={selectedCompraId} onClose={() => setSelectedCompraId(null)} /> )}
 
     </div>
   );

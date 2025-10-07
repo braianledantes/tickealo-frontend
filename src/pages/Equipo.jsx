@@ -3,7 +3,8 @@ import Button from "../components/Button/Button";
 import Input from "../components/Input/Input";
 import { AtSign } from "lucide-react";
 import {useEquipo} from "../hooks/useEquipo";
-import MiembrosList from "../components/Eventos/MiembroList"; 
+import MiembrosList from "../components/Miembros/MiembroList"; 
+import MiembrosLoading from "../components/Miembros/MiembrosLoading";
 
 export default function Equipo() {
   const { agregarMiembroEquipo, eliminarMiembroEquipo, getMiembrosEquipo } = useEquipo();
@@ -21,6 +22,7 @@ export default function Equipo() {
       try {
         const data = await getMiembrosEquipo();
         setMiembros(data);
+        setLoading(true)
       } catch (err) {
         setError("Error cargando miembros del equipo");
       } finally {
@@ -47,6 +49,7 @@ export default function Equipo() {
       const data = await getMiembrosEquipo();
       setMiembros(data);
       setEmail("");
+      setLoading(true)
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     } finally {
@@ -103,12 +106,16 @@ export default function Equipo() {
       </div>
 
       {/* Lista de miembros*/}
-      <MiembrosList
-        miembros={miembros}
-        text="MIEMBROS ACTUALES"
-        onEliminar={handleEliminar}
-        loading={loading}
-      />
+      {loading ? (
+        <MiembrosLoading />
+      ):(
+        <MiembrosList
+          miembros={miembros}
+          text="MIEMBROS ACTUALES"
+          onEliminar={handleEliminar}
+          loading={loading}
+        />
+      )}
     </div>
   );
 }

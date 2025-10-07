@@ -123,9 +123,9 @@ export default function Sidebar() {
               </div>
             )}
             <div>
-              <h3 className="text-white font-semibold">
+              <h2 className="text-white font-semibold">
                 {user?.nombre || "Usuario"}
-              </h3>
+              </h2>
               <NavLink
                 to={PATHS.DASHBOARD + "/perfil"}
                 className="text-sm text-gray-300 hover:text-white flex items-center gap-1"
