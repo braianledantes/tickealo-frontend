@@ -104,23 +104,26 @@ export default function ComprasDetail({ compraId, onClose, onActualizar}) {
         
         <div className="pb-4 border-b-2 border-white/20">
             <h3>DETALLE</h3>
-            <div className="grid grid-cols-2 ">
-                <div className="space-y-2">
-                    <p>Estado de compra</p>
-                    <p>Fecha de compra</p>
-                    <p>Ultima actualizacion</p>
-                </div>
-                <div className="text-right space-y-2">
-                    <EstadoCompra estadoCompra={compra.estado} className="ml-33"/>
-                    <p>{formatearFecha(compra.createdAt)}</p>
-                    <p>{formatearFecha(compra.updatedAt)}</p>
-                </div>
+            <div className="space-y-2 sm:space-y-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2">
+                <p>Estado de compra</p>
+                <EstadoCompra estadoCompra={compra.estado} className="lg:ml-33"/>
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 -mt-1">
+                <p>Fecha de compra</p>
+                <p className="lg:text-right">{formatearFecha(compra.createdAt)}</p>
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2">
+                <p>Ultima actualizacion</p>
+                <p className="lg:text-right">{formatearFecha(compra.updatedAt)}</p>
+              </div>
+
             </div>
         </div>
 
         <div className="pb-4 border-b-2 border-white/20">
             <h3>EVENTO</h3>
-            <div className="grid grid-cols-2">
+            <div className="grid grid-cols-1 lg:grid-cols-2">
                 <img src={compra.tickets[0].entrada.evento.bannerUrl} alt={compra.tickets[0].entrada.evento.nombre} className="aspect-[11/4]" />
                 <div className="text-left space-y-2">
                     <p>{compra.tickets[0].entrada.evento.nombre}</p>
@@ -132,14 +135,14 @@ export default function ComprasDetail({ compraId, onClose, onActualizar}) {
 
         <div className="pb-4 border-b-2 border-white/20">
             <h3>RESUMEN</h3>
-            <div className="grid grid-cols-2 space-y-2 tracking-wider font-semibold">
+            <div className="grid grid-cols-1 lg:grid-cols-2 space-y-2 tracking-wider font-semibold">
                 <p>Cantidad</p>
-                <p className="text-right">Precio Unidad</p>
+                <p className="lg:text-right">Precio Unidad</p>
             </div>
             {compra.tickets.length > 0 && (
-                <div className="grid grid-cols-2">
+                <div className="grid grid-cols-1 lg:grid-cols-2">
                     <p> Entrada {compra.tickets[0].entrada.tipo} x{compra.tickets.length} </p>
-                    <p className="text-right">${compra.tickets[0].entrada.precio * compra.tickets.length}</p>
+                    <p className="lg:text-right">${compra.tickets[0].entrada.precio * compra.tickets.length}</p>
                 </div>
             )}
             <div className="grid grid-cols-2 mt-8 font-semibold tracking-wide text-xl text-[#90E0EF]">
@@ -155,7 +158,7 @@ export default function ComprasDetail({ compraId, onClose, onActualizar}) {
           )}
         </div>
 
-        <div className="grid grid-cols-2 gap-40">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-40">
           <TertiaryButton text="ACEPTAR" onClick={() => handleAceptarCompra(compra.id)} bg="bg-green-400"/>
           <TertiaryButton text="CANCELAR" onClick={() => handleCancelarCompra(compra.id)}/>
         </div>
