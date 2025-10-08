@@ -3,7 +3,7 @@ import { Pencil, ChartColumn } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 import ProfilePictureUploader from "../components/Images/ProfilePictureUploader";
 import Input from "../components/Input/Input";
-import IconInput from "../components/Input/IconInput";
+import IconButton from "../components/Button/IconButton";
 import SecondaryButton from "../components/Button/SecondaryButton";
 import EventLoading from "../components/Eventos/EventLoading";
 import { useProductora } from "../hooks/useProductora";
@@ -114,7 +114,7 @@ export default function Perfil() {
 
         {/* Botones de acción */}
         <div className="flex justify-end gap-4">
-          <IconInput
+          <IconButton
             icon={<Pencil />}
             active={editing}
             onClick={() => {
@@ -122,7 +122,7 @@ export default function Perfil() {
               setShowChart(false);
             }}
           />
-          <IconInput
+          <IconButton
             icon={<ChartColumn />}
             active={showChart}
             onClick={() => {

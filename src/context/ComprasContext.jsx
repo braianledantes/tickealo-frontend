@@ -25,11 +25,33 @@ export function ComprasProvider({ children }) {
         }
     }
 
+    const aceptarCompra = async ( compraId ) => {
+        try {
+            const response = await apiCompras.aceptarCompra( compraId);
+            return response;
+        } catch (err) {
+            console.error("Error aceptando la compra con ese ID", err);
+            return { error: err.message };
+        }
+    }
+
+    const cancelarCompra = async ( compraId ) => {
+        try {
+            const response = await apiCompras.cancelarCompra( compraId);
+            return response;
+        } catch (err) {
+            console.error("Error cancelando la compra con ese ID", err);
+            return { error: err.message };
+        }
+    }
+
     return (
         <ComprasContext.Provider
             value={{
                 getCompras,
                 getCompraId,
+                aceptarCompra,
+                cancelarCompra,
             }}
         >
             {children}

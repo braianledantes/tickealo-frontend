@@ -2,7 +2,7 @@ import Input from "../../components/Input/Input";
 import TextArea from "../Input/InputTextArea";
 import ImageUploader from "../../components/Images/ImageUploader";
 import BankCard from "../../components/BankCard";
-import DeleteButton from "../Button/DeleteButton";
+import TertiaryButton from "../Button/TertiaryButton";
 
 export default function EventDetail({ evento, onDelete}) {
     const getPreviewSrc = (value) =>
@@ -95,7 +95,7 @@ export default function EventDetail({ evento, onDelete}) {
 
            <div className="relative pb-13">
             <div className="absolute right-2 max-w-xl">
-                {onDelete && <DeleteButton text="Eliminar" onClick={onDelete} />}
+                {onDelete && <TertiaryButton text="Eliminar" onClick={onDelete} />}
             </div>
            </div>
         </div>

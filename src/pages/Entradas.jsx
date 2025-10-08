@@ -39,6 +39,12 @@ export default function Entradas() {
       if (paginas.hasPreviousPage) setPage(page - 1);
     };
 
+    const actualizarCompra = (compraActualizada) => {
+      setCompras(prev =>
+        prev.map(c => c.id === compraActualizada.id ? compraActualizada : c)
+      );
+    };
+
   return (
     <div className="bg-[#05081b]/40 rounded-2xl shadow-2xl p-8 border border-white/20 mb-20 max-w-5xl mx-auto">
       <h2 className="text-3xl font-bold text-white mb-4">Entradas</h2>
@@ -54,6 +60,7 @@ export default function Entradas() {
           pagination={paginas}
           onNextPage={handleNextPage}
           onPrevPage={handlePrevPage}
+          onActualizar={actualizarCompra}
         />
       )}
 

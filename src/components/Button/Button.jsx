@@ -10,5 +10,3 @@ export default function Button({ type = "submit", text, onClick }) {
     </button>
   );
 }
-
-

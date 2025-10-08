@@ -2,10 +2,13 @@ import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { useCompras } from "../../hooks/useCompras";
 import { formatearFecha } from "../../utils/formatearFecha";
+import { EstadoCompra} from "../FeedBack/Estados";
 import LoadingSpinner from "../LoadingSpinner";
+import IconButton from "../Button/IconButton";
+import TertiaryButton from "../Button/TertiaryButton";
 
-export default function ComprasDetail({ compraId, onClose }) {
-  const { getCompraId } = useCompras();
+export default function ComprasDetail({ compraId, onClose, onActualizar}) {
+  const { getCompraId, aceptarCompra, cancelarCompra } = useCompras();
   const [compra, setCompra] = useState();
   const [closing, setClosing] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -28,6 +31,37 @@ export default function ComprasDetail({ compraId, onClose }) {
     }, 300); 
   };
 
+  const handleAceptarCompra = async (compraId) => {
+    setLoading(true);
+    setError("");
+    try {
+      await aceptarCompra(compraId);
+      const data = await getCompraId(compraId);
+      setCompra(data);
+      onActualizar?.(data);
+    }catch (err) {
+      setError(err.response?.data?.message || err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCancelarCompra = async (compraId) => {
+    setLoading(true);
+    setError("");
+    try {
+      await cancelarCompra(compraId);
+      const data = await getCompraId(compraId);
+      setCompra(data);
+      onActualizar?.(data);
+    }catch (err) {
+      setError(err.response?.data?.message || err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   if (loading) return (
     <main className="fixed inset-0 bg-black/40 w-full top-0 flex blur-auto justify-end items-start z-50 overflow-auto scrollbar-none">
         <LoadingSpinner />
@@ -42,9 +76,7 @@ export default function ComprasDetail({ compraId, onClose }) {
         <div className="grid grid-cols-2">
             <h4 className="text-white font-bold text-lg">COMPRA ID #{compra.id}</h4>
             <div className="flex justify-end">
-            <button onClick={handleClose} className="text-gray-400 hover:text-white">
-                <X />
-            </button>
+              <IconButton icon={<X />} onClick={handleClose} />
             </div>
         </div>
 
@@ -79,7 +111,7 @@ export default function ComprasDetail({ compraId, onClose }) {
                     <p>Ultima actualizacion</p>
                 </div>
                 <div className="text-right space-y-2">
-                    <p>{compra.estado}</p>
+                    <EstadoCompra estadoCompra={compra.estado} className="ml-33"/>
                     <p>{formatearFecha(compra.createdAt)}</p>
                     <p>{formatearFecha(compra.updatedAt)}</p>
                 </div>
@@ -122,6 +154,12 @@ export default function ComprasDetail({ compraId, onClose }) {
             <img src={compra.comprobanteTransferencia} alt="Comprobante" className="mt-4 rounded-lg w-full" />
           )}
         </div>
+
+        <div className="grid grid-cols-2 gap-40">
+          <TertiaryButton text="ACEPTAR" onClick={() => handleAceptarCompra(compra.id)} bg="bg-green-400"/>
+          <TertiaryButton text="CANCELAR" onClick={() => handleCancelarCompra(compra.id)}/>
+        </div>
+
       </div>
     </div>
   );

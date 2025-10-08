@@ -9,7 +9,7 @@ import MiembrosList from "../../components/Miembros/MiembroList";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import {useEvento} from "../../hooks/useEventos";
 import {useEquipo} from "../../hooks/useEquipo";
-import IconInput from "../../components/Input/IconInput";
+import IconButton from "../../components/Button/IconButton";
 
 export default function Evento() {
   const { id } = useParams();
@@ -116,7 +116,7 @@ export default function Evento() {
 
         {/* Botones de acción */}
         <div className="flex justify-end gap-4">
-          <IconInput
+          <IconButton
             icon={<Pencil />}
             title="Editar Evento" 
             active={editing}
@@ -125,7 +125,7 @@ export default function Evento() {
               setShowChart(false); 
             }}
           />
-          <IconInput
+          <IconButton
             icon={<ChartColumn />}
             title="Estadisticas del Evento" 
             active={showChart}

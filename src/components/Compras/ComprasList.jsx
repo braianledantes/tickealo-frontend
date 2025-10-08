@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ChevronLeft, ChevronRight, X} from "lucide-react";
-import ComprasDetail from "../Compras/ComprasDetail";
 import { formatearFecha } from "../../utils/formatearFecha";
+import ComprasDetail from "../Compras/ComprasDetail";
+import {EstadoCompra} from "../FeedBack/Estados";
 
-export default function ComprasList({ compras = [], text = "", loading = false, pagination, onNextPage, onPrevPage }) {
+export default function ComprasList({ compras = [], text = "", loading = false, pagination, onNextPage, onPrevPage, onActualizar }) {
   const [selectedCompraId, setSelectedCompraId] = useState(null);
 
   if (!compras.length) return null;
@@ -41,14 +42,11 @@ export default function ComprasList({ compras = [], text = "", loading = false, 
                 <span className="hidden lg:block md:block">{nombre} {compra.apellido}</span>
                 <span className="hidden lg:block text-gray-500">{formatearFecha(c.createdAt)}</span>
                 <span className="hidden lg:block">{c.monto}</span>
-                <span className={`hidden lg:flex items-center ${estadoColor[c.estado] || ""}`}>
-                  <span className={`w-2 h-2 mr-2 rounded-full ${c.estado === 'PENDIENTE' ? 'bg-gray-500' : c.estado === 'COMPLETADA' ? 'bg-green-500' : 'bg-red-500'}`}></span>
-                  {c.estado}
-                </span>
+                <EstadoCompra estadoCompra={c.estado} className="hidden lg:flex items-center"/>
                 <div>
                   <span
                     onClick={() => setSelectedCompraId(c.id)}
-                    className="cursor-pointer text-blue-400 hover:text-blue-300"
+                    className="cursor-pointer text-blue-400 hover:text-blue-300 font-semibold"
                   >
                     Ver más
                   </span>
@@ -89,7 +87,7 @@ export default function ComprasList({ compras = [], text = "", loading = false, 
       )}
 
       {/* DETALLE COMPRA */}
-      {selectedCompraId && ( <ComprasDetail compraId={selectedCompraId} onClose={() => setSelectedCompraId(null)} /> )}
+      {selectedCompraId && ( <ComprasDetail compraId={selectedCompraId} onClose={() => setSelectedCompraId(null)} onActualizar={onActualizar} /> )}
 
     </div>
   );

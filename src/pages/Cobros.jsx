@@ -6,7 +6,7 @@ import InputTextArea from "../components/Input/InputTextArea";
 import { validarCuentaBancaria } from "../utils/validacionesCuentaBancaria";
 import { useState, useEffect } from "react";
 import {useCuentaBancaria} from "../hooks/useCuentaBancaria"
-import DeleteButton from "../components/Button/DeleteButton";
+import TertiaryButton from "../components/Button/TertiaryButton";
 
 export default function Cobros() {
   const { 
@@ -123,7 +123,7 @@ export default function Cobros() {
           />
         )}
         {cuentaBancaria && (
-          <DeleteButton
+          <TertiaryButton
             text="Eliminar"
             onClick={async () => {
               if (confirm("¿Seguro que quieres eliminar la cuenta bancaria?")) {

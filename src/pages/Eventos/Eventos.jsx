@@ -5,7 +5,7 @@ import EventLoading from "../../components/Eventos/EventLoading";
 import {useAuth} from "../../hooks/useAuth";
 import { NavLink } from "react-router-dom";
 import { LayoutGrid, LayoutList} from "lucide-react";
-import IconInput from "../../components/Input/IconInput";
+import IconButton from "../../components/Button/IconButton";
 
 export default function Eventos() {
 
@@ -49,12 +49,12 @@ export default function Eventos() {
         <div className="flex gap-3">
           {/* Botones vista */}
           <div className="flex gap-2">
-            <IconInput
+            <IconButton
               icon={<LayoutGrid/>}
               active={view === "grid"}
               onClick={() => setView("grid")}
             />
-            <IconInput
+            <IconButton
               icon={<LayoutList />}
               active={view === "list"}
               onClick={() => setView("list")}

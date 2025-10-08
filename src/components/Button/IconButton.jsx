@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function IconInput({ 
+export default function IconButton({ 
   title, 
   icon, 
   active = false, 
