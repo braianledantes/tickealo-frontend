@@ -27,6 +27,7 @@ export default function Eventos() {
       try {
         const data= await getEventosByProductora();
         setEvents(Array.isArray(data) ? data : []);
+        console.log(data)
       } catch (err) {
         console.error("Error al obtener eventos:", err);
         setError(err.message || "Error desconocido");
@@ -38,6 +39,7 @@ export default function Eventos() {
 
     fetchEventos();
   }, [user, getEventosByProductora]);
+
 
   return (
     <main className="max-w-7xl w-full mx-auto px-4">

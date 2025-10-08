@@ -1,36 +1,18 @@
 import api from './axiosConfig';
 
-export const getEquipo = async (token) => {
-  const response = await api.get("/api/productora/equipo", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export const getEquipo = async () => {
+  const response = await api.get("/api/productora/equipo");
   return response.data; 
 };
 
-export const agregarValidador = async (userMail, token) => {
-  const response = await api.post(
-    `/api/productora/equipo/${encodeURIComponent(userMail)}`,
-    null, 
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+export const agregarValidador = async (userMail) => {
+  const response = await api.post(`/api/productora/equipo/${encodeURIComponent(userMail)}`);
   return response.data;
 };
 
-export const eliminarValidador = async (userMail, token) => {
+export const eliminarValidador = async (userMail) => {
   const response = await api.delete(
-    `/api/productora/equipo/${encodeURIComponent(userMail)}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-  );
+    `/api/productora/equipo/${encodeURIComponent(userMail)}`);
   return response.data;
 };
 

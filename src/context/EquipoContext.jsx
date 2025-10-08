@@ -1,14 +1,13 @@
-import { createContext, useEffect, useState } from "react";
-import * as apiProductora from "../api/productora";
+import { createContext} from "react";
+import * as apiEquipo from "../api/equipo";
 
 export const EquipoContext = createContext();
 
 export function EquipoProvider({ children }) {
 
   const getMiembrosEquipo = async () => {
-    const token = localStorage.getItem("TOKEN_KEY");
     try {
-      const miembros = await apiProductora.getEquipo(token);
+      const miembros = await apiEquipo.getEquipo();
       return miembros;
     } catch (error) {
       console.error("Error obteniendo miembros del equipo:", error);
@@ -17,9 +16,8 @@ export function EquipoProvider({ children }) {
   };
 
   const agregarMiembroEquipo = async (email) => {
-    const token = localStorage.getItem(TOKEN_KEY); 
     try {
-      const response = await apiProductora.agregarValidador(email, token);
+      const response = await apiEquipo.agregarValidador(email);
       return response;
     } catch (err) {
       console.error("Error agregando validador:", err.message);
@@ -28,9 +26,8 @@ export function EquipoProvider({ children }) {
   };
 
   const eliminarMiembroEquipo = async (email) => {
-    const token = localStorage.getItem(TOKEN_KEY); 
     try {
-      const response = await apiProductora.eliminarValidador(email, token);
+      const response = await apiEquipo.eliminarValidador(email);
       return response;
     } catch (err) {
       console.error("Error eliminando validador:", err.message);
