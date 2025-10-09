@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
-import { validarProductora } from '../utils/validarProductora';
-import Button from './Button/Button';
-import ProfilePictureUploader from './Images/ProfilePictureUploader';
-import Input from './Input/Input';
+import { useAuth } from '../../hooks/useAuth';
+import { validarProductora } from '../../utils/validarProductora';
+import Button from '../Button/Button';
+import ProfilePictureUploader from '../Images/ProfilePictureUploader';
+import Input from '../Input/Input';
 
 export function RegisterForm() {
   const { registrarProductora } = useAuth();

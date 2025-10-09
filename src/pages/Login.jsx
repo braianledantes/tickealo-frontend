@@ -1,5 +1,5 @@
 import ButtonLink from '../components/Button/ButtonLink';
-import { LoginForm } from '../components/LoginForm';
+import { LoginForm } from '../components/Forms/LoginForm';
 import Logo from '../components/Logo';
 import { PATHS } from '../routes/paths';
 

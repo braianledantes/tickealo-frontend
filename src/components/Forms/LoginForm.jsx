@@ -1,8 +1,8 @@
 import { AtSign, KeyRound } from "lucide-react";
 import { useState } from "react";
-import { useAuth } from "../hooks/useAuth";
-import Button from "./Button/Button";
-import Input from "./Input/Input";
+import { useAuth } from "../../hooks/useAuth";
+import Button from "../Button/Button";
+import Input from "../Input/Input";
 
 export function LoginForm() {
   const { login } = useAuth();

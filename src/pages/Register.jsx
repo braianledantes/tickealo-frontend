@@ -1,6 +1,6 @@
 import ButtonLink from '../components/Button/ButtonLink';
 import Logo from "../components/Logo";
-import { RegisterForm } from "../components/RegisterForm";
+import { RegisterForm } from "../components/Forms/RegisterForm";
 import { PATHS } from "../routes/paths";
 
 export default function Register() {

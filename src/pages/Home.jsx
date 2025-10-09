@@ -1,6 +1,6 @@
-import { HomeEventCard } from "../components/HomeEventCard";
-import { PublicFooter } from "../components/PublicFooter";
-import { PublicHeader } from "../components/PublicHeader";
+import { HomeEventCard } from "../components/Home/HomeEventCard";
+import { PublicFooter } from "../components/Home/PublicFooter";
+import { PublicHeader } from "../components/Home/PublicHeader";
 
 export default function Home() {
   const events = [
