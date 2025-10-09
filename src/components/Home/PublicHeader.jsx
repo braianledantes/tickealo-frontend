@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import logotipo from "../assets/logotipo.png";
+import logotipo from "../../assets/logotipo.png";
 import { useAuth } from "../../hooks/useAuth";
 import { PATHS } from "../../routes/paths";
 import Button from "../Button/Button";
