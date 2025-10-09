@@ -91,10 +91,9 @@ export default function Equipo() {
           </div>
           <div className="w-full md:w-1/2">
             <Button
-              text="Agregar Validador"
               onClick={handleAgregar}
               disabled={loading}
-            />
+            >Agregar Validador</Button>
           </div>
         </div>
 

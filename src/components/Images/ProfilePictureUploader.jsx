@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Camera } from "lucide-react";
 
-export default function ProfilePictureUploader({ onFileSelect, value = null, textPadding = "px-2 py-1" }) {
+export default function ProfilePictureUploader({ onFileSelect, value = null }) {
   const [preview, setPreview] = useState(value);
   const inputRef = useRef(null);
 
@@ -54,7 +54,7 @@ export default function ProfilePictureUploader({ onFileSelect, value = null, tex
       </div>
 
       {/* Texto y botón de acción */}
-      <div className={`flex flex-col items-start justify-center ${textPadding}`}>
+      <div className={"flex flex-col items-start justify-center px-2 py-1"}>
         <label
           className="text-gray-600 cursor-pointer hover:underline text-sm"
           onClick={() => inputRef.current.click()}
