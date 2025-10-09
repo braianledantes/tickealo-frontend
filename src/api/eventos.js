@@ -10,12 +10,8 @@ export const subirImagenEvento = async (eventoId, formDataImages) => {
   return response.data;
 };
 
-export const getEventos = async (token) => {
-  const response = await api.get(`/api/eventos`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export const getEventos = async () => {
+  const response = await api.get(`/api/eventos`);
   return response.data.data;
 };
 

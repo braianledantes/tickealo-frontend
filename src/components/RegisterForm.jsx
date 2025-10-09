@@ -88,7 +88,7 @@ export function RegisterForm() {
           </div>
 
           <div className="col-span-1 md:col-span-2 flex flex-col gap-4">
-            <Button text="Registrarse" />
+            <Button type='submit'>Registrarse</Button>
             {error && <p className="text-red-400 text-center font-medium">{error}</p>}
           </div>
         </div>
