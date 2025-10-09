@@ -26,7 +26,7 @@ export default function EventBanner({ evento }) {
   return (
     <div
       onClick={handleClick}
-      className="overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10
+      className="overflow-hidden border border-white/10 bg-gradient-to-t from-[#0E1531] to-[#11215D] hover:bg-white/10
                  transition transform scale-95 hover:scale-100 cursor-pointer flex flex-col lg:flex-row
                  shadow-md hover:shadow-xl rounded-xl"
       style={{ transition: "transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease" }}
@@ -47,7 +47,7 @@ export default function EventBanner({ evento }) {
 
         {/* Estado arriba a la derecha */}
         <span
-          className={`absolute -top-2 -right-2 m-2 px-3 py-1 rounded-bl-xl text-xs tracking-wide font-medium shadow-md ${
+          className={`absolute -top-2 -left-2 m-2 px-3 py-1 rounded-br-xl text-xs tracking-wide font-medium shadow-md ${
             evento.cancelado
               ? "bg-[#] text-white"
               : "bg-[#00DF81] text-white"
@@ -58,8 +58,8 @@ export default function EventBanner({ evento }) {
       </div>
 
       {/* Info: ocupa la otra mitad */}
-      <div className="p-4 w-full lg:w-1/2 flex flex-col">
-        <h3 className="text-lg font-semibold text-white mb-2">{evento.nombre}</h3>
+      <div className="p-4 w-full lg:w-1/2 flex flex-col justify-center">
+        <h3 className="text-lg font-semibold text-[#CAF0F8] mb-2">{evento.nombre}</h3>
 
         {/* Fechas */}
         <p className="text-sm mb-1" style={{ color: "#A5A6AD" }}>
@@ -67,7 +67,7 @@ export default function EventBanner({ evento }) {
         </p>
 
         {/* Ubicación */}
-        <div className="flex items-center text-sm font-medium" style={{ color: "#20347F" }}>
+        <div className="flex items-center text-sm font-medium " style={{ color: "#20347F" }}>
           <MapPin size={16} className="mr-1" />
           {evento.lugar?.direccion || "Ubicación no disponible"}
         </div>

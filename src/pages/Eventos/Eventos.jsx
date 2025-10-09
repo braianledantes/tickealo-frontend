@@ -50,7 +50,7 @@ export default function Eventos() {
         {/* Botón crear evento */}
         <div className="flex gap-3">
           {/* Botones vista */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 hidden md:flex">
             <IconButton
               icon={<LayoutGrid/>}
               active={view === "grid"}

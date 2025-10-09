@@ -26,7 +26,7 @@ export default function EventCard({ evento }) {
 return (
   <div
     onClick={handleClick}
-    className="overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10 
+    className="overflow-hidden border border-white/10 bg-gradient-to-t from-[#0E1531] to-[#11215D] hover:bg-white/10 
                transition transform scale-95 hover:scale-100 cursor-pointer flex flex-col 
                shadow-md hover:shadow-xl rounded-b-xl"
   >

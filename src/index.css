@@ -39,7 +39,6 @@ h3 {
 .animate-slide-out-right {
   animation: slide-out-right 0.3s ease-in forwards;
 }
-
 /* Desenfoque para panel compraId */
 .blur-auto{
   backdrop-filter: blur(2px);
