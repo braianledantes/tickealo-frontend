@@ -43,7 +43,6 @@ export function AuthProvider({ children }) {
   const logout = () => {
     setIsAuthenticated(false);
     setUser(null);
-    setCuentaBancaria(null); // Limpiar cuenta al logout
     localStorage.removeItem(TOKEN_KEY);
   };
 

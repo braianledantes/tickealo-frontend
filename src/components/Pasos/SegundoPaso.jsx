@@ -125,11 +125,11 @@ export default function SegundoPaso({ onNext, onBack, initialData, cuentaBancari
 
         <div className="relative pt-20 flex gap-4">
           <div className="absolute bottom-2 left-4  w-[80px]">
-            <Button type="button" text={<ArrowLeft />} onClick={onBack} />
+            <Button onClick={onBack}><ArrowLeft /></Button>
           </div>
 
           <div className="absolute bottom-2 right-4 w-[80px]">
-            <Button type="button" text={<ArrowRight />} onClick={handleContinue} />
+            <Button onClick={handleContinue}><ArrowRight /></Button>
           </div>
         </div>
       </div>

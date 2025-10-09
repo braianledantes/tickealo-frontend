@@ -136,7 +136,7 @@ export default function PrimerPaso({ onNext, initialData }) {
             </div>
 
            <div className="absolute bottom-8 right-4 mt-8 w-[80px]">
-              <Button type="button" text={<ArrowRight />} onClick={handleContinue} />
+              <Button onClick={handleContinue}><ArrowRight /></Button>
             </div>
           </div>
         </div>

@@ -1,8 +1,8 @@
+import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import Button from "../Button/Button";
 import ImageUploader from "../Images/ImageUploader";
 import TextArea from "../Input/InputTextArea";
-import { X , ArrowRight, ArrowLeft} from "lucide-react";
 
 export default function TercerPaso({ onBack, onSubmit, initialData }) {
   const [portada, setPortada] = useState(initialData.portada || null);
@@ -64,11 +64,11 @@ export default function TercerPaso({ onBack, onSubmit, initialData }) {
 
         <div className="absolute mb-2 flex space-y-4 w-full px-8 bottom-0 left-0 justify-between">
          <div className=" bottom-2 left-4  w-[80px]">
-            <Button type="button" text={<ArrowLeft />} onClick={onBack} />
+            <Button onClick={onBack}><ArrowLeft /></Button>
           </div>
 
           <div className=" bottom-2 right-4 w-[250px]">
-            <Button type="button" text="Crear Evento" onClick={handleContinue} />
+            <Button onClick={handleContinue}>Crear Evento</Button>
           </div>
         </div>
       </div>

@@ -5,15 +5,15 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import InputTextArea from "../components/Input/InputTextArea";
 import { validarCuentaBancaria } from "../utils/validacionesCuentaBancaria";
 import { useState, useEffect } from "react";
-import {useCuentaBancaria} from "../hooks/useCuentaBancaria"
+import { useCuentaBancaria } from "../hooks/useCuentaBancaria"
 import TertiaryButton from "../components/Button/TertiaryButton";
 
 export default function Cobros() {
-  const { 
-    cuentaBancaria, 
-    getCuentasBancarias, 
-    crearCuentaBancaria, 
-    actualizarCuentaBancaria, 
+  const {
+    cuentaBancaria,
+    getCuentasBancarias,
+    crearCuentaBancaria,
+    actualizarCuentaBancaria,
     eliminarCuentaBancaria
   } = useCuentaBancaria()
 
@@ -67,19 +67,19 @@ export default function Cobros() {
   return (
     <div className="bg-[#05081b]/40 rounded-2xl shadow-2xl p-8 border border-white/20 mb-20 max-w-5xl mx-auto">
       <h2 className="text-3xl font-bold text-white mb-6">Método de cobro</h2>
-      
+
       <p className="text-gray-200 mb-8">
-        Antes de crear tus eventos, necesitamos que vincules tu cuenta bancaria. 
+        Antes de crear tus eventos, necesitamos que vincules tu cuenta bancaria.
         Esto nos permite gestionar los pagos de manera segura y rápida.
       </p>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div>
-          <BankCard 
+          <BankCard
             label="Cuenta bancaria vinculada"
-            cuenta={cuentaTemp} 
-            onChange={setCuentaTemp} 
-            edit={true} 
+            cuenta={cuentaTemp}
+            onChange={setCuentaTemp}
+            edit={true}
             errores={errores}
           />
         </div>
@@ -105,22 +105,21 @@ export default function Cobros() {
           )}
         </div>
       </form>
-      
+
       <div className="mt-6 flex flex-col md:flex-row justify-center md:justify-end gap-8">
-        { cuentaBancaria ? (
+        {cuentaBancaria ? (
           <SecondaryButton
             type="submit"
             text="Actualizar datos"
             onClick={handleSubmit}
             className="w-full md:w-auto"
           />
-        ): (
+        ) : (
           <Button
             type="submit"
-            text="Guardar"
             onClick={handleSubmit}
             className="w-full md:w-auto"
-          />
+          >Guardar</Button>
         )}
         {cuentaBancaria && (
           <TertiaryButton

@@ -1,4 +1,4 @@
-import { createContext} from "react";
+import { createContext } from "react";
 import * as apiEventos from "../api/eventos";
 
 export const EventoContext = createContext();
@@ -25,9 +25,7 @@ export function EventoProvider({ children }) {
     
     const getEventos = async () => {
         try {
-            const token = localStorage.getItem(TOKEN_KEY);
-            if (!token) throw new Error("No hay token disponible");
-            return await apiEventos.getEventos(token);
+            return await apiEventos.getEventos();
         } catch (err) {
             console.error("Error obteniendo eventos:", err);
             return [];
