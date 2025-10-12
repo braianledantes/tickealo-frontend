@@ -2,6 +2,7 @@ import { LayoutGrid, LayoutList } from "lucide-react";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import IconButton from "../../components/Button/IconButton";
+import SecondaryButton from "../../components/Button/SecondaryButton";
 import EventLoading from "../../components/Eventos/EventLoading";
 import EventsList from "../../components/Eventos/EventsList";
 import { useEventosList } from "../../hooks/useEventosList";
@@ -10,7 +11,7 @@ import { PATHS } from "../../routes/paths";
 export default function Eventos() {
   const { eventos, loading, error } = useEventosList();
   const navigate = useNavigate();
-  
+
   const [view, setView] = useState("grid");
 
   const handleEventClick = (evento) => {
@@ -28,7 +29,7 @@ export default function Eventos() {
           {/* Botones vista */}
           <div className="flex gap-2 hidden md:flex">
             <IconButton
-              icon={<LayoutGrid/>}
+              icon={<LayoutGrid />}
               active={view === "grid"}
               onClick={() => setView("grid")}
             />
@@ -39,13 +40,16 @@ export default function Eventos() {
             />
           </div>
 
-          <NavLink
-            to="/dashboard/eventos/nuevo"
-            className="px-4 py-2 rounded-lg bg-[#00B4D8] text-white shadow hover:bg-[#13c2e3] focus:outline-none focus:ring-2 focus:ring-[#00B4D8]/50 transition flex items-center gap-2"
-          >
-            <span>Evento</span>
-            <span className="text-xl leading-none font-bold">+</span>
-          </NavLink>
+          <SecondaryButton>
+            <NavLink
+              to="/dashboard/eventos/nuevo"
+              className="flex gap-2 items-center"
+            >
+              <span className="uppercase">crear evento</span>
+              <span className="text-xl leading-none font-bold">+</span>
+            </NavLink>
+          </SecondaryButton>
+
         </div>
       </div>
 

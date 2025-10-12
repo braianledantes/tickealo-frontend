@@ -1,4 +1,4 @@
-export default function SecondaryButton({ type = "submit", text, onClick, bgColor = "#03055F" }) {
+export default function SecondaryButton({ type = "submit", text, onClick, bgColor = "#03055F", children }) {
   return (
     <button
       type={type}
@@ -20,7 +20,7 @@ export default function SecondaryButton({ type = "submit", text, onClick, bgColo
           color: "#fff",
         }}
       >
-        {text}
+        {children || text}
       </span>
     </button>
   );

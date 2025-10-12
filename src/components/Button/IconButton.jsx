@@ -17,7 +17,7 @@ export default function IconButton({
         shadow-md hover:shadow-lg 
         flex items-center justify-center
         ${active 
-          ? "bg-[#03045E] text-white shadow-blue-900/40" 
+          ? "bg-[#03045E] text-white shadow-blue-950/50 hover:bg-[#021f72]"
           : "bg-gray-800 text-gray-300 hover:bg-gray-700"}
         ${className}
       `}

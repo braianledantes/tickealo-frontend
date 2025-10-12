@@ -1,7 +1,6 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function ButtonLink({to, text}) {
+export default function ButtonLink({ to, text, children }) {
   const navigate = useNavigate();
   
   return (
@@ -9,7 +8,7 @@ export default function ButtonLink({to, text}) {
       className="underline cursor-pointer hover:text-white font-semibold transition-colors duration-200 text-blue-700"
       onClick={() => navigate(to)}
     >
-      {text}
+      {children || text}
     </span>
   );
 }
