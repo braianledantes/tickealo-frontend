@@ -8,6 +8,7 @@ const TOKEN_KEY = "token";
 export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // Al iniciar la app, chequeamos si hay token
   useEffect(() => {
@@ -20,7 +21,10 @@ export function AuthProvider({ children }) {
           setIsAuthenticated(false);
           setUser(null);
           localStorage.removeItem(TOKEN_KEY);
-        });
+        })
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
     }
   }, []);
 
@@ -74,6 +78,7 @@ export function AuthProvider({ children }) {
       value={{
         isAuthenticated,
         user,
+        loading,
         login,
         logout,
         registrarProductora,
