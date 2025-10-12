@@ -19,12 +19,12 @@ export default function NuevoEvento() {
     puedeCrearEvento()
       .then((puede) => {
         if (!puede) {
-        //  navigate("/dashboard/cobros"); // redirige si no puede crear evento
+          //  navigate("/dashboard/cobros"); // redirige si no puede crear evento
         }
       })
       .catch((err) => {
         console.error("Error verificando si puede crear evento:", err);
-       // navigate("/dashboard/cobros"); // redirige en caso de error
+        // navigate("/dashboard/cobros"); // redirige en caso de error
       });
   }, []);
 
