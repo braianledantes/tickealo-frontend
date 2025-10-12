@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { MapPin } from "lucide-react";
 
-export default function EventCard({ evento }) {
+export default function EventCard({ evento, onSelect }) {
   const navigate = useNavigate();
 
   const handleClick = () => {

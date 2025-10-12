@@ -3,7 +3,7 @@ import * as apiAuth from "../api/auth";
 import * as apiProductora from "../api/productora";
 
 export const AuthContext = createContext();
-export const TOKEN_KEY = "token";
+const TOKEN_KEY = "token";
 
 export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -58,16 +58,6 @@ export function AuthProvider({ children }) {
       return { error: err.message };
     }
   };
-  
-  const getEventosByProductora = async () => {
-    try {
-      const eventosProductora = await apiProductora.getEventosByProductora();
-      return eventosProductora;
-    } catch (err) {
-      console.error("Error obteniendo eventos de productora:", err);
-      return [];
-    }
-  }
 
   const actualizarPerfilProductora = async ( updateFormData ) => {
     try {
@@ -87,8 +77,7 @@ export function AuthProvider({ children }) {
         login,
         logout,
         registrarProductora,
-        getEventosByProductora,
-        actualizarPerfilProductora
+        actualizarPerfilProductora,
       }}
     >
       {children}

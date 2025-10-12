@@ -4,7 +4,7 @@ import Button from "../Button/Button";
 import BankCard from "../BankCard";
 import { X , ArrowRight, ArrowLeft} from "lucide-react";
 
-export default function SegundoPaso({ onNext, onBack, initialData, cuentaBancaria }) {
+export default function SegundoPaso({ onNext, onBack, initialData }) {
   const [entradas, setEntradas] = useState(
     initialData.entradas?.length > 0
       ? initialData.entradas
@@ -33,18 +33,13 @@ export default function SegundoPaso({ onNext, onBack, initialData, cuentaBancari
   const handleContinue = () => {
     setTouched(true);
 
-    if (!cuentaBancaria) {
-      setError("No se ha configurado ninguna cuenta bancaria para recibir pagos.");
-      return;
-    }
-
     if (entradas.some((e) => !e.tipo || e.precio <= 0 || e.cantidad <= 0)) {
       setError("Completa todos los campos de las entradas.");
       return;
     }
 
     setError("");
-    onNext({ entradas, cuentaBancariaId: cuentaBancaria.id, cancelado });
+    onNext({ entradas, cancelado });
   };
 
   return (
@@ -107,8 +102,6 @@ export default function SegundoPaso({ onNext, onBack, initialData, cuentaBancari
             + Agregar otra entrada
           </button>
         </div>
-
-        <BankCard  label="Cuenta bancaria vinculada" cuenta={cuentaBancaria} edit={false} />
 
         <div className="hidden flex items-center mt-4 mb-6">
           <input

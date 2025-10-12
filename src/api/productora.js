@@ -5,12 +5,8 @@ export const getEventosByProductora = async () => {
   return response.data;
 }
 
-export const getEquipo = async (token) => {
-  const response = await api.get("/api/productora/equipo", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export const getEquipo = async () => {
+  const response = await api.get("/api/productora/equipo");
   return response.data; 
 };
 

@@ -16,8 +16,9 @@ import Logo from "./Logo";
 
 export default function Sidebar() {
   const { logout, user } = useContext(AuthContext);
+
   const [collapsed, setCollapsed] = useState(false);
-    const [hoverLogo, setHoverLogo] = useState(false);
+  const [hoverLogo, setHoverLogo] = useState(false);
 
   const items = [
     { key: "eventos", label: "Eventos", to: PATHS.EVENTOS },
@@ -46,9 +47,8 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`h-screen bg-[#05081b] backdrop-blur-sm border-r border-white/20 flex flex-col justify-between transition-all duration-300 ${
-        collapsed ? "w-20" : "w-64"
-      }`}
+      className={`h-screen bg-[#05081b] backdrop-blur-sm border-r border-white/20 flex flex-col justify-between transition-all duration-300 ${collapsed ? "w-20" : "w-64"
+        }`}
     >
       {/* Logo */}
       <div
@@ -91,9 +91,8 @@ export default function Sidebar() {
 
       {/* Usuario */}
       <div
-        className={`p-4 border-b border-white/20 flex items-center ${
-          collapsed ? "justify-center" : "gap-3"
-        }`}
+        className={`p-4 border-b border-white/20 flex items-center ${collapsed ? "justify-center" : "gap-3"
+          }`}
       >
         {collapsed ? (
           <NavLink to={PATHS.DASHBOARD + "/perfil"}>
@@ -149,14 +148,11 @@ export default function Sidebar() {
                 to={it.to}
                 key={it.key}
                 className={({ isActive }) =>
-                  `w-full flex items-center relative px-4 py-2 transition-colors duration-200 ${
-                    collapsed ? "justify-center" : "gap-3 text-left"
-                  } ${
-                    isActive && !collapsed 
-                      ? "text-white bg-white/10 rounded-r-full" 
-                      : "text-gray-300 hover:bg-white/10"
-                  } ${
-                    !collapsed ? "rounded-r-full" : ""
+                  `w-full flex items-center relative px-4 py-2 transition-colors duration-200 ${collapsed ? "justify-center" : "gap-3 text-left"
+                  } ${isActive && !collapsed
+                    ? "text-white bg-white/10 rounded-r-full"
+                    : "text-gray-300 hover:bg-white/10"
+                  } ${!collapsed ? "rounded-r-full" : ""
                   } group` // Necesario para hover interno
                 }
               >
@@ -188,9 +184,8 @@ export default function Sidebar() {
           onClick={() => {
             logout();
           }}
-          className={`w-full flex items-center ${
-            collapsed ? "justify-center" : "gap-2"
-          } px-4 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-full transition-colors duration-200`}
+          className={`w-full flex items-center ${collapsed ? "justify-center" : "gap-2"
+            } px-4 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-full transition-colors duration-200`}
         >
           <LogOut className="h-5 w-5" />
           {!collapsed && "Cerrar sesión"}

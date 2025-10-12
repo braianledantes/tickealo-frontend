@@ -1,50 +1,33 @@
-import { useState, useEffect, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { Pencil, ChartColumn } from "lucide-react";
-import { getEventoById } from "../../api/eventos";
-import EventDetail from "../../components/Eventos/EventDetail";
-import EventModified from "../../components/Eventos/EventModified";
-import EventLoading from "../../components/Eventos/EventLoading";
-import MiembrosList from "../../components/Miembros/MiembroList";
-import LoadingSpinner from "../../components/LoadingSpinner";
-import {useEvento} from "../../hooks/useEventos";
-import {useEquipo} from "../../hooks/useEquipo";
+import { ChartColumn, Pencil } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import IconButton from "../../components/Button/IconButton";
+import EventDetail from "../../components/Eventos/EventDetail";
+import EventLoading from "../../components/Eventos/EventLoading";
+import EventModified from "../../components/Eventos/EventModified";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import { useEventosList } from "../../hooks/useEventosList";
 
 export default function Evento() {
   const { id } = useParams();
+  const {
+    evento,
+    getEventoById,
+    loading,
+    error,
+    actualizarEvento,
+    actualizarImagenesEvento,
+    eliminarEvento
+  } = useEventosList();
   const navigate = useNavigate();
-
-  const { getMiembrosEquipo } = useEquipo();
-  const { subirImagenEvento, actualizarEvento, eliminarEvento } = useEvento();
-
-  const [evento, setEvento] = useState(null);
-  const [miembros, setMiembros] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   const [editing, setEditing] = useState(false);
   const [showChart, setShowChart] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError("");
-      try {
-        const dataEvento = await getEventoById(id);
-        setEvento(dataEvento);
-
-        const dataValidadores = await getMiembrosEquipo();
-        setMiembros(dataValidadores || []);
-      } catch (err) {
-        console.error(err);
-        setError("Error al cargar los datos del evento o validadores");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+    if (id) {
+      getEventoById(id);
+    }
   }, [id]);
 
   const handleActualizar = async (dataEvento, banner, portada) => {
@@ -60,7 +43,7 @@ export default function Evento() {
         cuentaBancariaId: dataEvento.cuentaBancariaId || 1,
       };
 
-      const res = await actualizarEvento(evento.id, payload);
+      const res = await actualizarEvento(evento.id, payload, banner, portada);
 
       if (res?.error) {
         alert("Error actualizando evento: " + res.error);
@@ -72,10 +55,9 @@ export default function Evento() {
         if (banner) formDataImages.append("banner", banner);
         if (portada) formDataImages.append("portada", portada);
 
-        await subirImagenEvento(evento.id, formDataImages);
+        await actualizarImagenesEvento(evento.id, formDataImages);
       }
 
-      setEvento((prev) => ({ ...prev, ...payload }));
 
       alert("Evento actualizado correctamente");
     } catch (err) {
@@ -89,7 +71,7 @@ export default function Evento() {
     if (window.confirm("¿Seguro que querés eliminar este evento?")) {
       const res = await eliminarEvento(id);
       if (!res?.error) {
-        navigate("/dashboard/eventos"); 
+        navigate("/dashboard/eventos");
       } else {
         alert("Error eliminando evento: " + res.error);
       }
@@ -107,7 +89,7 @@ export default function Evento() {
   }
 
   return (
-    <div className="max-w-7xl w-full mx-auto px-4">
+    <div className="max-w-7xl w-full mx-auto p-10">
       {/* Header */}
       <div className="grid grid-cols-1 lg:grid-cols-2 mb-4">
         <h2 className="text-3xl font-bold text-white">
@@ -118,20 +100,20 @@ export default function Evento() {
         <div className="flex justify-end gap-4">
           <IconButton
             icon={<Pencil />}
-            title="Editar Evento" 
+            title="Editar Evento"
             active={editing}
             onClick={() => {
               setEditing((prev) => !prev);
-              setShowChart(false); 
+              setShowChart(false);
             }}
           />
           <IconButton
             icon={<ChartColumn />}
-            title="Estadisticas del Evento" 
+            title="Estadisticas del Evento"
             active={showChart}
             onClick={() => {
               setShowChart((prev) => !prev);
-              setEditing(false); 
+              setEditing(false);
             }}
           />
         </div>
@@ -140,39 +122,26 @@ export default function Evento() {
       {/** SUBTITULO */}
       <div className=" mb-4">
         {editing ? (
-            <span className="font-bold text-sm text-[#A5A6AD] tracking-wide">
-              MODO EDICIÓN
-            </span>
-          ) : showChart ? (
-            <span className="font-bold text-sm text-[#0077B6] tracking-wide">
-              ESTADÍSTICAS DEL EVENTO
-            </span>
-          ) : null}
+          <span className="font-bold text-sm text-[#A5A6AD] tracking-wide">
+            MODO EDICIÓN
+          </span>
+        ) : showChart ? (
+          <span className="font-bold text-sm text-[#0077B6] tracking-wide">
+            ESTADÍSTICAS DEL EVENTO
+          </span>
+        ) : null}
       </div>
 
       {/* Contenido principal */}
       <div className="grid grid-cols-1 lg:grid-cols-10 gap-8">
-        <div className="lg:col-span-7">
+        
           {showChart ? (
             <EventLoading type="detail" />
           ) : editing ? (
-            <EventModified evento={evento} onUpdate={handleActualizar}  />
+            <EventModified evento={evento} onUpdate={handleActualizar} />
           ) : (
             <EventDetail evento={evento} onDelete={() => handleDelete(evento.id)} />
           )}
-        </div>
-
-        {/* Columna derecha - Validadores */}
-        <div className="lg:col-span-3 space-y-6">
-          <div className="rounded-2xl border border-white/10 bg-[#05081b]/40 p-6">
-            <MiembrosList
-              miembros={miembros || []}
-              text="VALIDADORES DEL EVENTO"
-              onEliminar={null}
-              loading={false}
-            />
-          </div>
-        </div>
       </div>
     </div>
   );

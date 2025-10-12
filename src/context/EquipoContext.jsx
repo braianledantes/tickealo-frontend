@@ -1,44 +1,76 @@
-import { createContext} from "react";
+import { createContext, useEffect, useState } from "react";
 import * as apiEquipo from "../api/equipo";
 
 export const EquipoContext = createContext();
 
 export function EquipoProvider({ children }) {
+  const [equipo, setEquipo] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+      setLoading(true);
+      getMiembrosEquipo()
+        .catch((err) => setError(err))
+        .finally(() => setLoading(false));
+  }, []);
 
   const getMiembrosEquipo = async () => {
     try {
       const miembros = await apiEquipo.getEquipo();
-      return miembros;
+      setEquipo(miembros);
     } catch (error) {
-      console.error("Error obteniendo miembros del equipo:", error);
-      return [];
+      setError(error);
     }
   };
 
   const agregarMiembroEquipo = async (email) => {
     try {
+      setLoading(true);
+
+      if (!email) return;
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        setError("Ingresa un correo válido.");
+        return;
+      }
+
       const response = await apiEquipo.agregarValidador(email);
-      return response;
+      if (response.error) {
+        setError(response.error);
+      } else {
+        await getMiembrosEquipo();
+      }
     } catch (err) {
-      console.error("Error agregando validador:", err.message);
-      return { error: err.message };
+      setError(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   const eliminarMiembroEquipo = async (email) => {
     try {
+      setLoading(true);
       const response = await apiEquipo.eliminarValidador(email);
-      return response;
+      if (response.error) {
+        setError(response.error);
+      } else {
+        await getMiembrosEquipo();
+      }
     } catch (err) {
-      console.error("Error eliminando validador:", err.message);
-      return { error: err.message };
+      setError(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <EquipoContext.Provider
       value={{
-        getMiembrosEquipo,
+        loading,
+        error,
+        equipo,
         agregarMiembroEquipo,
         eliminarMiembroEquipo,
       }}

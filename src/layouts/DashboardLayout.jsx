@@ -1,16 +1,10 @@
-import { Outlet, useLocation, Navigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import Navbar from "../components/NavBar";
 import Sidebar from "../components/Sidebar";
-import Navbar from "../components/NavBar"; 
 
 export function DashboardLayout() {
-  const location = useLocation();
-
-  if (location.pathname === "/dashboard" || location.pathname === "/dashboard/") {
-    return <Navigate to="/dashboard/eventos" replace />;
-  }
-
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-[#05081b] via-[#010030] via-[#00033d] to-[#010030]">
+    <div className="min-h-screen flex bg-gradient-to-br from-[#05081b] via-[#010030] to-[#010030]">
       <div className="hidden md:flex">
         <Sidebar />
       </div>
@@ -19,7 +13,7 @@ export function DashboardLayout() {
         <Navbar />
       </div>
 
-      <main className="flex-1 p-10 overflow-y-auto h-screen scrollbar-none mt-14 md:mt-0">
+      <main className="flex-1 overflow-y-auto h-screen scrollbar-none mt-14 md:mt-0">
         <Outlet />
       </main>
     </div>

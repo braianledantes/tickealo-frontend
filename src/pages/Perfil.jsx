@@ -1,16 +1,23 @@
-import { useState, useEffect } from "react";
-import { Pencil, ChartColumn } from "lucide-react";
-import { useAuth } from "../hooks/useAuth";
-import ProfilePictureUploader from "../components/Images/ProfilePictureUploader";
-import Input from "../components/Input/Input";
+import { ChartColumn, Pencil } from "lucide-react";
+import { useEffect, useState } from "react";
 import IconButton from "../components/Button/IconButton";
 import SecondaryButton from "../components/Button/SecondaryButton";
 import EventLoading from "../components/Eventos/EventLoading";
-import { useProductora } from "../hooks/useProductora";
+import ProfilePictureUploader from "../components/Images/ProfilePictureUploader";
+import Input from "../components/Input/Input";
+import { usePerfil } from "../hooks/usePerfil";
 
 export default function Perfil() {
-  const { user, actualizarPerfilProductora } = useAuth();
-  const {getEventosByProductora, getEquipo, getSeguidores} = useProductora();
+  const {
+    loading,
+    error,
+    user,
+    cantEventos,
+    cantValidadores,
+    cantSeguidores,
+    actualizarPerfil,
+  } = usePerfil();
+
   const [formData, setFormData] = useState({
     nombre: "",
     cuit: "",
@@ -20,8 +27,7 @@ export default function Perfil() {
     email: "",
     imagenPerfil: null
   });
-  const [touched, setTouched] = useState(false);
-  const [error, setError] = useState("");
+
   const [editing, setEditing] = useState(false);
   const [showChart, setShowChart] = useState(false);
 
@@ -40,28 +46,6 @@ export default function Perfil() {
     }
   }, [user]);
 
-  const [stats, setStats] = useState({ eventos: 0, miembros: 0, seguidores: 0 });
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const eventos = await getEventosByProductora();
-        const miembros = await getEquipo();
-        const seguidores = await getSeguidores();
-
-        setStats({
-          eventos: Array.isArray(eventos) ? eventos.length : eventos.data?.length || 0,
-          miembros: Array.isArray(miembros) ? miembros.length : miembros.data?.length || 0,
-          seguidores: Array.isArray(seguidores) ? seguidores.length : seguidores.data?.length || 0,
-        });
-      } catch (err) {
-        console.error("Error obteniendo estadísticas", err);
-      }
-    };
-
-    fetchStats();
-  }, []);
-
   const handleChange = (key, value) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
@@ -72,42 +56,27 @@ export default function Perfil() {
   };
 
   const handleActualizarPerfil = async (updateDataForm) => {
-    try {
-      const payload = new FormData();
-      payload.append("nombre", updateDataForm.nombre || "");
-      payload.append("cuit", updateDataForm.cuit || "");
-      payload.append("telefono", updateDataForm.telefono || "");
-      payload.append("direccion", updateDataForm.direccion || "");
-      payload.append("username", updateDataForm.username || "");
-      payload.append("email", updateDataForm.email || "");
-      if (updateDataForm.password) {
-        payload.append("password", updateDataForm.password);
-      }
-      if (updateDataForm.imagenPerfil instanceof File) {
-        payload.append("imagenPerfil", updateDataForm.imagenPerfil);
-      }
-
-      const response = await actualizarPerfilProductora(payload);
-
-      if (response?.error) {
-        setError(response.error);
-      } else {
-        window.location.reload();
-      }
-    } catch (err) {
-      if (err.response?.data?.message) {
-        const msg = Array.isArray(err.response.data.message)
-          ? err.response.data.message.join(", ")
-          : err.response.data.message;
-        setError("Error al registrar: " + msg);
-      } else {
-        setError("Error al registrar. Intenta nuevamente: " + err.message);
-      }
+    const payload = new FormData();
+    payload.append("nombre", updateDataForm.nombre || "");
+    payload.append("cuit", updateDataForm.cuit || "");
+    payload.append("telefono", updateDataForm.telefono || "");
+    payload.append("direccion", updateDataForm.direccion || "");
+    payload.append("username", updateDataForm.username || "");
+    payload.append("email", updateDataForm.email || "");
+    if (updateDataForm.password) {
+      payload.append("password", updateDataForm.password);
     }
+    if (updateDataForm.imagenPerfil instanceof File) {
+      payload.append("imagenPerfil", updateDataForm.imagenPerfil);
+    }
+
+    await actualizarPerfil(payload);
+
+    window.location.reload();
   };
 
   return (
-    <div className="max-w-7xl w-full mx-auto px-4">
+    <div className="max-w-7xl w-full mx-auto p-10">
 
       <div className="grid grid-cols-1 lg:grid-cols-2 mb-4">
         <h2 className="text-3xl font-bold text-white/70">Hola <span className="italic text-white">{formData.username}</span> !</h2>
@@ -165,7 +134,6 @@ export default function Perfil() {
                     type="text"
                     value={formData.username}
                     error={!formData.username}
-                    showError={touched}
                     onChange={(e) => handleChange("username", e.target.value)}
                   />
                   <Input
@@ -173,7 +141,6 @@ export default function Perfil() {
                     type="email"
                     value={formData.email}
                     error={!formData.email}
-                    showError={touched}
                     onChange={(e) => handleChange("email", e.target.value)}
                   />
                 </div>
@@ -186,7 +153,6 @@ export default function Perfil() {
                     type="text"
                     value={formData.nombre}
                     error={!formData.nombre}
-                    showError={touched}
                     onChange={(e) => handleChange("nombre", e.target.value)}
                   />
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -195,7 +161,6 @@ export default function Perfil() {
                       type="text"
                       value={formData.cuit}
                       error={!formData.cuit}
-                      showError={touched}
                       onChange={(e) => handleChange("cuit", e.target.value)}
                     />
                     <Input
@@ -203,7 +168,6 @@ export default function Perfil() {
                       type="text"
                       value={formData.telefono}
                       error={!formData.telefono}
-                      showError={touched}
                       onChange={(e) => handleChange("telefono", e.target.value)}
                     />
                   </div>
@@ -213,7 +177,6 @@ export default function Perfil() {
                     type="text"
                     value={formData.direccion}
                     error={!formData.direccion}
-                    showError={touched}
                     onChange={(e) => handleChange("direccion", e.target.value)}
                   />
                 </div>
@@ -223,7 +186,7 @@ export default function Perfil() {
 
           <div className="relative pb-13 pt-5">
             <div className="absolute right-2">
-              <SecondaryButton text="Actualizar datos" onClick={() => handleActualizarPerfil(formData)}/>
+              <SecondaryButton text="Actualizar datos" onClick={() => handleActualizarPerfil(formData)} />
             </div>
           </div>
 
@@ -235,20 +198,20 @@ export default function Perfil() {
         <div className="lg:col-span-3 space-y-6">
           <div className="rounded-bl-4xl rounded-br-4xl border border-white/10 bg-[#05081b]/40 p-6 space-y-5">
             <h2 className="text-white text-xl font-bold">Resumen</h2>
-            
+
             <div className="flex justify-between text-white/80 ">
               <span>Eventos cargados</span>
-              <span className="font-semibold">{stats.eventos}</span>
+              <span className="font-semibold">{cantEventos}</span>
             </div>
-            
+
             <div className="flex justify-between text-white/80">
               <span>Mi equipo</span>
-              <span className="font-semibold">{stats.miembros}</span>
+              <span className="font-semibold">{cantValidadores}</span>
             </div>
 
             <div className="flex justify-between text-white/80">
               <span>Seguidores</span>
-              <span className="font-semibold">{stats.seguidores}</span>
+              <span className="font-semibold">{cantSeguidores}</span>
             </div>
           </div>
         </div>
