@@ -43,7 +43,7 @@ export default function EventModified({ evento, onUpdate }) {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleUpdateClick = () => {
+  const handleUpdateDatosGeneralesClick = () => {
     const payload = {
       nombre: formData.nombre,
       descripcion: formData.descripcion,
@@ -64,7 +64,7 @@ export default function EventModified({ evento, onUpdate }) {
   const getPreviewSrc = (fileOrUrl) => fileOrUrl instanceof File ? URL.createObjectURL(fileOrUrl) : fileOrUrl;
 
   return (
-    <div className="lg:col-span-7">
+    <div>
       {/* Banner */}
       <ImageUploader
         onFileSelect={(file) => handleChange("bannerFile", file)}
@@ -137,6 +137,17 @@ export default function EventModified({ evento, onUpdate }) {
           onChange={(e) => handleChange("descripcion", e.target.value)}
         />
 
+        {/* Botón actualizar datos generales */}
+        <div className="relative pb-13">
+          <div className="absolute right-2 max-w-xl">
+            <SecondaryButton
+              text="Actualizar Generales"
+              onClick={handleUpdateDatosGeneralesClick}
+              disabled={!hasChanges}
+            />
+          </div>
+        </div>
+
         {/* Entradas */}
         <div className="pt-10 border-t border-white/50">
           <h3 className="text-white text-2xl font-bold mb-4">Entradas</h3>
@@ -146,12 +157,12 @@ export default function EventModified({ evento, onUpdate }) {
           />
         </div>
 
-        {/* Botón actualizar */}
+        {/* Botón actualizar entradas */}
         <div className="relative pb-13">
           <div className="absolute right-2 max-w-xl">
             <SecondaryButton
-              text="Actualizar datos"
-              onClick={handleUpdateClick}
+              text="Actualizar Entradas"
+              onClick={() => {}}
               disabled={!hasChanges}
             />
           </div>

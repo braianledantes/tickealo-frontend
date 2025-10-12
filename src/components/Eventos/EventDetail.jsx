@@ -78,7 +78,7 @@ export default function EventDetail({ evento, onDelete }) {
 				<div className="pb-4">
 					<h3 className="text-white text-2xl font-bold mb-4">Entradas</h3>
 					{evento.entradas?.map((entrada, i) => (
-						<div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+						<div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
 							<Input placeholder="Tipo de entrada" value={entrada.tipo} readOnly />
 							<Input placeholder="Precio" value={entrada.precio} readOnly />
 							<Input placeholder="Cantidad" value={entrada.cantidad} readOnly />

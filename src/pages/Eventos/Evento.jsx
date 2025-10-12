@@ -39,7 +39,6 @@ export default function Evento() {
         finAt: new Date(dataEvento.finAt).toISOString(),
         cancelado: dataEvento.cancelado ?? false,
         lugar: dataEvento.lugar,
-        entradas: dataEvento.entradas,
       };
 
       const res = await actualizarEvento(evento.id, payload, banner, portada);
@@ -119,7 +118,7 @@ export default function Evento() {
       </div>
 
       {/** SUBTITULO */}
-      <div className=" mb-4">
+      <div className="mb-4">
         {editing ? (
           <span className="font-bold text-sm text-[#A5A6AD] tracking-wide">
             MODO EDICIÓN
@@ -132,15 +131,14 @@ export default function Evento() {
       </div>
 
       {/* Contenido principal */}
-      <div className="grid grid-cols-1 lg:grid-cols-10 gap-8">
-        
-          {showChart ? (
-            <EventLoading type="detail" />
-          ) : editing ? (
-            <EventModified evento={evento} onUpdate={handleActualizar} />
-          ) : (
-            <EventDetail evento={evento} onDelete={() => handleDelete(evento.id)} />
-          )}
+      <div className="max-w-4xl mx-auto">
+        {showChart ? (
+          <EventLoading type="detail" />
+        ) : editing ? (
+          <EventModified evento={evento} onUpdate={handleActualizar} />
+        ) : (
+          <EventDetail evento={evento} onDelete={() => handleDelete(evento.id)} />
+        )}
       </div>
     </div>
   );

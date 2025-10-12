@@ -20,7 +20,7 @@ export default function Entradas({ entradas, setEntradas, touched }) {
     };
 
     return(
-        <div>
+        <div className="space-y-4">
             {entradas.map((entrada, i) => (
             <div
                 key={i}
