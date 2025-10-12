@@ -40,7 +40,6 @@ export default function Evento() {
         cancelado: dataEvento.cancelado ?? false,
         lugar: dataEvento.lugar,
         entradas: dataEvento.entradas,
-        cuentaBancariaId: dataEvento.cuentaBancariaId || 1,
       };
 
       const res = await actualizarEvento(evento.id, payload, banner, portada);
