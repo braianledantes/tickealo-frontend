@@ -7,7 +7,7 @@ import TercerPaso from "../../components/Pasos/TercerPaso";
 import { useEventosList } from "../../hooks/useEventosList";
 
 
-export default function NuevoEvento() {
+export default function CrearEvento() {
   const { crearEvento, loading, error, puedeCrearEvento } = useEventosList();
   const navigate = useNavigate();
 

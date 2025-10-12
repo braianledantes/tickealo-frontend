@@ -7,7 +7,6 @@ import Entradas from "../pages/Entradas";
 import Equipo from "../pages/Equipo";
 import Eventos from "../pages/Eventos/Eventos";
 import Evento from "../pages/Eventos/Evento";
-import NuevoEvento from "../pages/Eventos/NuevoEvento";
 import Perfil from "../pages/Perfil";
 import { PATHS } from "./paths";
 import { PerfilLayout } from "../layouts/PerfilLayout";
@@ -15,6 +14,7 @@ import { CreditosLayout } from "../layouts/CreditosLayout";
 import { EquipoLayout } from "../layouts/EquipoLayout";
 import { CobrosLayout } from "../layouts/CobrosLayout";
 import { EntradasLayout } from "../layouts/EntradasLayout";
+import CrearEvento from "../pages/Eventos/CrearEvento";
 
 export function PrivateRoutes() {
   return (
@@ -25,7 +25,7 @@ export function PrivateRoutes() {
         <Route path='eventos' element={<EventosLayout />} >
           <Route index element={<Eventos />} />
           <Route path=':id' element={<Evento />} />
-          <Route path='nuevo' element={<NuevoEvento />} />
+          <Route path='nuevo' element={<CrearEvento />} />
         </Route>
 
         <Route path='perfil' element={<PerfilLayout />}>
