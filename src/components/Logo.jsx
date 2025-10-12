@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../routes/paths";
 
-export default function HeaderLogo() {
+export default function Logo() {
   const navigate = useNavigate();
 
   return (
