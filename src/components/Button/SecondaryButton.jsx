@@ -3,7 +3,7 @@ export default function SecondaryButton({ type = "submit", text, onClick, bgColo
     <button
       type={type}
       onClick={onClick}
-      className="relative w-full rounded-full p-[3px] flex justify-center items-center overflow-hidden cursor-pointer hover:shadow-blue-900/25 transition-all duration-300 transform hover:scale-105"
+      className="relative w-full rounded-full p-[3px] flex justify-center items-center overflow-hidden cursor-pointer hover:shadow-blue-900/25 transition-all duration-300 transform"
       style={{
         background: "linear-gradient(to right, #03055F, #00B4D8, #90E0EF, #CAF0F8)",
       }}
