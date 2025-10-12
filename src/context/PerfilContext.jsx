@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from "react";
-import * as apiAuth from "../api/auth";
 import * as apiProductora from "../api/productora";
 import { useAuth } from "../hooks/useAuth";
 
@@ -7,7 +6,6 @@ export const PerfilContext = createContext();
 
 export function PerfilProvider({ children }) {
   const { user, actualizarPerfilProductora } = useAuth();
-  console.log("User in PerfilProvider:", user);
 
   const [cantEventos, setCantEventos] = useState(0);
   const [cantValidadores, setCantValidadores] = useState(0);
@@ -17,11 +15,9 @@ export function PerfilProvider({ children }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (user && user.role === "productora") {
-      fetchCantEventos();
-      fetchCantValidadores();
-      fetchCantSeguidores();
-    }
+    fetchCantEventos();
+    fetchCantValidadores();
+    fetchCantSeguidores();
   }, [user]);
 
   const fetchCantEventos = async () => {
