@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { AtSign } from "lucide-react";
+import { useState } from "react";
 import Button from "../components/Button/Button";
 import Input from "../components/Input/Input";
-import { AtSign } from "lucide-react";
-import { useEquipo } from "../hooks/useEquipo";
 import MiembrosList from "../components/Miembros/MiembroList";
 import MiembrosLoading from "../components/Miembros/MiembrosLoading";
+import { useEquipo } from "../hooks/useEquipo";
 
 export default function Equipo() {
   const {

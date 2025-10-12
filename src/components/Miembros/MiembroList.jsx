@@ -1,4 +1,5 @@
 import { Trash2 } from "lucide-react";
+import Avatar from "../Avatar";
 
 export default function MiembrosList({ miembros = [], text = "",onEliminar, loading = false }) {
 
@@ -24,17 +25,7 @@ export default function MiembrosList({ miembros = [], text = "",onEliminar, load
               className="flex justify-between items-center p-3 rounded-full hover:bg-white/5 transition"
             >
               <div className="flex items-center gap-3">
-                {imagen ? (
-                  <img
-                    src={imagen}
-                    alt={nombre}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center text-white font-semibold">
-                    {nombre?.[0]?.toUpperCase() || "U"}
-                  </div>
-                )}
+                <Avatar src={imagen} name={nombre} size={12} />
                 <div>
                   <p className="text-white text-xl font-semibold">{nombre}</p>
                   <p className="hidden lg:block text-gray-400 text-sm">{email}</p>

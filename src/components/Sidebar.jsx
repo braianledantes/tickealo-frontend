@@ -1,21 +1,28 @@
-import { useContext, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
-import { PATHS } from "../routes/paths";
 import {
-  LogOut,
   CalendarMinus2,
-  CreditCard,
-  Users,
-  PiggyBank,
   ChevronsLeft,
   ChevronsRight,
-  Tickets
+  CreditCard,
+  LogOut,
+  PiggyBank,
+  Tickets,
+  Users
 } from "lucide-react";
+import { useContext, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import { PATHS } from "../routes/paths";
+import Avatar from "./Avatar";
 import Logo from "./Logo";
 
 export default function Sidebar() {
   const { logout, user } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  const navigateToPerfil = () => {
+    navigate(PATHS.PERFIL);
+  }
 
   const [collapsed, setCollapsed] = useState(false);
   const [hoverLogo, setHoverLogo] = useState(false);
@@ -90,50 +97,17 @@ export default function Sidebar() {
       </div>
 
       {/* Usuario */}
-      <div
-        className={`p-4 border-b border-white/20 flex items-center ${collapsed ? "justify-center" : "gap-3"
-          }`}
-      >
-        {collapsed ? (
-          <NavLink to={PATHS.DASHBOARD + "/perfil"}>
-            {user?.imagenUrl ? (
-              <img
-                src={user?.imagenUrl}
-                alt={user?.nombre || "Usuario"}
-                className="w-10 h-10 rounded-full object-cover cursor-pointer"
-              />
-            ) : (
-              <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white font-semibold cursor-pointer">
-                {user?.nombre?.[0]?.toUpperCase() || "U"}
-              </div>
-            )}
-          </NavLink>
-        ) : (
-          <>
-            {user?.imagenUrl ? (
-              <img
-                src={user?.imagenUrl}
-                alt={user?.nombre || "Usuario"}
-                className="w-10 h-10 rounded-full object-cover"
-              />
-            ) : (
-              <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white font-semibold">
-                {user?.nombre?.[0]?.toUpperCase() || "U"}
-              </div>
-            )}
-            <div>
-              <h2 className="text-white font-semibold">
-                {user?.nombre || "Usuario"}
-              </h2>
-              <NavLink
-                to={PATHS.DASHBOARD + "/perfil"}
-                className="text-sm text-gray-300 hover:text-white flex items-center gap-1"
-              >
-                Tu perfil
-              </NavLink>
-            </div>
-          </>
-        )}
+      <div className={`p-4 border-b border-white/20 flex items-center ${collapsed ? "justify-center" : "gap-3"}`}>
+        <Avatar src={user?.imagenUrl} name={user.user.username} onClick={navigateToPerfil} />
+        {
+          collapsed ||
+          <div>
+            <h2 className="text-white font-semibold">
+              {user.nombre}
+            </h2>
+            <p className="text-gray-400 text-sm">{user.user.email}</p>
+          </div>
+        }
       </div>
 
 
