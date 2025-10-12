@@ -1,13 +1,21 @@
-import { useNavigate } from "react-router-dom";
 import { MapPin } from "lucide-react";
-import { PATHS } from "../../routes/paths";
 
-export default function EventBanner({ evento }) {
-  const navigate = useNavigate();
+export default function EventBanner({ evento, onClick }) {
+  let estado;
 
-  const handleClick = () => {
-    navigate(PATHS.UNEVENTO.replace(':id', evento.id));
-  };
+  if (evento.cancelado) {
+    estado = "CANCELADO";
+  } else if (new Date(evento.finAt) < new Date()) {
+    estado = "FINALIZADO";
+  } else if (evento.stockEntradas <= 0) {
+    estado = "AGOTADO";
+  } else {
+    estado = "ACTIVO";
+  }
+
+  const handleOnClickEvent = () => {
+    onClick(evento);
+  }
 
   const formatFecha = (fechaIso) => {
     if (!fechaIso) return "Fecha no definida";
@@ -25,9 +33,9 @@ export default function EventBanner({ evento }) {
 
   return (
     <div
-      onClick={handleClick}
+      onClick={handleOnClickEvent}
       className="overflow-hidden border border-white/10 bg-gradient-to-t from-[#0E1531] to-[#11215D] hover:bg-white/10
-                 transition transform scale-95 hover:scale-100 cursor-pointer flex flex-col lg:flex-row
+                 transition transform hover:scale-101 cursor-pointer flex flex-col lg:flex-row
                  shadow-md hover:shadow-xl rounded-xl"
       style={{ transition: "transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease" }}
     >
@@ -47,13 +55,16 @@ export default function EventBanner({ evento }) {
 
         {/* Estado arriba a la derecha */}
         <span
-          className={`absolute -top-2 -left-2 m-2 px-3 py-1 rounded-br-xl text-xs tracking-wide font-medium shadow-md ${
-            evento.cancelado
-              ? "bg-[#] text-white"
-              : "bg-[#00DF81] text-white"
-          }`}
+          className={`absolute -top-2 -left-2 m-2 px-3 py-1 rounded-br-xl text-xs tracking-wide font-medium shadow-md ${evento.cancelado
+              ? "bg-red-600 text-white"
+              : estado === "FINALIZADO"
+                ? "bg-gray-500 text-white"
+                : estado === "AGOTADO"
+                  ? "bg-yellow-500 text-white"
+                  : "bg-[#00DF81] text-white"
+            }`}
         >
-          {evento.cancelado ? "CANCELADO" : "ACTIVO"}
+          {estado}
         </span>
       </div>
 

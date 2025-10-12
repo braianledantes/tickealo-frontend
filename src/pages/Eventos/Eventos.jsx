@@ -1,17 +1,21 @@
 import { LayoutGrid, LayoutList } from "lucide-react";
-import { NavLink } from "react-router-dom";
-import IconButton from "../../components/Button/IconButton";
-import EventBanner from "../../components/Eventos/EventBanner";
-import EventCard from "../../components/Eventos/EventCard";
-import EventLoading from "../../components/Eventos/EventLoading";
-import { useEventosList } from "../../hooks/useEventosList";
 import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import IconButton from "../../components/Button/IconButton";
+import EventLoading from "../../components/Eventos/EventLoading";
+import EventsList from "../../components/Eventos/EventsList";
+import { useEventosList } from "../../hooks/useEventosList";
+import { PATHS } from "../../routes/paths";
 
 export default function Eventos() {
-
   const { eventos, loading, error } = useEventosList();
+  const navigate = useNavigate();
   
-  const [view, setView] = useState("grid"); 
+  const [view, setView] = useState("grid");
+
+  const handleEventClick = (evento) => {
+    navigate(PATHS.UNEVENTO.replace(':id', evento.id));
+  };
 
   return (
     <main className="max-w-7xl w-full mx-auto p-10 ">
@@ -50,23 +54,8 @@ export default function Eventos() {
         <EventLoading />
       ) : error ? (
         <div className="text-center text-red-500 py-20">{error}</div>
-      ) : eventos.length === 0 ? (
-        <div className="text-center text-gray-400 py-20">
-          No hay eventos disponibles
-        </div>
-      ) : view === "grid" ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-6">
-          {eventos.map((ev) => (
-            <EventCard key={ev.id} evento={ev} />
-          ))}
-        </div>
-      ) : (
-        <div className="flex flex-col gap-4">
-          {eventos.map((ev) => (
-            <EventBanner key={ev.id} evento={ev} />
-          ))}
-        </div>
-      )}
+      ) : <EventsList viewType={view} eventos={eventos} onEventClick={handleEventClick} />
+      }
     </main>
   );
 }
