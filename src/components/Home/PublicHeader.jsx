@@ -6,7 +6,7 @@ import Button from "../Button/Button";
 import SecondaryButton from "../Button/SecondaryButton";
 
 export function PublicHeader() {
-  const { isAuthenticated } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = () => navigate(PATHS.LOGIN);
@@ -26,7 +26,7 @@ export function PublicHeader() {
       </div>
 
       <div className="flex gap-4">
-        {!isAuthenticated ? (
+        {!user ? (
           <>
             <Button onClick={handleLogin}>Iniciar Sesión</Button>
             <SecondaryButton text="Registrarse" onClick={handleRegister} />

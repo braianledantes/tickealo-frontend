@@ -1,12 +1,10 @@
 import { createContext, useEffect, useState } from "react";
 import * as apiAuth from "../api/auth";
-import * as apiProductora from "../api/productora";
 
 export const AuthContext = createContext();
 const TOKEN_KEY = "token";
 
 export function AuthProvider({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -14,11 +12,9 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const storedToken = localStorage.getItem(TOKEN_KEY);
     if (storedToken) {
-      setIsAuthenticated(true);
       apiAuth.me(storedToken)
         .then((data) => setUser(data))
         .catch(() => {
-          setIsAuthenticated(false);
           setUser(null);
           localStorage.removeItem(TOKEN_KEY);
         })
@@ -33,9 +29,7 @@ export function AuthProvider({ children }) {
       const data = await apiAuth.login(credentials);
       if (data?.access_token) {
         localStorage.setItem(TOKEN_KEY, data.access_token);
-        setIsAuthenticated(true);
         const profile = await apiAuth.me(data.access_token);
-        console.log("Perfil obtenido:", profile);
         setUser(profile);
       }
       return data;
@@ -45,7 +39,6 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
-    setIsAuthenticated(false);
     setUser(null);
     localStorage.removeItem(TOKEN_KEY);
   };
@@ -76,7 +69,6 @@ export function AuthProvider({ children }) {
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated,
         user,
         loading,
         login,

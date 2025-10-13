@@ -2,18 +2,19 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { PrivateRoutes } from "./PrivateRoutes";
 import { PublicRoutes } from "./PublicRoutes";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function Router() {
-  const { isAuthenticated, loading } = useAuth();
+  const { user, loading } = useAuth();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (
     <BrowserRouter>
       <Routes>
-        { isAuthenticated 
+        { user 
             ? <Route path="/*" element={<PrivateRoutes />} />
             : <Route path="/*" element={<PublicRoutes />} />
         }

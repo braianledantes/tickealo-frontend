@@ -98,14 +98,14 @@ export default function Sidebar() {
 
       {/* Usuario */}
       <div className={`p-4 border-b border-white/20 flex items-center ${collapsed ? "justify-center" : "gap-3"}`}>
-        <Avatar src={user?.imagenUrl} name={user?.user.username} onClick={navigateToPerfil} />
+        <Avatar src={user.imagenUrl} name={user.user.username} onClick={navigateToPerfil} />
         {
           collapsed ||
           <div>
             <h2 className="text-white font-semibold">
-              {user?.nombre}
+              {user.nombre}
             </h2>
-            <p className="text-gray-400 text-sm">{user?.user.email}</p>
+            <p className="text-gray-400 text-sm">{user.user.email}</p>
           </div>
         }
       </div>
