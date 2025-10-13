@@ -12,8 +12,8 @@ export default function ComprasList({ compras = [], text = "", loading = false, 
   // Colores según estado
   const estadoColor = {
     PENDIENTE: "bg-gray-500/30 border-1 border-gray-500 text-white px-2 py-1 rounded-lg",
-    COMPLETADA: "bg-green-500 text-white px-2 py-1 rounded-full",
-    CANCELADA: "bg-red-500 text-white px-2 py-1 rounded-lg",
+    ACEPTADA: "bg-green-500 text-white px-2 py-1 rounded-full",
+    RECHAZADA: "bg-red-500 text-white px-2 py-1 rounded-lg",
   };
 
   return (
