@@ -9,13 +9,6 @@ export default function ComprasList({ compras = [], text = "", loading = false, 
 
   if (!compras.length) return null;
   
-  // Colores según estado
-  const estadoColor = {
-    PENDIENTE: "bg-gray-500/30 border-1 border-gray-500 text-white px-2 py-1 rounded-lg",
-    ACEPTADA: "bg-green-500 text-white px-2 py-1 rounded-full",
-    RECHAZADA: "bg-red-500 text-white px-2 py-1 rounded-lg",
-  };
-
   return (
     <div className="space-y-2">
       <h3 className="text-[#A5A6AD] font-bold mb-2 tracking-wide">{text}</h3>
