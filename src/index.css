@@ -75,10 +75,5 @@ input:-webkit-autofill {
 
 /* Quitar el scroll horizontal en las paginas */
 .scrollbar-none {
-  scrollbar-width: none; 
-  -ms-overflow-style: none; 
-}
-
-.scrollbar-none::-webkit-scrollbar {
-  display: none; 
+  color-scheme: dark;
 }
