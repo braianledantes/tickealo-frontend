@@ -7,8 +7,8 @@ import {EstadoCompra} from "../FeedBack/Estados";
 export default function ComprasList({ compras = [], text = "", loading = false, pagination, onNextPage, onPrevPage, onActualizar }) {
   const [selectedCompraId, setSelectedCompraId] = useState(null);
 
-  if (!compras.length) return null;
-  
+  if (!compras.length) return <div className="text-center text-white/20 uppercase italic tracking-wider font-semibold">No hay compras para mostrar</div>;
+
   return (
     <div className="space-y-2">
       <h3 className="text-[#A5A6AD] font-bold mb-2 tracking-wide">{text}</h3>

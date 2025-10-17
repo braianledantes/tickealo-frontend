@@ -1,4 +1,4 @@
-import { CreditCard } from "lucide-react";
+import Dropdown from "../components/Button/Dropdown";
 
 export default function BankCard({ cuenta = {}, onChange, edit = true, label }) {
   const bancos = [
@@ -30,7 +30,7 @@ export default function BankCard({ cuenta = {}, onChange, edit = true, label }) 
       )}
 
       <div
-        className="relative w-full max-w-4xl mx-auto p-6 rounded-2xl shadow-xl text-white overflow-hidden"
+        className="relative w-full max-w-4xl mx-auto p-6 rounded-2xl shadow-xl text-white"
         // style={{
         //   background:
         //     "linear-gradient(135deg, #03055F 0%, #03055F 20%, #00B4D8 100%)",
@@ -89,22 +89,23 @@ export default function BankCard({ cuenta = {}, onChange, edit = true, label }) 
           <div>
             <p className="text-sm text-white/70 uppercase mb-1">Banco</p>
             {edit ? (
-              <select
-                className={inputStyleDropdown + " text-lg bg-[#03055F] rounded-lg p-2 w-full"}
+              <Dropdown
                 value={cuenta?.nombreBanco || ""}
-                onChange={(e) => handleFieldChange("nombreBanco", e.target.value)}
-              >
-                <option value="" disabled>
-                  Selecciona un banco
-                </option>
-                {bancos.map((banco) => (
-                  <option key={banco.name} value={banco.name}>
-                    {banco.name}
-                  </option>
-                ))}
-              </select>
+                onChange={(value) => handleFieldChange("nombreBanco", value)}
+                options={bancos.map((banco) => ({
+                  value: banco.name,
+                  label: banco.name,
+                }))}
+                placeholder="Selecciona un banco"
+                textSize="text-lg"
+                className="rounded-lg"
+              />
             ) : (
-              <p className="text-lg text-white">{displayValue(cuenta?.nombreBanco)}</p>
+              <Dropdown
+                value={cuenta?.nombreBanco}
+                readOnly
+                textSize="text-lg"
+              />
             )}
           </div>
         </div>

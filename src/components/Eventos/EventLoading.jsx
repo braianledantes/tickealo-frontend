@@ -7,7 +7,7 @@ export default function EventLoading({ count = 6, type = "card" }) {
           className="overflow-hidden border border-white/10 bg-white/5 flex flex-col shadow-md rounded-b-xl animate-pulse"
           style={{ transition: "transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease" }}
         >
-          <div className="w-full aspect-[20/13] bg-gray-700 relative rounded-t-xl"></div>
+          <div className="w-full aspect-[4/3] bg-gray-700 relative rounded-t-xl h-full"></div>
           <span className="absolute -top-2 -right-2 m-2 px-3 py-1 rounded-bl-xl bg-gray-500 text-white text-xs tracking-wide font-medium shadow-md">
             &nbsp;
           </span>

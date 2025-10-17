@@ -48,13 +48,17 @@ export default function Cobros() {
     setErrores(nuevosErrores);
     if (Object.keys(nuevosErrores).length > 0) return;
 
+      const payload = {
+        nombreTitular: cuentaTemp.nombreTitular || "",
+        cbu: cuentaTemp.cbu || "",
+        alias: cuentaTemp.alias || "",
+        nombreBanco: cuentaTemp.nombreBanco || "",
+        instrucciones: instrucciones || "",
+      };
     try {
       if (!cuentaBancaria) {
-        // Crear nueva cuenta
-        await crearCuentaBancaria({ ...cuentaTemp, instrucciones });
+        await crearCuentaBancaria(payload);
       } else {
-        // Actualizar cuenta existente
-        const { id, createdAt, updatedAt, ...payload } = { ...cuentaTemp, instrucciones };
         await actualizarCuentaBancaria(payload);
       }
     } catch (err) {
