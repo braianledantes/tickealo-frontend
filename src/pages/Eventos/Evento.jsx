@@ -81,7 +81,6 @@ export default function Evento() {
   if (loading) return <LoadingSpinner />;
   if (error) return <p className="text-red-500">{error}</p>;
   if (!evento) return <p className="text-white">Evento no encontrado</p>;
-console.log("Tickets del evento:", tickets);
 
   return (
     <div className=" max-w-4xl mx-auto p-10">
