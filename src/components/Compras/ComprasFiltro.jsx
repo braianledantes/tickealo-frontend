@@ -10,7 +10,7 @@ export default function ComprasFiltro({ onFiltrar }) {
     pendiente: 0,
     aceptada: 0,
     rechazada: 0,
-    inicia: 0,
+    iniciada: 0,
   });
   const [comprasBase, setComprasBase] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -34,10 +34,10 @@ export default function ComprasFiltro({ onFiltrar }) {
             else if (estado.includes("aceptada")) acc.aceptada++;
             else if (estado.includes("rechazada") || estado.includes("cancelada"))
               acc.rechazada++;
-            else acc.inicia++;
+            else acc.iniciada++;
             return acc;
           },
-          { pendiente: 0, aceptada: 0, rechazada: 0, inicia: 0 }
+          { pendiente: 0, aceptada: 0, rechazada: 0, iniciada: 0 }
         );
 
         setContadores(counts);
@@ -127,9 +127,9 @@ export default function ComprasFiltro({ onFiltrar }) {
           active={filtroActivo === "rechazada"}
         />
         <ButtonFilter
-          text={`INICIADA (${contadores.inicia})`}
-          onClick={() => handleFiltroClick("inicia")}
-          active={filtroActivo === "inicia"}
+          text={`INICIADA (${contadores.iniciada})`}
+          onClick={() => handleFiltroClick("iniciada")}
+          active={filtroActivo === "iniciada"}
         />
 
         <Dropdown

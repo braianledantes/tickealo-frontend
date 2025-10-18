@@ -29,3 +29,8 @@ export const eliminarEvento = async (id) => {
   const response = await api.delete(`/api/eventos/${id}`);
   return response.data;
 }
+
+export const ticketsEvento = async (eventoId) => {
+  const response = await api.get(`/api/eventos/${eventoId}/tickets`);
+  return response.data;
+}

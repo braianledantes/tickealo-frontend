@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import IconButton from "../../components/Button/IconButton";
 import EventDetail from "../../components/Eventos/EventDetail";
+import EventTickets from "../../components/Eventos/EventTickets";
 import EventLoading from "../../components/Eventos/EventLoading";
 import EventModified from "../../components/Eventos/EventModified";
 import LoadingSpinner from "../../components/LoadingSpinner";
@@ -17,7 +18,8 @@ export default function Evento() {
     error,
     actualizarEvento,
     actualizarImagenesEvento,
-    eliminarEvento
+    eliminarEvento,
+    tickets,
   } = useEventosList();
   const navigate = useNavigate();
 
@@ -79,17 +81,12 @@ export default function Evento() {
   if (loading) return <LoadingSpinner />;
   if (error) return <p className="text-red-500">{error}</p>;
   if (!evento) return <p className="text-white">Evento no encontrado</p>;
-
-  if (showChart) {
-    console.log(
-      "No está queriendo renderizar nada, solo que no está hecha la página jeje"
-    );
-  }
+console.log("Tickets del evento:", tickets);
 
   return (
-    <div className="max-w-7xl w-full mx-auto p-10">
+    <div className=" max-w-4xl mx-auto p-10">
       {/* Header */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 mb-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 mb-4 ">
         <h2 className="text-3xl font-bold text-white">
           {evento?.nombre}{" "}
         </h2>
@@ -133,7 +130,7 @@ export default function Evento() {
       {/* Contenido principal */}
       <div className="max-w-4xl mx-auto">
         {showChart ? (
-          <EventLoading type="detail" />
+          <EventTickets evento={evento} tickets={tickets} />
         ) : editing ? (
           <EventModified evento={evento} onUpdate={handleActualizar} />
         ) : (

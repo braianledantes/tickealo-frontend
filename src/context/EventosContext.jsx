@@ -11,11 +11,13 @@ export function EventosProvider({ children }) {
   const [error, setError] = useState(null);
 
   const [evento, setEvento] = useState(null);
+  const [tickets, setTickets] = useState([]); // <-- nuevo estado de tickets
 
   useEffect(() => {
     getEventos();
   }, []);
 
+  // Traer eventos de la productora
   const getEventos = async () => {
     setLoading(true);
     try {
@@ -31,13 +33,13 @@ export function EventosProvider({ children }) {
 
   const puedeCrearEvento = async () => {
     try {
-      const cuenta =  await apiCuentaBancaria.getCuentasBancarias();
+      const cuenta = await apiCuentaBancaria.getCuentasBancarias();
       return cuenta ? true : false;
     } catch (err) {
       setError(err.message || "Error desconocido");
       return false;
     }
-  }
+  };
 
   const crearEvento = async (eventoData, banner, portada) => {
     try {
@@ -54,10 +56,20 @@ export function EventosProvider({ children }) {
         if (banner) formDataImages.append("banner", banner);
         if (portada) formDataImages.append("portada", portada);
 
-        nuevoEvento = await apiEventos.subirImagenEvento(nuevoEvento.id, formDataImages);
-        setEvento(nuevoEvento);
-        getEventos();
+        nuevoEvento = await apiEventos.subirImagenEvento(
+          nuevoEvento.id,
+          formDataImages
+        );
       }
+
+      // Actualizamos evento y tickets
+      setEvento(nuevoEvento);
+      if (nuevoEvento?.id) {
+        const ticketsData = await ticketsEvento(nuevoEvento.id);
+        setTickets(ticketsData);
+      }
+
+      getEventos();
       return nuevoEvento;
     } catch (err) {
       setError(err.message || "Error desconocido");
@@ -70,13 +82,22 @@ export function EventosProvider({ children }) {
     try {
       const data = await apiEventos.getEventoById(id);
       setEvento(data);
+
+      // Traer tickets automáticamente
+      if (data?.id) {
+        const ticketsData = await ticketsEvento(data.id);
+        setTickets(ticketsData);
+      } else {
+        setTickets([]);
+      }
     } catch (err) {
       setError(err.message || "Error desconocido");
       setEvento(null);
+      setTickets([]);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const actualizarEvento = async (id, eventoData, banner, portada) => {
     try {
@@ -88,9 +109,18 @@ export function EventosProvider({ children }) {
         if (portada) formDataImages.append("portada", portada);
 
         updatedEvento = await apiEventos.subirImagenEvento(id, formDataImages);
-        setEvento(updatedEvento);
-        getEventos();
       }
+
+      setEvento(updatedEvento);
+
+      // Traer tickets actualizados
+      if (updatedEvento?.id) {
+        const ticketsData = await ticketsEvento(updatedEvento.id);
+        setTickets(ticketsData);
+      }
+
+      getEventos();
+      return updatedEvento;
     } catch (err) {
       setError(err.message || "Error desconocido");
       return { error: err.message || "Error desconocido" };
@@ -101,11 +131,22 @@ export function EventosProvider({ children }) {
     try {
       await apiEventos.eliminarEvento(id);
       setEvento(null);
+      setTickets([]); // Limpiar tickets
       getEventos();
       return true;
     } catch (err) {
       setError(err.message || "Error desconocido");
       return false;
+    }
+  };
+
+  const ticketsEvento = async (eventoId) => {
+    try {
+      const tickets = await apiEventos.ticketsEvento(eventoId);
+      return tickets;
+    } catch (err) {
+      setError(err.message || "Error desconocido");
+      return [];
     }
   };
 
@@ -116,9 +157,11 @@ export function EventosProvider({ children }) {
         loading,
         error,
         evento,
+        tickets,
         getEventos,
         puedeCrearEvento,
         crearEvento,
+        ticketsEvento,
         getEventoById,
         actualizarEvento,
         eliminarEvento,
