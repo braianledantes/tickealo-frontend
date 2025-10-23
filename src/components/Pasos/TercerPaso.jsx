@@ -87,15 +87,10 @@ export default function TercerPaso({ onBack, onSubmit, initialData }) {
               value={descripcion}
               onChange={(e) => setDescripcion(e.target.value)}
               name="descripcion"
-<<<<<<< Updated upstream
-              maxLength={1000}
-              error={descripcion.trim().length < 10 ? "Mínimo 10 caracteres" : ""}
-=======
               maxLength={200}
               error={
                 descripcion.trim().length < 10 ? "Mínimo 10 caracteres" : ""
               }
->>>>>>> Stashed changes
               touched={touched}
             />
 

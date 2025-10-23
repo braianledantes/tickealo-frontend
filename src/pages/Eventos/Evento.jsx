@@ -21,10 +21,7 @@ export default function Evento() {
     actualizarEvento,
     actualizarImagenesEvento,
     eliminarEvento,
-<<<<<<< Updated upstream
     tickets,
-=======
->>>>>>> Stashed changes
   } = useEventosList();
   const navigate = useNavigate();
 
@@ -79,9 +76,6 @@ export default function Evento() {
   if (loading) return <LoadingSpinner />;
   if (error) return <p className="text-red-500">{error}</p>;
   if (!evento) return <p className="text-white">Evento no encontrado</p>;
-<<<<<<< Updated upstream
-console.log("Tickets del evento:", tickets);
-=======
 
   const getEventStatus = (evento) => {
     if (evento.cancelado) return "CANCELADO";
@@ -93,17 +87,10 @@ console.log("Tickets del evento:", tickets);
   const estadoEvento = getEventStatus(evento);
   const esFinalizado =
     estadoEvento === "FINALIZADO" || estadoEvento === "CANCELADO";
->>>>>>> Stashed changes
 
   return (
     <div className=" max-w-4xl mx-auto p-10">
       {/* Header */}
-<<<<<<< Updated upstream
-      <div className="grid grid-cols-1 lg:grid-cols-2 mb-4 ">
-        <h2 className="text-3xl font-bold text-white">
-          {evento?.nombre}{" "}
-        </h2>
-=======
       <div className="grid grid-cols-1 lg:grid-cols-2 mb-4">
         <h2 className="text-3xl font-bold text-white">{evento?.nombre}</h2>
         {esFinalizado && (
@@ -112,7 +99,6 @@ console.log("Tickets del evento:", tickets);
             las estadísticas y reseñas.
           </p>
         )}
->>>>>>> Stashed changes
 
         {/* Botones de acción */}
         <div className="flex justify-end gap-4">
@@ -158,9 +144,6 @@ console.log("Tickets del evento:", tickets);
       {/* Contenido principal */}
       <div className="max-w-4xl mx-auto">
         {showChart ? (
-<<<<<<< Updated upstream
-          <EventTickets evento={evento} tickets={tickets} />
-=======
           <div className="border border-white/10 bg-[#05081b]/40 rounded-xl p-6 space-y-8 shadow-lg">
             <div className="flex justify-center gap-6 mb-4 border-b border-white/10 pb-2">
               <button
@@ -191,7 +174,6 @@ console.log("Tickets del evento:", tickets);
             )}
             {activeTab === "reseñas" && <ReseñasEvento evento={evento} />}
           </div>
->>>>>>> Stashed changes
         ) : editing ? (
           <EventModified evento={evento} onUpdate={handleActualizar} />
         ) : (

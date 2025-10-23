@@ -1,4 +1,5 @@
-import { BarChart3, Globe2, Ticket } from "lucide-react";
+import { Globe2, Ticket } from "lucide-react";
+import Reporte from "./Reporte";
 
 export default function EstadisticasEvento({ evento }) {
   if (!evento) {
@@ -9,7 +10,6 @@ export default function EstadisticasEvento({ evento }) {
     );
   }
 
-  // Datos del backend
   const capacidadTotal = evento.capacidad || 0;
   const stockActual = evento.stockEntradas || 0;
   const totalVendidas = Math.max(capacidadTotal - stockActual, 0);
@@ -64,10 +64,7 @@ export default function EstadisticasEvento({ evento }) {
 
       {/* Reportes */}
       <div className="flex justify-center">
-        <button className="flex items-center gap-2 text-sm text-[#4da6ff] hover:text-white transition-colors">
-          <BarChart3 size={16} />
-          Reportes
-        </button>
+        <Reporte evento={evento} />
       </div>
     </div>
   );
