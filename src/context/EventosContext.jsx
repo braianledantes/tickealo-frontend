@@ -9,7 +9,6 @@ export function EventosProvider({ children }) {
   const [eventos, setEventos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [evento, setEvento] = useState(null);
   const [tickets, setTickets] = useState([]); // <-- nuevo estado de tickets
 
@@ -60,6 +59,11 @@ export function EventosProvider({ children }) {
           nuevoEvento.id,
           formDataImages
         );
+<<<<<<< Updated upstream
+=======
+        setEvento(nuevoEvento);
+        getEventos();
+>>>>>>> Stashed changes
       }
 
       // Actualizamos evento y tickets
@@ -80,6 +84,7 @@ export function EventosProvider({ children }) {
   const getEventoById = async (id) => {
     setLoading(true);
     try {
+<<<<<<< Updated upstream
       const data = await apiEventos.getEventoById(id);
       setEvento(data);
 
@@ -90,10 +95,19 @@ export function EventosProvider({ children }) {
       } else {
         setTickets([]);
       }
+=======
+      const evento = await apiEventos.getEventoById(id);
+      setEvento(evento);
+      return evento;
+>>>>>>> Stashed changes
     } catch (err) {
-      setError(err.message || "Error desconocido");
+      setError(err.message || "Error al obtener el evento");
       setEvento(null);
+<<<<<<< Updated upstream
       setTickets([]);
+=======
+      return { error: err.message || "Error al obtener el evento" };
+>>>>>>> Stashed changes
     } finally {
       setLoading(false);
     }
@@ -154,10 +168,14 @@ export function EventosProvider({ children }) {
     <EventosContext.Provider
       value={{
         eventos,
+        evento,
         loading,
         error,
+<<<<<<< Updated upstream
         evento,
         tickets,
+=======
+>>>>>>> Stashed changes
         getEventos,
         puedeCrearEvento,
         crearEvento,

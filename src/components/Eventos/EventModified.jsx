@@ -14,11 +14,12 @@ export default function EventModified({ evento, onUpdate }) {
     finAt: evento.finAt || "",
     cancelado: evento.cancelado || false,
     lugarId: evento.lugar?.id || null,
-    entradas: evento.entradas?.map(e => ({
-      tipo: e.tipo,
-      precio: e.precio,
-      cantidad: e.cantidad
-    })) || [],
+    entradas:
+      evento.entradas?.map((e) => ({
+        tipo: e.tipo,
+        precio: e.precio,
+        cantidad: e.cantidad,
+      })) || [],
     bannerFile: null,
     portadaFile: null,
   });
@@ -27,20 +28,24 @@ export default function EventModified({ evento, onUpdate }) {
 
   useEffect(() => {
     // Detecta cambios
-    setHasChanges(JSON.stringify(formData) !== JSON.stringify({
-      ...evento,
-      entradas: evento.entradas?.map(e => ({
-        tipo: e.tipo,
-        precio: e.precio,
-        cantidad: e.cantidad
-      })) || [],
-      bannerFile: null,
-      portadaFile: null
-    }));
+    setHasChanges(
+      JSON.stringify(formData) !==
+        JSON.stringify({
+          ...evento,
+          entradas:
+            evento.entradas?.map((e) => ({
+              tipo: e.tipo,
+              precio: e.precio,
+              cantidad: e.cantidad,
+            })) || [],
+          bannerFile: null,
+          portadaFile: null,
+        })
+    );
   }, [formData, evento]);
 
   const handleChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleUpdateDatosGeneralesClick = () => {
@@ -54,14 +59,11 @@ export default function EventModified({ evento, onUpdate }) {
       entradas: formData.entradas,
     };
 
-    onUpdate(
-      payload,
-      formData.bannerFile,
-      formData.portadaFile
-    );
+    onUpdate(payload, formData.bannerFile, formData.portadaFile);
   };
 
-  const getPreviewSrc = (fileOrUrl) => fileOrUrl instanceof File ? URL.createObjectURL(fileOrUrl) : fileOrUrl;
+  const getPreviewSrc = (fileOrUrl) =>
+    fileOrUrl instanceof File ? URL.createObjectURL(fileOrUrl) : fileOrUrl;
 
   return (
     <div>
@@ -71,9 +73,7 @@ export default function EventModified({ evento, onUpdate }) {
         aspect="aspect-[11/4]"
         value={getPreviewSrc(formData.bannerFile || evento.bannerUrl)}
         placeholder={
-          !formData.bannerFile && !evento.bannerUrl
-            ? "Sin banner"
-            : undefined
+          !formData.bannerFile && !evento.bannerUrl ? "Sin banner" : undefined
         }
       />
 
@@ -94,7 +94,9 @@ export default function EventModified({ evento, onUpdate }) {
             value={formData.inicioAt}
             onChange={(e) => handleChange("inicioAt", e.target.value)}
             min={new Date().toISOString().slice(0, 16)} // No permitir fechas pasadas
-            error={!formData.inicioAt || new Date(formData.inicioAt) <= new Date()}
+            error={
+              !formData.inicioAt || new Date(formData.inicioAt) <= new Date()
+            }
             showError={true} // o un estado `touched` si querés mostrar error solo después de interacción
           />
 
@@ -105,7 +107,10 @@ export default function EventModified({ evento, onUpdate }) {
             value={formData.finAt}
             onChange={(e) => handleChange("finAt", e.target.value)}
             min={formData.inicioAt || new Date().toISOString().slice(0, 16)} // fin >= inicio
-            error={!formData.finAt || new Date(formData.finAt) <= new Date(formData.inicioAt)}
+            error={
+              !formData.finAt ||
+              new Date(formData.finAt) <= new Date(formData.inicioAt)
+            }
             showError={true}
           />
         </div>

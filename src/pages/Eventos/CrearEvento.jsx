@@ -6,25 +6,24 @@ import SegundoPaso from "../../components/Pasos/SegundoPaso";
 import TercerPaso from "../../components/Pasos/TercerPaso";
 import { useEventosList } from "../../hooks/useEventosList";
 
-
 export default function CrearEvento() {
-  const { crearEvento, loading, error, puedeCrearEvento } = useEventosList();
+  const { crearEvento, puedeCrearEvento } = useEventosList();
   const navigate = useNavigate();
 
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({});
-
+  const [creating, setCreating] = useState(false); // 🔹 Nuevo estado
 
   useEffect(() => {
     puedeCrearEvento()
       .then((puede) => {
         if (!puede) {
-          //  navigate("/dashboard/cobros"); // redirige si no puede crear evento
+          // navigate("/dashboard/cobros");
         }
       })
       .catch((err) => {
         console.error("Error verificando si puede crear evento:", err);
-        // navigate("/dashboard/cobros"); // redirige en caso de error
+        // navigate("/dashboard/cobros");
       });
   }, []);
 
@@ -39,7 +38,7 @@ export default function CrearEvento() {
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
 
-  // Submit final
+  // ✅ Submit final con loading y redirección
   const handleSubmit = async (finalStepData) => {
     const finalData = { ...formData, ...finalStepData };
 
@@ -53,19 +52,33 @@ export default function CrearEvento() {
       entradas: finalData.entradas,
     };
 
-    const created = await crearEvento(evento, finalData.banner, finalData.portada);
-    if (created.error) {
-      console.error("Error creando evento:", created.error);
-      return;
-    }
+    try {
+      setCreating(true); // 🔹 mostrar loading (se usa en TercerPaso)
+      const created = await crearEvento(
+        evento,
+        finalData.banner,
+        finalData.portada
+      );
 
-    navigate("/dashboard/eventos");
+      if (created.error) {
+        console.error("Error creando evento:", created.error);
+        alert("Ocurrió un error al crear el evento");
+        return;
+      }
+
+      // 🔹 Esperar un poco para que el usuario vea el spinner (opcional)
+      setTimeout(() => navigate("/dashboard/eventos"), 800);
+    } catch (error) {
+      console.error("Error en handleSubmit:", error);
+      alert("Error inesperado al crear el evento.");
+    } finally {
+      setCreating(false);
+    }
   };
 
-  // Render normal si tiene cuenta bancaria
   return (
-    <main className="flex-1 p-6 h-screen overflow-y-auto scrollbar-none">
-      <h2 className="text-3xl font-bold text-white mb-6">Nuevo evento </h2>
+    <main className="flex-1 p-6 h-screen overflow-y-auto scrollbar-none relative">
+      <h2 className="text-3xl font-bold text-white mb-6">Nuevo evento</h2>
       <ProgressBar />
 
       {currentStep === 1 && (
@@ -85,7 +98,7 @@ export default function CrearEvento() {
           onBack={handleBack}
           onSubmit={handleSubmit}
           initialData={formData}
-          loading={loading}
+          loading={creating}
         />
       )}
     </main>

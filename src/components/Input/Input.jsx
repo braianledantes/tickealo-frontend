@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Eye, EyeOff, Calendar } from "lucide-react"; 
+import { Eye, EyeOff, Calendar } from "lucide-react";
 
 export default function Input({
   icon,
@@ -28,9 +28,10 @@ export default function Input({
     }
   };
 
-  const borderClass = showError && error
-    ? "border-2 border-red-500"
-    : "border border-transparent focus-within:ring-2 focus-within:ring-blue-800";
+  const borderClass =
+    showError && error
+      ? "border-2 border-red-500"
+      : "border border-transparent focus-within:ring-2 focus-within:ring-blue-800";
 
   return (
     <div className="w-full">
@@ -58,6 +59,7 @@ export default function Input({
           name={name}
           min={min}
           max={max}
+          readOnly={!onChange}
           className="outline-none text-white w-full pr-10 selection:bg-blue-500/30 selection:text-white"
         />
 
@@ -67,7 +69,11 @@ export default function Input({
             onClick={() => setShowPassword((prev) => !prev)}
             className="absolute right-6 flex items-center justify-center text-gray-400"
           >
-            {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+            {showPassword ? (
+              <EyeOff className="w-5 h-5" />
+            ) : (
+              <Eye className="w-5 h-5" />
+            )}
           </button>
         )}
 
