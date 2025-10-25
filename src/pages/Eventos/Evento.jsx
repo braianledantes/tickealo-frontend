@@ -93,15 +93,9 @@ export default function Evento() {
       {/* Header */}
       <div className="grid grid-cols-1 lg:grid-cols-2 mb-4">
         <h2 className="text-3xl font-bold text-white">{evento?.nombre}</h2>
-        {esFinalizado && (
-          <p className="text-sm text-yellow-400 mt-1">
-            Este evento está finalizado y no puede editarse. Solo se muestran
-            las estadísticas y reseñas.
-          </p>
-        )}
-
         {/* Botones de acción */}
         <div className="flex justify-end gap-4">
+          {!esFinalizado ? (
           <IconButton
             icon={<Pencil />}
             title={
@@ -116,6 +110,7 @@ export default function Evento() {
               }
             }}
           />
+          ):null}
           <IconButton
             icon={<ChartColumn />}
             title="Estadísticas / Reseñas"
@@ -138,6 +133,10 @@ export default function Evento() {
           <span className="font-bold text-sm text-[#0077B6] tracking-wide">
             ESTADÍSTICAS Y RESEÑAS
           </span>
+        ) : esFinalizado ? (
+          <p className="text-sm text-yellow-400 mt-1">
+            El evento ha finalizado. Se muestran únicamente las estadísticas y reseñas.
+          </p>
         ) : null}
       </div>
 

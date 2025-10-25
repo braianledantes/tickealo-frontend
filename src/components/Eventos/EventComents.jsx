@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react";
-import { getComentariosByEvento } from "../../api/comentarios";
+import { useComentarios } from "../../hooks/useComentarios";
+import { Pin } from 'lucide-react';
+import IconButton from "../Button/IconButton";
 
 export default function ReseñasEvento({ evento }) {
+    const {
+      getComentariosByEvento, loading, error, fijarComentario
+    } = useComentarios();
   const [comentarios, setComentarios] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchComentarios = async () => {
       if (!evento?.id) return;
       const res = await getComentariosByEvento(evento.id);
-      if (res.error) setError(res.error);
-      else setComentarios(res);
-      setLoading(false);
+       setComentarios(res);
     };
     fetchComentarios();
   }, [evento.id]);
+
+  console.log(comentarios)
 
   return (
     <div className="text-gray-300 py-10">
@@ -36,7 +39,8 @@ export default function ReseñasEvento({ evento }) {
             >
               <div className="flex justify-between items-center mb-1">
                 <p className="text-white font-semibold">
-                  {c.cliente?.user?.nombre || "Usuario anónimo"}
+                  
+                  {c.cliente.nombre}{" "}{c.cliente.apellido}
                 </p>
                 {c.calificacion > 0 && (
                   <span className="text-yellow-400 text-sm">
@@ -48,6 +52,16 @@ export default function ReseñasEvento({ evento }) {
               <p className="text-xs text-gray-500">
                 {new Date(c.createdAt).toLocaleDateString("es-AR")}
               </p>
+                <IconButton
+                  icon={<Pin />}
+                  onClick={async () => {
+                    try {
+                      await fijarComentario(c.id);
+                    } catch (err) {
+                      console.error("Error al fijar comentario:", err);
+                    }
+                  }}
+                />
             </div>
           ))}
         </div>
