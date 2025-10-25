@@ -9,7 +9,6 @@ export function EventosProvider({ children }) {
   const [eventos, setEventos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [evento, setEvento] = useState(null);
   const [tickets, setTickets] = useState([]); // <-- nuevo estado de tickets
 
@@ -91,7 +90,7 @@ export function EventosProvider({ children }) {
         setTickets([]);
       }
     } catch (err) {
-      setError(err.message || "Error desconocido");
+      setError(err.message || "Error al obtener el evento");
       setEvento(null);
       setTickets([]);
     } finally {
@@ -154,6 +153,7 @@ export function EventosProvider({ children }) {
     <EventosContext.Provider
       value={{
         eventos,
+        evento,
         loading,
         error,
         evento,

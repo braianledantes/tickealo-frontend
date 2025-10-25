@@ -1,5 +1,5 @@
-import { LayoutGrid, LayoutList } from "lucide-react";
-import { useState, useEffect } from "react";
+import { LayoutGrid, LayoutList, Filter } from "lucide-react";
+import { useState, useEffect, useRef} from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import IconButton from "../../components/Button/IconButton";
 import SecondaryButton from "../../components/Button/SecondaryButton";
@@ -16,30 +16,104 @@ export default function Eventos() {
   const [view, setView] = useState("grid");
   const [showErrorModal, setShowErrorModal] = useState(false);
 
-  // Mostrar modal de error cuando hay un error
+  const [filter, setFilter] = useState("todos");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
   useEffect(() => {
-    if (error) {
-      setShowErrorModal(true);
-    }
+    if (error) setShowErrorModal(true);
   }, [error]);
 
+ useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    window.addEventListener("click", handleClickOutside);
+    return () => window.removeEventListener("click", handleClickOutside);
+  }, []);
   const handleEventClick = (evento) => {
-    navigate(PATHS.UNEVENTO.replace(':id', evento.id));
+    navigate(PATHS.UNEVENTO.replace(":id", evento.id));
   };
 
-  const handleCloseErrorModal = () => {
-    setShowErrorModal(false);
+  const handleCloseErrorModal = () => setShowErrorModal(false);
+
+  const getEventStatus = (evento) => {
+    if (evento.cancelado) return "CANCELADO";
+    if (new Date(evento.finAt) < new Date()) return "FINALIZADO";
+    if (evento.stockEntradas <= 0) return "AGOTADO";
+    return "ACTIVO";
   };
+
+  //FILTRADO DE EVENTOS
+const filteredEventos = eventos.filter((evento) => {
+  const estado = getEventStatus(evento);
+
+  if (filter === "activo") return estado === "ACTIVO";
+  if (filter === "finalizado") return estado === "FINALIZADO";
+  return true;
+});
 
   return (
-    <main className="max-w-7xl w-full mx-auto p-10 ">
+    <main className="max-w-7xl w-full mx-auto p-10">
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
         <h2 className="text-3xl font-bold text-white">Eventos</h2>
 
-        {/* Botón crear evento */}
-        <div className="flex gap-3">
-          {/* Botones vista */}
+        <div className="flex gap-3 items-center">
+          {/* Botón de filtro */}
+          <div ref={dropdownRef} className="relative">
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="flex items-center gap-2 bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition"
+            >
+              <Filter size={18} className="text-gray-300" />
+
+              <span>Estado</span>
+            </button>
+
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-36 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-10">
+                <button
+                  onClick={() => {
+                    setFilter("todos");
+                    setIsDropdownOpen(false);
+                  }}
+                  className={`block w-full text-left px-4 py-2 hover:bg-gray-700 ${
+                    filter === "todos" ? "text-blue-400" : "text-white"
+                  }`}
+                >
+                  Todos
+                </button>
+                <button
+                  onClick={() => {
+                    setFilter("activo");
+                    setIsDropdownOpen(false);
+                  }}
+                  className={`block w-full text-left px-4 py-2 hover:bg-gray-700 ${
+                    filter === "activo" ? "text-blue-400" : "text-white"
+                  }`}
+                >
+                  Activo
+                </button>
+                <button
+                  onClick={() => {
+                    setFilter("finalizado");
+                    setIsDropdownOpen(false);
+                  }}
+                  className={`block w-full text-left px-4 py-2 hover:bg-gray-700 ${
+                    filter === "finalizado" ? "text-blue-400" : "text-white"
+                  }`}
+                >
+                  Finalizado
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Botones de vista */}
           <div className="hidden md:flex gap-2">
             <IconButton
               icon={<LayoutGrid />}
@@ -53,6 +127,7 @@ export default function Eventos() {
             />
           </div>
 
+          {/* Botón crear evento */}
           <SecondaryButton>
             <NavLink
               to="/dashboard/eventos/nuevo"
@@ -62,7 +137,6 @@ export default function Eventos() {
               <span className="text-xl leading-none font-bold">+</span>
             </NavLink>
           </SecondaryButton>
-
         </div>
       </div>
 
@@ -70,12 +144,16 @@ export default function Eventos() {
       {loading ? (
         <EventLoading />
       ) : (
-        <EventsList viewType={view} eventos={eventos} onEventClick={handleEventClick} />
+        <EventsList
+          viewType={view}
+          eventos={filteredEventos}
+          onEventClick={handleEventClick}
+        />
       )}
 
       {/* Modal de Error */}
-      <ErrorModal 
-        isOpen={showErrorModal} 
+      <ErrorModal
+        isOpen={showErrorModal}
         onClose={handleCloseErrorModal}
         error={error}
         title="Error al cargar eventos"
@@ -83,4 +161,3 @@ export default function Eventos() {
     </main>
   );
 }
-

@@ -12,7 +12,8 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const storedToken = localStorage.getItem(TOKEN_KEY);
     if (storedToken) {
-      apiAuth.me(storedToken)
+      apiAuth
+        .me(storedToken)
         .then((data) => setUser(data))
         .catch(() => {
           setUser(null);
@@ -28,7 +29,7 @@ export function AuthProvider({ children }) {
     try {
       const data = await apiAuth.login(credentials);
       if (data?.access_token) {
-        localStorage.setItem(TOKEN_KEY, data.access_token);
+        localStorage.setItem("token", data.access_token);
         const profile = await apiAuth.me(data.access_token);
         setUser(profile);
       }
@@ -46,8 +47,15 @@ export function AuthProvider({ children }) {
   const registrarProductora = async (formData) => {
     try {
       const response = await apiAuth.registerProductora(formData);
-      if (!response?.error && formData.get("email") && formData.get("password")) {
-        await login({ email: formData.get("email"), password: formData.get("password") });
+      if (
+        !response?.error &&
+        formData.get("email") &&
+        formData.get("password")
+      ) {
+        await login({
+          email: formData.get("email"),
+          password: formData.get("password"),
+        });
       }
       return response;
     } catch (err) {
@@ -56,15 +64,15 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const actualizarPerfilProductora = async ( updateFormData ) => {
+  const actualizarPerfilProductora = async (updateFormData) => {
     try {
-      const response = await apiAuth.actualizarPerfilProductora( updateFormData);
+      const response = await apiAuth.actualizarPerfilProductora(updateFormData);
       return response;
     } catch (err) {
       console.error("Error actualizando el perfil de la productora", err);
-      return {error: err.message};
+      return { error: err.message };
     }
-  }
+  };
 
   return (
     <AuthContext.Provider
