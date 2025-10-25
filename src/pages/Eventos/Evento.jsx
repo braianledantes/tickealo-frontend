@@ -144,7 +144,7 @@ export default function Evento() {
       <div className="max-w-4xl mx-auto">
         {showChart ? (
           <div className="border border-white/10 bg-[#05081b]/40 rounded-xl p-6 space-y-8 shadow-lg">
-            <div className="flex justify-center gap-6 mb-4 border-b border-white/10 pb-2">
+            <div className="flex justify-center gap-9 mb-4 border-b border-white/10 pb-2">
               <button
                 className={`text-sm font-semibold uppercase tracking-wide transition-colors duration-200 ${
                   activeTab === "estadisticas"
@@ -154,6 +154,17 @@ export default function Evento() {
                 onClick={() => setActiveTab("estadisticas")}
               >
                 Estadísticas del evento
+              </button>
+
+              <button
+                className={`text-sm font-semibold uppercase tracking-wide transition-colors duration-200 ${
+                  activeTab === "validadores"
+                    ? "text-[#0077B6] border-b-2 border-[#0077B6]"
+                    : "text-gray-400 hover:text-white"
+                }`}
+                onClick={() => setActiveTab("validadores")}
+              >
+                Estadísticas de validadores
               </button>
 
               <button
@@ -169,8 +180,9 @@ export default function Evento() {
             </div>
 
             {activeTab === "estadisticas" && (
-              <EstadisticasEvento evento={evento} />
+              <EstadisticasEvento evento={evento}/>
             )}
+            {activeTab === "validadores" && <EventTickets evento={evento} tickets={tickets} />}
             {activeTab === "reseñas" && <ReseñasEvento evento={evento} />}
           </div>
         ) : editing ? (

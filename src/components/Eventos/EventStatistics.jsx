@@ -1,5 +1,6 @@
 import { Globe2, Ticket } from "lucide-react";
 import Reporte from "./Reporte";
+import EventTickets from "./EventTickets";
 
 export default function EstadisticasEvento({ evento }) {
   if (!evento) {
@@ -25,7 +26,7 @@ export default function EstadisticasEvento({ evento }) {
     : 0;
 
   return (
-    <div className="bg-[#05081b]/60 border border-white/10 rounded-xl shadow-lg p-8 text-gray-200">
+      <div className="bg-[#05081b]/60 border border-white/10 rounded-xl shadow-lg p-8 text-gray-200">
       {/*Recaudación global */}
       <div className="text-center mb-8">
         <h2 className="text-4xl font-extrabold text-[#4da6ff] mb-1">

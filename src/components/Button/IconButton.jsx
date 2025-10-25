@@ -6,7 +6,9 @@ export default function IconButton({
   active = false, 
   onClick, 
   iconclassname = "w-5 h-5",
-  className = "" 
+  className = "" ,
+  bg = "bg-gray-800 text-gray-300 hover:bg-gray-700",
+  activeBg = "bg-[#03045E] text-white shadow-blue-950/50 hover:bg-[#021f72]",
 }) {
   return (
     <button
@@ -17,8 +19,8 @@ export default function IconButton({
         shadow-md hover:shadow-lg 
         flex items-center justify-center
         ${active 
-          ? "bg-[#03045E] text-white shadow-blue-950/50 hover:bg-[#021f72]"
-          : "bg-gray-800 text-gray-300 hover:bg-gray-700"}
+          ? activeBg
+          : bg}
         ${className}
       `}
     >
