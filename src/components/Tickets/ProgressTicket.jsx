@@ -41,7 +41,7 @@ export default function ProgressTicket({ evento, ticketsTotalesEvento = [] }) {
 
         <div className="flex justify-between mb-2">
           <span className="text-gray-300 text-sm">
-            {ticketsValidadosTotales.length} / {totalCapacidad} tickets
+            {ticketsValidadosTotales.length} / {totalCapacidad} Tickets validados
           </span>
           <span className="text-[#4da6ff] font-bold text-sm">
             {porcentajeEvento}%
@@ -64,7 +64,7 @@ export default function ProgressTicket({ evento, ticketsTotalesEvento = [] }) {
       {/* Estadísticas adicionales */}
       <div className="mt-4 space-y-2 px-2">
         <div className="flex justify-between">
-          <span className="font-bold text-gray-400 text-md">Pendientes</span>
+          <span className="font-bold text-gray-400 text-md">Pendientes de validación</span>
           <span className="font-bold text-gray-400 text-md">{ticketsPendientes.length}</span>
         </div>
 

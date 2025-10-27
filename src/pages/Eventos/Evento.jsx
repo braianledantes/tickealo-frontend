@@ -31,6 +31,7 @@ export default function Evento() {
 
   useEffect(() => {
     if (id) getEventoById(id);
+    // eslint-disable-next-line
   }, [id]);
 
   const handleActualizar = async (dataEvento, banner, portada) => {
