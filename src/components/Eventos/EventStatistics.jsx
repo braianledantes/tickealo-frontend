@@ -30,7 +30,7 @@ export default function EstadisticasEvento({ evento }) {
       {/*Recaudación global */}
       <div className="text-center mb-8">
         <h2 className="text-4xl font-extrabold text-[#4da6ff] mb-1">
-          ${totalRecaudado.toLocaleString("es-AR")}
+          ${totalRecaudado.toLocaleString("es-AR")}{" "}{evento.lugar.isoCodigoPais}
         </h2>
         <p className="text-sm flex items-center justify-center gap-2 text-gray-400">
           <Globe2 size={16} className="text-[#0077B6]" />

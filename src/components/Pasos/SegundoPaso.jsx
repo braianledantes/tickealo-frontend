@@ -81,6 +81,7 @@ export default function SegundoPaso({ onNext, onBack, initialData }) {
               label="Precio"
               error={entrada.precio <= 0}
               showError={touched}
+              min={1000}
               prefix={initialData.lugar.isoCodigoPais}
             />
             <Input
@@ -91,6 +92,7 @@ export default function SegundoPaso({ onNext, onBack, initialData }) {
               label="Cantidad"
               error={entrada.cantidad <= 0}
               showError={touched}
+              min={1000}
             />
           </div>
         ))}

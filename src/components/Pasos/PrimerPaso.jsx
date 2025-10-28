@@ -28,7 +28,6 @@ export default function PrimerPaso({ onNext, initialData }) {
     showOnMap,
   } = usePrimerPaso(initialData, onNext);
 
-  console.log(lugar);
   return (
     <div className="mb-20 max-w-5xl mx-auto">
       <div className="rounded-2xl border border-white/10 bg-[#05081b]/40">

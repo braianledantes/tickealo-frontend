@@ -1,10 +1,8 @@
 import { formatearFecha } from "../../utils/formatearFecha";
-import ComprasDetail from "../Compras/ComprasDetail";
 import {EstadoCompra} from "../FeedBack/Estados";
 
 export default function TicketList({ tickets = [], text = "" }) {
   if (!tickets.length) return <div className="text-center text-white/20 uppercase italic tracking-wider font-semibold">No hay tickets validados para mostrar</div>;
-
   return (
     <div className="space-y-2">
       <h3 className="text-[#A5A6AD] font-bold mb-2 px-4 uppercase tracking-wide">{text}</h3>

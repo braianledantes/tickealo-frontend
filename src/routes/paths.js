@@ -9,6 +9,6 @@ export const PATHS = {
   PERFIL: '/dashboard/perfil',
   NUEVOEVENTO: '/dashboard/eventos/nuevoevento',
   UNEVENTO: '/dashboard/eventos/:id',
-  ENTRADAS: '/dashboard/compras',
+  COMPRAS: '/dashboard/compras',
   COBROS: '/dashboard/cobros',
 };

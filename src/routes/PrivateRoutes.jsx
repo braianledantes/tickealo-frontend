@@ -13,7 +13,7 @@ import { PerfilLayout } from "../layouts/PerfilLayout";
 import { CreditosLayout } from "../layouts/CreditosLayout";
 import { EquipoLayout } from "../layouts/EquipoLayout";
 import { CobrosLayout } from "../layouts/CobrosLayout";
-import { EntradasLayout } from "../layouts/EntradasLayout";
+import { ComprasLayout } from "../layouts/ComprasLayout";
 import { ComentariosLayout } from "../layouts/ComentariosLayout";
 import CrearEvento from "../pages/Eventos/CrearEvento";
 
@@ -47,7 +47,7 @@ export function PrivateRoutes() {
           <Route index element={<Equipo />} />
         </Route>
 
-        <Route path='entradas' element={<EntradasLayout />}>
+        <Route path='compras' element={<ComprasLayout />}>
           <Route index element={<Compras />} />
         </Route>
 
