@@ -1,93 +1,60 @@
-import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
 import ImageUploader from "../Images/ImageUploader";
-import LocationEventSelector from "../../components/LocationEventSelector/LocationEventSelector";
+import LocationEventSelector from "../Location/LocationEventSelector";
+import Dropdown from "../Button/Dropdown";
+import { usePrimerPaso } from "../../hooks/Pasos/usePrimerPaso";
 
 export default function PrimerPaso({ onNext, initialData }) {
-  const [nombre, setNombre] = useState(initialData.nombre || "");
-  const [inicioAt, setInicioAt] = useState(initialData.inicioAt || "");
-  const [finAt, setFinAt] = useState(initialData.finAt || "");
-  const [banner, setBanner] = useState(initialData.banner || null);
+  const {
+    nombre,
+    setNombre,
+    inicioAt,
+    setInicioAt,
+    finAt,
+    setFinAt,
+    banner,
+    setBanner,
+    lugar,
+    setLugar,
+    error,
+    touched,
+    countries,
+    selectedCountry,
+    handleCountryChange,
+    handleContinue,
+    handleLocationSelect,
+    showOnMap,
+  } = usePrimerPaso(initialData, onNext);
 
-  const [lugar, setLugar] = useState({
-    direccion: initialData.lugar?.direccion || "",
-    ciudad: initialData.lugar?.ciudad || "",
-    provincia: initialData.lugar?.provincia || "",
-    latitud: initialData.lugar?.latitud || null,
-    longitud: initialData.lugar?.longitud || null,
-  });
-
-  const [error, setError] = useState("");
-  const [touched, setTouched] = useState(false); 
-
-  const handleLocationSelect = (location) => {
-    if (!location) return;
-
-    setLugar({
-      direccion: location.direccion || "",
-      ciudad: location.ciudad || "",
-      provincia: location.provincia || "",
-      latitud: location.latitud,
-      longitud: location.longitud,
-    });
-  };
-
-  const handleContinue = () => {
-    setTouched(true); 
-
-    // Campos obligatorios
-    if (!nombre || !inicioAt || !finAt || !lugar.direccion) {
-      setError("Completa todos los campos requeridos.");
-      return;
-    }
-
-    // Validar fechas
-    const inicioDate = new Date(inicioAt);
-    const finDate = new Date(finAt);
-    const now = new Date();
-
-    if (isNaN(inicioDate.getTime()) || inicioDate <= now) {
-      setError("La fecha de inicio debe ser válida y en el futuro.");
-      return;
-    }
-
-    if (isNaN(finDate.getTime()) || finDate <= inicioDate) {
-      setError("La fecha de finalización debe ser válida y posterior al inicio.");
-      return;
-    }
-
-    setError("");
-    const stepData = { nombre, inicioAt, finAt, banner, lugar };
-    onNext(stepData);
-  };
-
+  console.log(lugar);
   return (
     <div className="mb-20 max-w-5xl mx-auto">
-      <div className="rounded-2xl border border-white/10 bg-[#05081b]/40 overflow-hidden">
+      <div className="rounded-2xl border border-white/10 bg-[#05081b]/40">
         {/* Banner */}
-        <ImageUploader 
-          onFileSelect={(file) => setBanner(file)}
+        <ImageUploader
+          onFileSelect={setBanner}
           aspect="aspect-[11/4]"
           message="Arrastrá o subí el banner de tu evento."
         />
 
-        <div className="relative p-6 md:p-8">
+        <div className="relative p-6 pb-20 md:p-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-full">
-            {/* Columna 1: Ubicación y Mapa */}
-            
+            {/* Mapa */}
             <div className="flex-1 min-h-[320px]">
               <LocationEventSelector
-                  direccion={lugar.direccion}
-                  ciudad={lugar.ciudad}
-                  provincia={lugar.provincia}
-                  onLocationSelect={handleLocationSelect}
+                direccion={lugar.direccion}
+                ciudad={lugar.ciudad}
+                provincia={lugar.provincia}
+                onLocationSelect={handleLocationSelect}
+                country={showOnMap?.country}
+                capital={showOnMap?.capital}
+                iso={showOnMap?.iso}
               />
             </div>
-            
 
-            {/* Columna 2: Nombre, Dirección, Fechas y Botón */}
+            {/* Formulario */}
             <div className="flex flex-col h-full justify-between">
               <div className="space-y-6">
                 <Input
@@ -96,8 +63,18 @@ export default function PrimerPaso({ onNext, initialData }) {
                   onChange={(e) => setNombre(e.target.value)}
                   name="nombre"
                   error={!nombre}
-                  showError={touched} 
+                  showError={touched}
                 />
+
+                <Dropdown
+                  options={countries}
+                  value={selectedCountry}
+                  onChange={handleCountryChange}
+                  placeholder="Seleccioná un país"
+                  error={!selectedCountry}
+                  showError={touched}
+                />
+
                 <Input
                   placeholder="Dirección del Evento"
                   value={lugar.direccion}
@@ -107,8 +84,10 @@ export default function PrimerPaso({ onNext, initialData }) {
                   name="direccion"
                   error={!lugar.direccion}
                   showError={touched}
+                  disabled={!selectedCountry}
                 />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                   <Input
                     type="datetime-local"
                     value={inicioAt}
@@ -131,12 +110,16 @@ export default function PrimerPaso({ onNext, initialData }) {
                   />
                 </div>
 
-                {error && <p className="text-red-500 ml-3 mb-2 mt-4">{error}</p>}
+                {error && (
+                  <p className="text-red-500 ml-3 mb-20 mt-10">{error}</p>
+                )}
               </div>
             </div>
 
-           <div className="absolute bottom-8 right-4 mt-8 w-[80px]">
-              <Button onClick={handleContinue}><ArrowRight /></Button>
+            <div className="absolute bottom-8 right-4 mt-8 w-[80px]">
+              <Button onClick={handleContinue}>
+                <ArrowRight />
+              </Button>
             </div>
           </div>
         </div>

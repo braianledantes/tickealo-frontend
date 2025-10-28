@@ -3,7 +3,7 @@ import { DashboardLayout } from "../layouts/DashboardLayout";
 import { EventosLayout } from "../layouts/EventosLayout";
 import Cobros from "../pages/Cobros";
 import Creditos from "../pages/Creditos";
-import Entradas from "../pages/Entradas";
+import Compras from "../pages/Compras";
 import Equipo from "../pages/Equipo";
 import Eventos from "../pages/Eventos/Eventos";
 import Evento from "../pages/Eventos/Evento";
@@ -48,7 +48,7 @@ export function PrivateRoutes() {
         </Route>
 
         <Route path='entradas' element={<EntradasLayout />}>
-          <Route index element={<Entradas />} />
+          <Route index element={<Compras />} />
         </Route>
 
         <Route path="*" element={<Navigate to={PATHS.DASHBOARD} replace />} />

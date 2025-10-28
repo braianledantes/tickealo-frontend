@@ -2,7 +2,7 @@ import { useState } from "react";
 import ComprasFiltro from "../components/Compras/ComprasFiltro";
 import ComprasList from "../components/Compras/ComprasList";
 
-export default function Entradas() {
+export default function Compras() {
   const [comprasFiltradas, setComprasFiltradas] = useState([]);
   const [error, setError] = useState("");
 

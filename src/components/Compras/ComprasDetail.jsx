@@ -19,7 +19,6 @@ export default function ComprasDetail({ compraId, onClose, onActualizar }) {
       const data = await getCompraId(compraId);
       setCompra(data);
       setLoading(false);
-      console.log(data);
     };
     fetchCompra();
   }, [compraId, getCompraId]);

@@ -2,7 +2,7 @@ import { useState } from "react";
 import Input from "../Input/Input";
 import { X } from "lucide-react";
 
-export default function Entradas({ entradas, setEntradas, touched }) {
+export default function Entradas({ entradas, setEntradas, touched}) {
     const handleEntradaChange = (index, field, value) => {
         const newEntradas = [...entradas];
         newEntradas[index][field] =
@@ -41,30 +41,30 @@ export default function Entradas({ entradas, setEntradas, touched }) {
                 )}
 
                 <Input
-                placeholder="General, VIP..."
-                value={entrada.tipo}
-                onChange={(e) => handleEntradaChange(i, "tipo", e.target.value)}
-                label="Tipo de entrada"
-                error={!entrada.tipo}
-                showError={touched}
+                    placeholder="General, VIP..."
+                    value={entrada.tipo}
+                    onChange={(e) => handleEntradaChange(i, "tipo", e.target.value)}
+                    label="Tipo de entrada"
+                    error={!entrada.tipo}
+                    showError={touched}
                 />
                 <Input
-                type="number"
-                placeholder="5000"
-                value={entrada.precio}
-                onChange={(e) => handleEntradaChange(i, "precio", e.target.value)}
-                label="Precio"
-                error={entrada.precio <= 0}
-                showError={touched}
+                    type="number"
+                    placeholder="5000"
+                    value={entrada.precio}
+                    onChange={(e) => handleEntradaChange(i, "precio", e.target.value)}
+                    label="Precio"
+                    error={entrada.precio <= 0}
+                    showError={touched}
                 />
                 <Input
-                type="number"
-                placeholder="200"
-                value={entrada.cantidad}
-                onChange={(e) => handleEntradaChange(i, "cantidad", e.target.value)}
-                label="Cantidad"
-                error={entrada.cantidad <= 0}
-                showError={touched}
+                    type="number"
+                    placeholder="200"
+                    value={entrada.cantidad}
+                    onChange={(e) => handleEntradaChange(i, "cantidad", e.target.value)}
+                    label="Cantidad"
+                    error={entrada.cantidad <= 0}
+                    showError={touched}
                 />
             </div>
             ))}

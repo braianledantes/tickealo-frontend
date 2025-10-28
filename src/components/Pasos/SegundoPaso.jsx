@@ -5,6 +5,7 @@ import BankCard from "../BankCard";
 import { X , ArrowRight, ArrowLeft} from "lucide-react";
 
 export default function SegundoPaso({ onNext, onBack, initialData }) {
+  console.log(initialData);
   const [entradas, setEntradas] = useState(
     initialData.entradas?.length > 0
       ? initialData.entradas
@@ -80,6 +81,7 @@ export default function SegundoPaso({ onNext, onBack, initialData }) {
               label="Precio"
               error={entrada.precio <= 0}
               showError={touched}
+              prefix={initialData.lugar.isoCodigoPais}
             />
             <Input
               type="number"
