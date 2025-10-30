@@ -25,19 +25,19 @@ export const usePrimerPaso = (initialData, onNext) => {
   const {countries, getCountryDetails} = useCountry();
 
   // Cargar la capital del país para visualizar en el mapa - SOAP
-    const handleCountryChange = async (iso) => {
-    const selected = countries.find(c => c.value === iso);
+    const handleCountryChange = async (pais) => {
+    const selected = countries.find(c => c.name === pais);
     if (!selected) return;
 
-    setSelectedCountry(selected.value);
+    setSelectedCountry(selected.name);
     setLugar({ direccion: "", ciudad: "", provincia: "" });
 
     try {
-      const data = await getCountryDetails(selected.iso);
+      const data = await getCountryDetails(selected.isoCode);
       setShowOnMap({
         capital: data.sCapitalCity,
         country: selected.name,
-        iso: data.sCurrencyISOCode,
+        iso: selected.isoCode,
       });
     } catch (error) {
       console.error("Error al obtener datos del país:", error);

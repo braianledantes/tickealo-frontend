@@ -58,9 +58,19 @@ export default function PerfilDetail () {
                         ></div>
 
                         {/* Avatar */}
-                        <div className="absolute top-1/2 left-1/2 z-10" style={{ transform: "translate(-50%, -50%)" }}>
-                            <Avatar name={formData.username} size={30}/>  
-                        </div>
+                        {formData.imagenPerfil ?(
+                            <img
+                                src={formData.imagenPerfil || "https://via.placeholder.com/128"}
+                                alt="Avatar"
+                                className="absolute top-1/2 left-1/2 w-30 h-30 rounded-full z-10"
+                                style={{ transform: "translate(-50%, -50%)" }}
+                            />
+                        ):(
+                            <div className="absolute top-1/2 left-1/2 z-10" style={{ transform: "translate(-50%, -50%)" }}>
+                                <Avatar name={formData.username} size={30}/>  
+                            </div>
+                        )}
+
                         </div>
                     </div>
 

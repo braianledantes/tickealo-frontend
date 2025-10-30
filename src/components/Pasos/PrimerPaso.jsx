@@ -28,6 +28,12 @@ export default function PrimerPaso({ onNext, initialData }) {
     showOnMap,
   } = usePrimerPaso(initialData, onNext);
 
+  const countryOptions = countries.map(c => ({
+    label: c.name,  // lo que se muestra
+    value: c.name,  // lo que se envía al backend
+    iso: c.isoCode  // solo para cálculo del prefijo
+  }));
+
   return (
     <div className="mb-20 max-w-5xl mx-auto">
       <div className="rounded-2xl border border-white/10 bg-[#05081b]/40">
@@ -66,7 +72,7 @@ export default function PrimerPaso({ onNext, initialData }) {
                 />
 
                 <Dropdown
-                  options={countries}
+                  options={countryOptions}
                   value={selectedCountry}
                   onChange={handleCountryChange}
                   placeholder="Seleccioná un país"

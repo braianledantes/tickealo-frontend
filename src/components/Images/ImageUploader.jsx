@@ -6,13 +6,16 @@ export default function ImageUploader({
   aspect = "aspect-[11/4]",
   message = "Arrastrá o subí la imagen de tu evento",
   style = "",
-  value, 
+  value,
   readOnly = false,
+  allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/gif"], // formatos permitidos
 }) {
   const [preview, setPreview] = useState(null);
   const [dragOver, setDragOver] = useState(false);
+  const [fileType, setFileType] = useState(null);
+  const [error, setError] = useState("");
   const inputRef = useRef(null);
-  
+
   useEffect(() => {
     if (value && typeof value === "string") {
       setPreview(value);
@@ -21,17 +24,30 @@ export default function ImageUploader({
 
   const handleFiles = (file) => {
     if (!file) return;
+
+    const { type, name } = file;
+    setFileType(type);
+
+    if (!allowedTypes.includes(type)) {
+      setError(`El archivo "${name}" no es un formato válido (${type}). 
+        Solo se permiten imágenes JPG, PNG o GIF.`);
+      setPreview(null);
+      onFileSelect?.(null);
+      return;
+    }
+
+    setError("");
     const objectUrl = URL.createObjectURL(file);
     setPreview(objectUrl);
     onFileSelect?.(file);
   };
 
-  const handleChange = (e) => {
-    handleFiles(e.target.files[0]);
-  };
+  const handleChange = (e) => handleFiles(e.target.files[0]);
 
   const handleRemove = () => {
     setPreview(null);
+    setFileType(null);
+    setError("");
     onFileSelect?.(null);
     if (inputRef.current) inputRef.current.value = null;
   };
@@ -41,15 +57,12 @@ export default function ImageUploader({
     setDragOver(true);
   };
 
-  const handleDragLeave = () => {
-    setDragOver(false);
-  };
+  const handleDragLeave = () => setDragOver(false);
 
   const handleDrop = (e) => {
     e.preventDefault();
     setDragOver(false);
-    const file = e.dataTransfer.files[0];
-    handleFiles(file);
+    handleFiles(e.dataTransfer.files[0]);
   };
 
   return (
@@ -65,11 +78,7 @@ export default function ImageUploader({
       >
         {preview ? (
           <>
-            <img
-              src={preview}
-              alt="Uploaded"
-              className="w-full h-full object-cover"
-            />
+            <img src={preview} alt="Uploaded" className="w-full h-full object-cover" />
             {!readOnly && (
               <button
                 type="button"
@@ -101,6 +110,19 @@ export default function ImageUploader({
           onChange={handleChange}
           className="hidden"
         />
+      )}
+
+      {/* Mensaje debajo del uploader */}
+      {fileType && !error && (
+        <p className="text-xs text-gray-400 text-center mt-1">
+          Tipo de archivo detectado: <span className="font-semibold text-white">{fileType}</span>
+        </p>
+      )}
+
+      {error && (
+        <p className="text-xs text-red-400 text-center mt-1 font-medium whitespace-pre-line">
+          {error}
+        </p>
       )}
     </div>
   );

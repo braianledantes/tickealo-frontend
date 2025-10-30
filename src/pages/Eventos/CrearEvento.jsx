@@ -5,6 +5,7 @@ import ProgressBar from "../../components/Pasos/ProgressBar";
 import SegundoPaso from "../../components/Pasos/SegundoPaso";
 import TercerPaso from "../../components/Pasos/TercerPaso";
 import { useEventosList } from "../../hooks/useEventosList";
+import ErrorModal from "../../components/Modal/ErrorModal";
 
 export default function CrearEvento() {
   const { crearEvento, puedeCrearEvento } = useEventosList();
@@ -62,12 +63,12 @@ export default function CrearEvento() {
 
       if (created.error) {
         console.error("Error creando evento:", created.error);
-        alert("Ocurrió un error al crear el evento");
+       <ErrorModal title="Error" error={created.error}/>
         return;
       }
 
       // 🔹 Esperar un poco para que el usuario vea el spinner (opcional)
-      setTimeout(() => navigate("/dashboard/eventos"), 800);
+      setTimeout(() => navigate("/dashboard/eventos"), 200);
     } catch (error) {
       console.error("Error en handleSubmit:", error);
       alert("Error inesperado al crear el evento.");

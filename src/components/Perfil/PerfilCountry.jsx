@@ -13,6 +13,7 @@ export default function PerfilCountry({ open, onClose }) {
   const [pais, setPais] = useState("");
   const [prefix, setPrefix] = useState(""); 
   const [touched, setTouched] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     pais: "",
     telefono: "",
@@ -50,6 +51,7 @@ export default function PerfilCountry({ open, onClose }) {
   };
 
   const handleActualizarCountry = async () => {
+    setLoading(true);
     if (!formData.pais || !formData.telefono) {
       setError("Por favor, completa todos los campos antes de continuar.");
       return;
@@ -62,6 +64,7 @@ export default function PerfilCountry({ open, onClose }) {
     try {
       await actualizarPerfil(payload);
       window.location.reload();
+      setLoading(false);
     } catch (err) {
       console.error("Error al actualizar los datos:", err);
       setError("Hubo un error al actualizar la información.");
@@ -109,7 +112,7 @@ export default function PerfilCountry({ open, onClose }) {
 
         <div className="mt-6">
           <SecondaryButton
-            text="Actualizar Información"
+            text={loading ? '...Actualizando' : 'Actualizar Nacionalidad'}
             onClick={handleActualizarCountry}
           />
           {error && (

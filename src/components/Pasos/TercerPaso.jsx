@@ -3,6 +3,7 @@ import { useState } from "react";
 import Button from "../Button/Button";
 import ImageUploader from "../Images/ImageUploader";
 import TextArea from "../Input/InputTextArea";
+import ErrorModal from "../Modal/ErrorModal";
 
 export default function TercerPaso({ onBack, onSubmit, initialData }) {
   const [portada, setPortada] = useState(initialData.portada || null);

@@ -11,6 +11,7 @@ import InputNumber from '../Input/InputNumber';
 export function RegisterForm() {
   const { registrarProductora } = useAuth();
   const { countries, getCountryDetails } = useCountry();
+    const [loading, setLoading] = useState(false);
 
   const [nombre, setNombre] = useState('');
   const [cuit, setCuit] = useState('');
@@ -51,6 +52,7 @@ export function RegisterForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setTouched(true);
+    setLoading(true);
 
     const errores = validarProductora({ nombre, cuit, direccion, telefono, username, email, password });
     if (!pais) errores.pais = 'Seleccioná un país';
@@ -90,6 +92,7 @@ export function RegisterForm() {
         setError('');
         setTouched(false);
       }
+      setLoading(false);
     } catch (err) {
       setError("Error al registrar. Intenta nuevamente.\n" + err.message);
     }
@@ -180,7 +183,8 @@ export function RegisterForm() {
         </div>
 
         <div className="col-span-1 md:col-span-2 flex flex-col gap-4">
-          <Button type='submit'>Registrarse</Button>
+          <Button type='submit'>{loading ? '...' : ''}
+        Registrarse</Button>
           {error && <p className="text-red-400 text-center font-medium">{error}</p>}
         </div>
       </div>

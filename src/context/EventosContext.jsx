@@ -10,7 +10,7 @@ export function EventosProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [evento, setEvento] = useState(null);
-  const [tickets, setTickets] = useState([]); // <-- nuevo estado de tickets
+  const [tickets, setTickets] = useState([]); 
 
   useEffect(() => {
     getEventos();
@@ -21,7 +21,10 @@ export function EventosProvider({ children }) {
     setLoading(true);
     try {
       const data = await apiProductora.getEventosByProductora();
-      setEventos(data);
+      const eventosOrdenados = data.sort((a, b) => 
+        new Date(b.createdAt) - new Date(a.createdAt)
+      );
+      setEventos(eventosOrdenados);
     } catch (err) {
       setError(err.message || "Error desconocido");
       setEventos([]);
