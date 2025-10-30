@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { getCountries, getCountryByIso } from "../../api/countries";
+import { useState } from "react";
+import { useCountry } from "../useCountry";
 
 export const usePrimerPaso = (initialData, onNext) => {
   const [nombre, setNombre] = useState(initialData.nombre || "");
@@ -19,37 +19,25 @@ export const usePrimerPaso = (initialData, onNext) => {
 
   const [error, setError] = useState("");
   const [touched, setTouched] = useState(false);
-  const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(initialData.lugar?.pais || "");
   const [showOnMap, setShowOnMap] = useState(null);
 
-  // Carga de países para el selector - SOAP
-  useEffect(() => {
-    getCountries()
-      .then((data) => {
-        const options = data.countries.map((c) => ({
-          label: c.name,
-          value: c.name,
-          iso: c.isoCode,
-        }));
-        setCountries(options);
-      })
-      .catch((err) => console.error("Error al obtener países:", err));
-  }, []);
+  const {countries, getCountryDetails} = useCountry();
 
   // Cargar la capital del país para visualizar en el mapa - SOAP
-  const handleCountryChange = async (pais) => {
-    setSelectedCountry(pais);
-    setLugar({ direccion: "", ciudad: "", provincia: "" });
-    const selected = countries.find((c) => c.value === pais);
+    const handleCountryChange = async (iso) => {
+    const selected = countries.find(c => c.value === iso);
     if (!selected) return;
 
+    setSelectedCountry(selected.value);
+    setLugar({ direccion: "", ciudad: "", provincia: "" });
+
     try {
-      const data = await getCountryByIso(selected.iso);
+      const data = await getCountryDetails(selected.iso);
       setShowOnMap({
         capital: data.sCapitalCity,
-        country: pais,
-        iso: data.sCurrencyISOCode, 
+        country: selected.name,
+        iso: data.sCurrencyISOCode,
       });
     } catch (error) {
       console.error("Error al obtener datos del país:", error);

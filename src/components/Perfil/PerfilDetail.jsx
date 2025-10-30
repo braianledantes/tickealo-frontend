@@ -4,6 +4,8 @@ import PerfilCountry from "./PerfilCountry";
 import PerfilPassword from "../Perfil/PerfilPassword"
 import { ChevronRight, Icon } from 'lucide-react';
 import IconButton from "../Button/IconButton";
+import { form } from "framer-motion/client";
+import Avatar from "../Avatar";
 
 export default function PerfilDetail () {
     const { user } = usePerfil();
@@ -56,12 +58,9 @@ export default function PerfilDetail () {
                         ></div>
 
                         {/* Avatar */}
-                        <img
-                            src={formData.imagenPerfil || "https://via.placeholder.com/128"}
-                            alt="Avatar"
-                            className="absolute top-1/2 left-1/2 w-30 h-30 rounded-full z-10"
-                            style={{ transform: "translate(-50%, -50%)" }}
-                        />
+                        <div className="absolute top-1/2 left-1/2 z-10" style={{ transform: "translate(-50%, -50%)" }}>
+                            <Avatar name={formData.username} size={30}/>  
+                        </div>
                         </div>
                     </div>
 

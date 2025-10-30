@@ -12,6 +12,7 @@ export default function InputNumber({
   error,
   showError,
   disabled = false,
+  showAlertPrefix = true,
 }) {
   const [internalValue, setInternalValue] = useState(value);
   const [showPrefix, setShowPrefix] = useState(!!prefix);
@@ -80,7 +81,7 @@ export default function InputNumber({
             className="outline-none text-white w-full bg-transparent placeholder-gray-400 selection:bg-blue-500/30 selection:text-white"
           />
 
-          {internalValue && !disabled && (
+          {internalValue && !disabled && showAlertPrefix && (
             <button
               type="button"
               onClick={handleClearInput}
@@ -97,7 +98,7 @@ export default function InputNumber({
       </div>
 
       {/* Mostrar solo si el prefijo está visible */}
-      {showPrefix && (
+      {showPrefix && showAlertPrefix &&(
         <div className="flex justify-between px-3 mt-2">
           <p className="text-[#999]">¿Prefieres sin prefijo?</p>
           <div className="flex items-center">

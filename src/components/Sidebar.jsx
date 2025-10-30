@@ -105,7 +105,7 @@ export default function Sidebar() {
             <h2 className="text-white font-semibold">
               {user.nombre}
             </h2>
-            <p className="text-gray-400 text-sm">{user.user.email}</p>
+            <p className="text-gray-400 text-sm cursor-pointer" onClick={navigateToPerfil}>{user.user.email}</p>
           </div>
         }
       </div>

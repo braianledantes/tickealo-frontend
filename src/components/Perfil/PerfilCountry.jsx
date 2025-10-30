@@ -1,85 +1,51 @@
 import { usePerfil } from "../../hooks/usePerfil";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SecondaryButton from "../Button/SecondaryButton";
 import { X } from "lucide-react";
 import Dropdown from "../Button/Dropdown";
 import InputNumber from "../Input/InputNumber";
-import { getCountryByIso, getCountries } from "../../api/countries";
+import { useCountry } from "../../hooks/useCountry"; // importamos el hook de context
 
 export default function PerfilCountry({ open, onClose }) {
-  const { user, actualizarPerfil } = usePerfil();
+  const { actualizarPerfil } = usePerfil();
+  const { countries, getCountryDetails } = useCountry(); // obtenemos countries y la función para detalles
 
-  const [paisSeleccionado, setPaisSeleccionado] = useState(user?.user?.pais || "");
-
-  const [prefix, setPhonePrefix] = useState("");
-  const [options, setOptions] = useState([]);
+  const [pais, setPais] = useState("");
+  const [prefix, setPrefix] = useState(""); 
   const [touched, setTouched] = useState(false);
-
   const [formData, setFormData] = useState({
     pais: "",
     telefono: "",
   });
-
   const [error, setError] = useState("");
 
-  // Cargar lista de países y setear valor inicial del usuario
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const response = await getCountries();
-        const countries = response.countries.map((c) => ({
-          label: c.name,
-          value: c.code || c.iso || c.name,
-        }));
-        setOptions(countries);
-
-        // Si hay usuario, buscar el país correspondiente en options
-        if (user?.user?.pais) {
-          const selected = countries.find(
-            (c) => c.label === user.user.pais || c.value === user.user.pais
-          );
-          if (selected) {
-            setPaisSeleccionado(selected.value);
-            setFormData({
-              pais: selected.label,
-              telefono: user.user.telefono || "",
-            });
-          }
-        }
-      } catch (err) {
-        console.error("Error cargando países:", err);
-      }
-    };
-
-    fetchCountries();
-  }, [user]);
-
-  // Cargar prefijo cuando cambia el país seleccionado
-  useEffect(() => {
-    if (!paisSeleccionado) return;
-
-    const fetchCountryData = async () => {
-      try {
-        const data = await getCountryByIso(paisSeleccionado);
-        setPhonePrefix(data.sPhoneCode || "");
-      } catch (error) {
-        console.error("Error cargando datos del país:", error);
-      }
-    };
-
-    fetchCountryData();
-  }, [paisSeleccionado]);
+  const countryOptions = countries.map(c => ({
+    label: c.name,  // lo que se muestra
+    value: c.name,  // lo que se envía al backend
+    iso: c.isoCode  // solo para cálculo del prefijo
+  }));
 
   if (!open) return null;
 
-  const handleCountryChange = (val) => {
-    setPaisSeleccionado(val);
-    const selected = options.find((c) => c.value === val);
-    setFormData((prev) => ({
-      ...prev,
-      pais: selected?.label || val,
-    }));
-    setTouched(true);
+  const handleCountryChange = async (selectedName) => {
+    setPais(selectedName);
+    setFormData(prev => ({ ...prev, pais: selectedName }));
+    try {
+      const country = countryOptions.find(c => c.label === selectedName);
+      if (country?.iso) {
+        const details = await getCountryDetails(country.iso);
+        setPrefix(details?.sPhoneCode || '');
+      } else {
+        setPrefix('');
+      }
+    } catch (err) {
+      console.error('Error obteniendo prefijo del país:', err);
+      setPrefix('');
+    }
+  };
+
+  const handleTelefonoChange = (val) => {
+    setFormData(prev => ({ ...prev, telefono: val }));
     setError("");
   };
 
@@ -96,8 +62,8 @@ export default function PerfilCountry({ open, onClose }) {
     try {
       await actualizarPerfil(payload);
       window.location.reload();
-    } catch (error) {
-      console.error("Error al actualizar los datos:", error);
+    } catch (err) {
+      console.error("Error al actualizar los datos:", err);
       setError("Hubo un error al actualizar la información.");
     }
   };
@@ -121,25 +87,22 @@ export default function PerfilCountry({ open, onClose }) {
 
         <div className="mt-2 mx-auto space-y-4">
           <p className="text-[#999] text-center mb-4">
-            Al modificar tu país, conectamos tus eventos con el público más cercano a ti para que más gente pueda disfrutarlos.
+            Al modificar tu país, conectamos tus eventos con el público más cercano a ti.
           </p>
 
           <Dropdown
-            options={options}
-            value={paisSeleccionado}
+            options={countryOptions}
+            value={pais}
             onChange={handleCountryChange}
-            placeholder="Seleccioná un país"
-            error={touched && !paisSeleccionado ? "Seleccioná un país" : ""}
+            placeholder="Seleccioná tu nacionalidad"
+            error={touched && !pais ? "Seleccioná un país" : ""}
             showError={touched}
           />
 
           <InputNumber
             placeholder="Teléfono"
             value={formData.telefono}
-            onChangeValue={(val) => {
-              setFormData({ ...formData, telefono: val });
-              setError("");
-            }}
+            onChangeValue={handleTelefonoChange}
             prefix={prefix}
           />
         </div>
@@ -149,7 +112,6 @@ export default function PerfilCountry({ open, onClose }) {
             text="Actualizar Información"
             onClick={handleActualizarCountry}
           />
-
           {error && (
             <p className="text-red-500 text-sm mt-3 text-center font-semibold">
               {error}

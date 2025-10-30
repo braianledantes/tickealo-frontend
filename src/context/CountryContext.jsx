@@ -1,4 +1,4 @@
-import { createContext,  useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { getCountries, getCountryByIso } from "../api/countries";
 
 export const CountryContext = createContext();
@@ -6,51 +6,29 @@ export const CountryContext = createContext();
 export const CountryProvider = ({ children }) => {
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [countryCache, setCountryCache] = useState({});
+
 
   useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const data = await getCountries();
-        const formatted = data.countries.map((c) => ({
-          name: c.name,
-          iso: c.isoCode,
-        }));
-        setCountries(formatted);
-      } catch (err) {
-        setError("Error al cargar los países.");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCountries();
+    getCountries()
+      .then((options) => {
+        setCountries(options.countries);
+      })
+      .catch((err) => console.error("Error al obtener países:", err))
+      .finally(() => setLoading(false));
   }, []);
 
   const getCountryDetails = async (iso) => {
-    if (countryCache[iso]) return countryCache[iso];
     try {
-      const data = await getCountryByIso(iso);
-      setCountryCache((prev) => ({ ...prev, [iso]: data }));
-      return data;
+      return await getCountryByIso(iso);
     } catch (err) {
-      console.error("Error al obtener país:", err);
-      throw err;
+      console.error("Error al obtener país por ISO:", err);
+      return null;
     }
   };
-
   return (
-    <CountryContext.Provider
-      value={{
-        countries,
-        loading,
-        error,
-        getCountryDetails,
-      }}
-    >
+    <CountryContext.Provider value={{ countries, loading, getCountryDetails }}>
       {children}
     </CountryContext.Provider>
   );
 };
+
