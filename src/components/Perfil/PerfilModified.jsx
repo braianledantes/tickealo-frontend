@@ -3,14 +3,12 @@ import { usePerfil } from "../../hooks/usePerfil";
 import { useState, useEffect } from "react";
 import ProfilePictureUploader from "../Images/ProfilePictureUploader";
 import SecondaryButton from "../Button/SecondaryButton";
-
 export default function PerfilModified () {
     const { user, actualizarPerfil } = usePerfil();
 
   const [formData, setFormData] = useState({
     nombre: "",
     cuit: "",
-    telefono: "",
     direccion: "",
     username: "",
     email: "",
@@ -22,7 +20,6 @@ export default function PerfilModified () {
         setFormData({
         nombre: user.nombre || "",
         cuit: user.cuit || "",
-        telefono: user.telefono || "",
         direccion: user.direccion || "",
         username: user.user?.username || "",
         email: user.user?.email || "",
@@ -44,7 +41,6 @@ export default function PerfilModified () {
     const payload = new FormData();
     payload.append("nombre", updateDataForm.nombre || "");
     payload.append("cuit", updateDataForm.cuit || "")
-    payload.append("telefono", updateDataForm.telefono || "");
     payload.append("direccion", updateDataForm.direccion || "");
     payload.append("username", updateDataForm.username || "");
     payload.append("email", updateDataForm.email || "");
@@ -98,7 +94,6 @@ export default function PerfilModified () {
                     error={!formData.nombre}
                     onChange={(e) => handleChange("nombre", e.target.value)}
                     />
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <Input
                         label="CUIT"
                         type="text"
@@ -106,14 +101,6 @@ export default function PerfilModified () {
                         error={!formData.cuit}
                         onChange={(e) => handleChange("cuit", e.target.value)}
                     />
-                    <Input
-                        label="Teléfono"
-                        type="text"
-                        value={formData.telefono}
-                        error={!formData.telefono}
-                        onChange={(e) => handleChange("telefono", e.target.value)}
-                    />
-                    </div>
 
                     <Input
                     label="Direccion"
@@ -122,6 +109,7 @@ export default function PerfilModified () {
                     error={!formData.direccion}
                     onChange={(e) => handleChange("direccion", e.target.value)}
                     />
+
                 </div>
             </div>
             

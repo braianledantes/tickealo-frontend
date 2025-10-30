@@ -15,6 +15,7 @@ import { EquipoLayout } from "../layouts/EquipoLayout";
 import { CobrosLayout } from "../layouts/CobrosLayout";
 import { ComprasLayout } from "../layouts/ComprasLayout";
 import { ComentariosLayout } from "../layouts/ComentariosLayout";
+import {CountryLayout} from "../layouts/CountryLayout"
 import CrearEvento from "../pages/Eventos/CrearEvento";
 
 export function PrivateRoutes() {
@@ -23,16 +24,20 @@ export function PrivateRoutes() {
       <Route path={PATHS.DASHBOARD + "/*"} element={ <DashboardLayout /> }>
         <Route index element={<Navigate to={PATHS.EVENTOS} replace />} />
 
-        <Route element={<ComentariosLayout />}>
-          <Route path="eventos" element={<EventosLayout />}>
-            <Route index element={<Eventos />} />
-            <Route path=":id" element={<Evento />} />
-            <Route path="nuevo" element={<CrearEvento />} />
+        <Route element={<CountryLayout/>}>
+          <Route element={<ComentariosLayout />}>
+            <Route path="eventos" element={<EventosLayout />}>
+              <Route index element={<Eventos />} />
+              <Route path=":id" element={<Evento />} />
+              <Route path="nuevo" element={<CrearEvento />} />
+            </Route>
           </Route>
         </Route>
 
-        <Route path='perfil' element={<PerfilLayout />}>
-          <Route index element={<Perfil />} />
+        <Route element={<CountryLayout/>}>
+          <Route path='perfil' element={<PerfilLayout />}>
+            <Route index element={<Perfil />} />
+          </Route>
         </Route>
 
         <Route path='creditos' element={<CreditosLayout />}>

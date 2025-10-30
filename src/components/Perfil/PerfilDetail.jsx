@@ -1,12 +1,14 @@
-import Input from "../Input/Input";
 import { usePerfil } from "../../hooks/usePerfil";
 import { useState, useEffect } from "react";
-import ProfilePictureUploader from "../Images/ProfilePictureUploader";
+import PerfilCountry from "./PerfilCountry";
 import PerfilPassword from "../Perfil/PerfilPassword"
+import { ChevronRight, Icon } from 'lucide-react';
+import IconButton from "../Button/IconButton";
 
 export default function PerfilDetail () {
     const { user } = usePerfil();
     const [modalOpen, setModalOpen] = useState(false);
+    const [modalCountryOpen, setModalCountryOpen] = useState(false);
 
 
   const [formData, setFormData] = useState({
@@ -16,6 +18,7 @@ export default function PerfilDetail () {
     direccion: "",
     username: "",
     email: "",
+    pais: "",
     imagenPerfil: null
   });
 
@@ -29,6 +32,7 @@ export default function PerfilDetail () {
         username: user.user?.username || "",
         email: user.user?.email || "",
         password: "",
+        pais: user.user.pais || "",
         imagenPerfil: user.imagenUrl || null
         });
     }
@@ -79,10 +83,27 @@ export default function PerfilDetail () {
                         <p className="text-[#7a86b6] mb-2">Correo Electronico</p>
                         <p className="text-white">{user?.user.email}</p>
                     </div>
-                    <div className="border border-[#1b1e5e] p-4 rounded-bl-2xl rounded-br-2xl">
-                        <p className="text-[#7a86b6] mb-2">Telefono</p>
-                        <p className="text-white">{user?.telefono}</p>
+                    <div className="border border-[#1b1e5e] rounded-b-2xl p-4 flex flex-row gap-4">
+                        <div className="flex-1">
+                            <p className="text-[#7a86b6] mb-2">Telefono</p>
+                            <p className="text-white">{user?.telefono}</p>
+                        </div>
+                        <div className="flex-1">
+                            <p className="text-[#7a86b6] mb-2">País</p>
+                            <div className="flex flex-row justify-between items-center">
+                                <p className="text-white">{user?.pais}</p>
+                                <IconButton 
+                                    icon={<ChevronRight color="#4da6ff" className="cursor"/>}
+                                    onClick={() => setModalCountryOpen(true)}
+                                    bg="bg-none"
+                                    className="p-0"
+                                />
+                            </div>
+                        </div>
                     </div>
+                    { modalCountryOpen && (
+                        <PerfilCountry open={modalCountryOpen} onClose={() => setModalCountryOpen(false)} />
+                    )}
                 </section>
             </div>
 
@@ -103,10 +124,6 @@ export default function PerfilDetail () {
                     <p className="text-[#7a86b6] mb-2">CUIT</p>
                     <p className="text-white ">{user?.cuit}</p>
                     </div>
-                    <div className="flex-1">
-                    <p className="text-[#7a86b6] mb-2">Telefono</p>
-                    <p className="text-white ">{user?.telefono}</p>
-                    </div>
                 </div>
                 <div className="border border-[#1b1e5e] p-4 flex flex-row gap-4">
                     <div className="flex-1">
@@ -118,11 +135,11 @@ export default function PerfilDetail () {
                 <div className="border border-[#1b1e5e] bg-[#0b1030] p-4 rounded-bl-2xl rounded-br-2xl cursor-pointer"
                     onClick={() => setModalOpen(true)}
                 >
-                    <div className="flex justify-between items-center">
-                    <span className="text-[#4da6ff] font-bold tracking-wide text-md mt-1">
+                    <div className="flex justify-between items-center text-[#4da6ff]">
+                    <span className="font-bold tracking-wide text-md mt-1">
                         Cambiar contraseña
                     </span>
-                    <span className="text-[#4da6ff] text-xl">→</span>
+                    <ChevronRight />
                     </div>
                 </div>
 

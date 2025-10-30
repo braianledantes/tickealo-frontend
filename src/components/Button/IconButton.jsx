@@ -6,7 +6,7 @@ export default function IconButton({
   active = false, 
   onClick, 
   iconclassname = "w-5 h-5",
-  className = "" ,
+  className = "px-3 py-2" ,
   bg = "bg-gray-800 text-gray-300 hover:bg-gray-700",
   activeBg = "bg-[#03045E] text-white shadow-blue-950/50 hover:bg-[#021f72]",
 }) {
@@ -15,7 +15,7 @@ export default function IconButton({
       title={title}
       onClick={onClick}
       className={`
-        px-3 py-2 rounded-full cursor-pointer transition-all duration-200
+         rounded-full cursor-pointer transition-all duration-200
         shadow-md hover:shadow-lg 
         flex items-center justify-center
         ${active 
