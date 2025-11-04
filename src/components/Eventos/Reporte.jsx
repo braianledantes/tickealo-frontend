@@ -113,7 +113,7 @@ export default function Reporte({ evento }) {
         className="flex items-center gap-2 text-sm text-[#4da6ff] hover:text-white transition-colors"
       >
         <BarChart3 size={16} />
-        Reportes
+        Descargar reporte
       </button>
     </div>
   );

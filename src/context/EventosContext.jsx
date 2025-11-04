@@ -144,8 +144,15 @@ export function EventosProvider({ children }) {
 
   const ticketsEvento = async (eventoId) => {
     try {
-      const tickets = await apiEventos.ticketsEvento(eventoId);
-      return tickets;
+      const response = await apiEventos.ticketsEvento(eventoId);
+
+      // const tickets = response.tickets || [];
+      // const ticketsValidados = tickets.filter(
+      //   (t) => t.estado?.toUpperCase() === "VALIDADO"
+      // );
+
+      // return ticketsValidados;
+      return response;
     } catch (err) {
       setError(err.message || "Error desconocido");
       return [];

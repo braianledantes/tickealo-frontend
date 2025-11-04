@@ -31,6 +31,6 @@ export const eliminarEvento = async (id) => {
 }
 
 export const ticketsEvento = async (eventoId) => {
-  const response = await api.get(`/api/eventos/${eventoId}/tickets`);
+  const response = await api.get(`/api/tickets/eventos/${eventoId}`);
   return response.data;
 }

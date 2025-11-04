@@ -4,7 +4,7 @@ import TicketFiltro from "../Tickets/TicketFiltro";
 import { useState } from "react";
 
 export default function EventTickets({ evento, tickets }) {
-  const [ticketsFiltrados, setTicketsFiltrados] = useState(tickets || []);
+  // const [ticketsFiltrados, setTicketsFiltrados] = useState(tickets || []);
 
   return (
     <div className="lg:col-span-7">
@@ -12,11 +12,11 @@ export default function EventTickets({ evento, tickets }) {
         {/* Progreso total del evento */}
         <ProgressTicket evento={evento} ticketsTotalesEvento={tickets.tickets} />
         {/* Filtro de tickets */}
-        {tickets?.tickets?.length > 0 &&(
+        {/* {tickets?.tickets?.length > 0 &&(
         <TicketFiltro tickets={tickets.tickets} onFiltrar={setTicketsFiltrados} />
-        )}
+        )} */}
         {/* Lista de tickets filtrados */}
-        <TicketList tickets={ticketsFiltrados} text="Tickets validados del evento" />
+        {/* <TicketList tickets={ticketsFiltrados} text="Tickets validados del evento" /> */}
       </div>
     </div>
   );

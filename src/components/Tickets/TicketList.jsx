@@ -1,7 +1,11 @@
 import { formatearFecha } from "../../utils/formatearFecha";
 import {EstadoCompra} from "../FeedBack/Estados";
+import TicketDetail from "./TicketDetail";
+import { useState } from "react";
 
 export default function TicketList({ tickets = [], text = "" }) {
+  const [selectedTicket, setSelectedTicket] = useState(null);
+  console.log(tickets)
   if (!tickets.length) return <div className="text-center text-white/20 uppercase italic tracking-wider font-semibold">No hay tickets validados para mostrar</div>;
   return (
     <div className="space-y-2">
@@ -16,29 +20,30 @@ export default function TicketList({ tickets = [], text = "" }) {
             <span className="hidden lg:block">Estado</span>
             <span>Codigo</span>
           </li>
-          {tickets.map((c, i) => {
-            const compra = c.user || c.cliente || {};
-            const nombre = compra.nombre || compra.username || "Usuario";
-
+          {tickets.map((t, i) => {
+            const validador = t.validatedBy.cliente;
+            console.log(t);
             return (
               <li
                 key={i}
                 className="p-3 items-center place-items-center rounded-full hover:bg-white/5 transition grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 text-white"
               >
-                  <span className="font-semibold tracking-wide text-gray-500">#{c.id}</span>
-                    <span className="hidden lg:block md:block truncate">{nombre} {compra.apellido}</span>
-                    <span className="hidden lg:block text-gray-500">{formatearFecha(c.updatedAt)}</span>
-                    <span className="hidden lg:block truncate">{c.entrada.id}</span>
+                  <span className="font-semibold tracking-wide text-gray-500">#{t.id}</span>
+                    <span className="hidden lg:block md:block truncate" onClick={() => setSelectedTicket(t.id)}>{validador.nombre}{" "}{validador.apellido}</span>
+                    <span className="hidden lg:block text-gray-500">{formatearFecha(t.updatedAt)}</span>
+                    <span className="hidden lg:block truncate">{t.entrada.id}</span>
                     <EstadoCompra
-                    estadoCompra={c.estado}
+                    estadoCompra={t.estado}
                     className="hidden lg:flex items-center break-words text-[clamp(0.30rem,1vw,0.75rem)] leading-tight"
                     />
-                    <span className="hidden lg:block md:block truncate">{c.codigoAlfanumerico}</span>
+                    <span className="hidden lg:block md:block truncate">{t.codigoAlfanumerico}</span>
               </li>
             );
           })}
         </ul>
       </div>
+
+       {selectedTicket && ( <TicketDetail ticketId={selectedTicket} onClose={() => setSelectedTicket(null)} /> )}
     </div>
   );
 }
