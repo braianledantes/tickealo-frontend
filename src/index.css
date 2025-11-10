@@ -77,3 +77,61 @@ input:-webkit-autofill {
 .scrollbar-none {
   color-scheme: dark;
 }
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeUp {
+  animation: fadeUp 0.6s ease-out forwards;
+}
+
+@keyframes revealLetters {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Clase combinada para títulos */
+.animate-title {
+  opacity: 0;
+  animation: fadeUp 0.6s ease-out forwards,
+             revealLetters 1.2s steps(20) forwards;
+}
+.animate-subtitle {
+  opacity: 0;
+  animation: fadeUp 0.8s ease-out forwards;
+  animation-delay: 0.4s;
+}
+
+.card-glow:hover {
+  box-shadow: 0px 0px 35px 15px rgba(22, 0, 120, 0.16);
+  transition: box-shadow 0.4s ease-out, transform 0.3s ease-out;
+}
+
+.scrollbar-dark {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #1a1f3a #05081b; /* thumb y track */
+
+}
+.scrollbar-dark::-webkit-scrollbar {
+  width: 8px;
+}
+.scrollbar-dark::-webkit-scrollbar-track {
+  background: #05081b;
+}
+.scrollbar-dark::-webkit-scrollbar-thumb {
+  background-color: #1a1f3a;
+  border-radius: 8px;
+  border: 2px solid #05081b;
+}

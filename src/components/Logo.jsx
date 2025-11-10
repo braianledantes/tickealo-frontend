@@ -11,10 +11,10 @@ export default function Logo() {
 
       {/* Logo TICKEALO clickeable */}
       <div
-        className="flex items-center gap-2 text-white font-bold text-2xl z-20 p-4 justify-center cursor-pointer"
+        className="flex items-center gap-2 text-white font-bold text-2xl z-20 p-4 justify-center cursor-pointer z-1"
         onClick={() => navigate(PATHS.DASHBOARD)}
       >
-        TICKEALO <img src="/tickealo.svg" alt="Logo Tickealo" className="w-7 h-7" />
+        TICKEALO <img src="/tickealo.svg" alt="Logo Tickealo" className="w-7 h-7 " />
       </div>
     </>
   );

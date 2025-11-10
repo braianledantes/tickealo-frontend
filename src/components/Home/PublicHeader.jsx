@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import logotipo from "../../assets/logotipo.png";
+import Logo from "../Logo";
 import { useAuth } from "../../hooks/useAuth";
 import { PATHS } from "../../routes/paths";
 import Button from "../Button/Button";
@@ -12,20 +12,29 @@ export function PublicHeader() {
   const handleLogin = () => navigate(PATHS.LOGIN);
   const handleRegister = () => navigate(PATHS.REGISTER);
   const handleDashboard = () => navigate(PATHS.DASHBOARD);
-  const handleHome = () => navigate(PATHS.HOME);
 
   return (
-    <header className="w-full p-4 flex justify-between items-center">
+    <header
+      className="
+        relative
+        w-full 
+        p-2
+        flex 
+        justify-center
+        items-center
+        bg-gradient-to-b
+        from-[#0A0F2D]
+        to-[#05081b]
+        shadow-md
+      "
+    >
+      {/* LOGO CENTRADO */}
       <div className="flex items-center">
-        <img
-          src={logotipo}
-          alt="Tickealo Logo"
-          className="h-10 w-auto object-contain cursor-pointer"
-          onClick={handleHome}
-        />
+        <Logo />
       </div>
 
-      <div className="flex gap-4">
+      {/* BOTONES A LA DERECHA */}
+      <div className="absolute right-4 top-1/2 -translate-y-1/2 flex gap-4">
         {!user ? (
           <>
             <Button onClick={handleLogin}>Iniciar Sesión</Button>
@@ -45,5 +54,5 @@ export function PublicHeader() {
         )}
       </div>
     </header>
-  )
+  );
 }

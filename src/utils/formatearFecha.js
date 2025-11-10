@@ -10,6 +10,18 @@ export const formatearFecha = (fecha) => {
   });
 };
 
+export const formatearFechaLarga = (fecha) => {
+  if (!fecha) return "-";
+
+  const date = new Date(fecha);
+
+  return date.toLocaleDateString("es-AR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).replace(" de ", " de ").replace(" ", " ") + "";
+};
+
 //formato para comentarios
 export const recentTime = (fechaComentario) => {
   if (!fechaComentario) return "-";

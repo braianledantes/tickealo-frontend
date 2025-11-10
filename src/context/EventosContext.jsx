@@ -11,10 +11,28 @@ export function EventosProvider({ children }) {
   const [error, setError] = useState(null);
   const [evento, setEvento] = useState(null);
   const [tickets, setTickets] = useState([]); 
+  const [allEvents, setAllEvents] =useState([]);
+  const [ loadingAllEvents, setLoadingAllEvents] = useState(false);
 
   useEffect(() => {
     getEventos();
   }, []);
+
+  const getAllEvents = async () => {
+    setLoadingAllEvents(true);
+    try {
+      const data = await apiEventos.getEventos();
+      const eventosOrdenados = data.sort((a, b) => 
+        new Date(b.createdAt) - new Date(a.createdAt)
+      );
+      setAllEvents(eventosOrdenados);
+    } catch (err) {
+      setError(err.message || "Error desconocido");
+      setAllEvents([]);
+    } finally {
+      setLoadingAllEvents(false);
+    }
+  };
 
   // Traer eventos de la productora
   const getEventos = async () => {
@@ -175,6 +193,9 @@ export function EventosProvider({ children }) {
         getEventoById,
         actualizarEvento,
         eliminarEvento,
+        allEvents,
+        loadingAllEvents, 
+        getAllEvents,
       }}
     >
       {children}
