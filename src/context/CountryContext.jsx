@@ -7,10 +7,10 @@ export const CountryProvider = ({ children }) => {
   const [countries, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     getCountries()
       .then((options) => {
+        console.log("Países recibidos desde el backend:", options);
         setCountries(options.countries);
       })
       .catch((err) => console.error("Error al obtener países:", err))
@@ -31,4 +31,3 @@ export const CountryProvider = ({ children }) => {
     </CountryContext.Provider>
   );
 };
-
