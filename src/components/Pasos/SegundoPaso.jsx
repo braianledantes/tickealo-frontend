@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
-import BankCard from "../BankCard";
-import { X , ArrowRight, ArrowLeft} from "lucide-react";
+import { X, ArrowRight, ArrowLeft, TriangleAlert } from "lucide-react";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function SegundoPaso({ onNext, onBack, initialData }) {
+  const { user } = useAuth();
   const [entradas, setEntradas] = useState(
     initialData.entradas?.length > 0
       ? initialData.entradas
@@ -26,15 +27,26 @@ export default function SegundoPaso({ onNext, onBack, initialData }) {
   };
 
   const removeEntrada = (index) => {
-    if (index === 0) return; // nunca eliminar la primera
+    if (index === 0) return;
     setEntradas(entradas.filter((_, i) => i !== index));
   };
+
+  const totalUsado = useMemo(() => {
+    return entradas.reduce((acc, e) => acc + (e.cantidad || 0), 0);
+  }, [entradas]);
+
+  const saldoRestante = user.creditosDisponibles - totalUsado;
 
   const handleContinue = () => {
     setTouched(true);
 
     if (entradas.some((e) => !e.tipo || e.precio <= 0 || e.cantidad <= 0)) {
       setError("Completa todos los campos de las entradas.");
+      return;
+    }
+
+    if (saldoRestante < 0) {
+      setError("No tienes suficientes créditos para crear estas entradas.");
       return;
     }
 
@@ -52,13 +64,11 @@ export default function SegundoPaso({ onNext, onBack, initialData }) {
               ${i !== 0 ? "hover:ring-2 hover:ring-blue-500" : ""} 
               transition-all bg-[#0a0f33]/60 rounded-xl p-4 grid grid-cols-1 lg:grid-cols-3 gap-4`}
           >
-            {/* Botón eliminar solo visible si no es la primera */}
             {i !== 0 && (
               <button
                 type="button"
                 onClick={() => removeEntrada(i)}
                 className="absolute top-2 right-2 text-red-500 hover:text-red-400 font-bold text-lg opacity-0 group-hover:opacity-100 transition-opacity"
-                title="Eliminar entrada"
               >
                 <X />
               </button>
@@ -72,6 +82,7 @@ export default function SegundoPaso({ onNext, onBack, initialData }) {
               error={!entrada.tipo}
               showError={touched}
             />
+
             <Input
               type="number"
               placeholder="5000"
@@ -81,19 +92,26 @@ export default function SegundoPaso({ onNext, onBack, initialData }) {
               error={entrada.precio <= 0}
               showError={touched}
               prefix={initialData.lugar.isoCodigoPais}
+              min={0}
             />
+
             <Input
               type="number"
               placeholder="200"
               value={entrada.cantidad}
-              onChange={(e) => handleEntradaChange(i, "cantidad", e.target.value)}
+              onChange={(e) =>
+                handleEntradaChange(i, "cantidad", e.target.value)
+              }
               label="Cantidad"
               error={entrada.cantidad <= 0}
               showError={touched}
+              min={0}
+              max={user.creditosDisponibles}
             />
           </div>
         ))}
 
+        {/* Botón agregar entrada */}
         <div className="flex gap-4 mt-2">
           <button
             type="button"
@@ -104,26 +122,36 @@ export default function SegundoPaso({ onNext, onBack, initialData }) {
           </button>
         </div>
 
-        <div className="hidden flex items-center mt-4 mb-6">
-          <input
-            type="checkbox"
-            id="cancelado"
-            checked={cancelado}
-            onChange={(e) => setCancelado(e.target.checked)}
-            className="mr-2"
-          />
-          <label htmlFor="cancelado" className="text-white">Evento cancelado</label>
+        {/* MENSAJE DE SALDO RESTANTE */}
+        <div className="mt-2">
+          {saldoRestante >= 0 ? (
+            <p className="text-white/60 text-sm italic">
+              {saldoRestante === 0
+                ? "Tu saldo después de crear este evento será de 0 créditos."
+                : `Tu saldo quedará en ${saldoRestante} créditos.`}
+            </p>
+          ) : (
+            <p className="text-red-500/70 text-sm italic">
+              Te faltan {Math.abs(saldoRestante)} créditos para cubrir todas las
+              entradas.
+            </p>
+          )}
         </div>
 
-        {error && <p className="text-red-500">{error}</p>}
+        {error && <p className="text-red-500 tracking-wider font-semibold flex items-center gap-2"><TriangleAlert/>{error}</p>}
 
+        {/* Navegación */}
         <div className="relative pt-20 flex gap-4">
-          <div className="absolute bottom-2 left-4  w-[80px]">
-            <Button onClick={onBack}><ArrowLeft /></Button>
+          <div className="absolute bottom-2 left-4 w-[80px]">
+            <Button onClick={onBack}>
+              <ArrowLeft />
+            </Button>
           </div>
 
           <div className="absolute bottom-2 right-4 w-[80px]">
-            <Button onClick={handleContinue}><ArrowRight /></Button>
+            <Button onClick={handleContinue}>
+              <ArrowRight />
+            </Button>
           </div>
         </div>
       </div>

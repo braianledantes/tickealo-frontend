@@ -47,7 +47,7 @@ export default function ReseñasEvento({ evento }) {
       <h3 className="text-2xl font-bold mb-6 text-white">Reseñas del evento</h3>
 
       {loading ? (
-        <ComentarioLoading />
+        <ComentarioLoading cantidad={comentarios.length} />
       ) : error ? (
         <p className="text-red-500">{error}</p>
       ) : comentarios.length === 0 ? (

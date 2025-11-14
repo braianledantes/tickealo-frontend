@@ -14,7 +14,7 @@ export default function Input({
   error,
   showError,
   disabled = false,
-  prefix, // <-- nuevo prop
+  prefix, 
 }) {
   const [showPassword, setShowPassword] = useState(false);
   const inputRef = useRef(null);

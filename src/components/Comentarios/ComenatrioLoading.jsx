@@ -1,7 +1,7 @@
-export default function ComentarioLoading() {
+export default function ComentarioLoading({ cantidad = 3}) {
   return (
     <div className="space-y-4">
-      {[...Array(3)].map((_, index) => (
+      {[...Array(cantidad)].map((_, index) => (
         <div
           key={index}
           className="bg-[#05081b]/60 border border-white/10 p-4 rounded-3xl animate-pulse"

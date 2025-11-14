@@ -79,7 +79,7 @@ export default function CrearEvento() {
 
   return (
     <main className="flex-1 p-6 h-screen overflow-y-auto scrollbar-none relative">
-      <h2 className="text-3xl font-bold text-white mb-6">Nuevo evento</h2>
+      <h2 className="text-3xl font-bold text-white mb-6 px-4 pt-5">Nuevo evento</h2>
       <ProgressBar />
 
       {currentStep === 1 && (

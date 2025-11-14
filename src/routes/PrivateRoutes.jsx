@@ -58,6 +58,7 @@ export function PrivateRoutes() {
 
         <Route path="*" element={<Navigate to={PATHS.EVENTOS} replace />} />
       </Route>
+      <Route path="*" element={<Navigate to={PATHS.DASHBOARD} replace />} />
     </Routes>
   )
 }
