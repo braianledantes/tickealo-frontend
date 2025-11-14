@@ -1,46 +1,12 @@
 import { useEffect, useState } from "react";
 import { ShoppingCart, Info, Plus } from "lucide-react";
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import * as mercadopagoapi from "../api/mercadopago";
+import { useCreditos } from "../hooks/useCreditos";
 
 // Constantes de diseño
 const COLORS = {
   grisFondo: "#0b1028",
-};
-
-// API mock - reemplazar con llamadas reales a la API
-const apiCreditos = {
-  async getSaldo() {
-    return 500; // TODO: implementar llamada real
-  },
-
-  async getPacks() {
-    return [
-      { id: 1, cantidad: 100, precioARS: 1500 },
-      { id: 2, cantidad: 250, precioARS: 3500 },
-      { id: 3, cantidad: 500, precioARS: 6500 },
-      { id: 4, cantidad: 1000, precioARS: 12000 },
-    ];
-  },
-
-  async comprar({ packId, cantidad }) {
-    const saldoActual = 500; // En producción, obtener saldo actual
-    const pack = await this.getPacks().then((packs) =>
-      packs.find((p) => p.id === packId)
-    );
-    const precioARS = pack?.precioARS || cantidad * 15;
-
-    return {
-      saldo: saldoActual + (cantidad || pack?.cantidad || 0),
-      movimiento: {
-        id: Math.random().toString(36).slice(2),
-        fechaISO: new Date().toISOString(),
-        antes: saldoActual,
-        delta: cantidad || pack?.cantidad || 0,
-        despues: saldoActual + (cantidad || pack?.cantidad || 0),
-        precioARS,
-        tipo: "COMPRA",
-      },
-    };
-  },
 };
 
 // Funciones de formateo
@@ -75,24 +41,20 @@ function Modal({ open, onClose, title, children, footer }) {
 }
 
 // Modal para comprar créditos
-function ComprarModal({ open, packs, onClose, onConfirm }) {
+function ComprarModal({ open, packs, onClose, createCreditoPreference, onConfirm }) {
   const [packSeleccionado, setPackSeleccionado] = useState(null);
+  const [preferenceId, setPreferenceId] = useState(null);
 
-  const handleConfirmar = () => {
+  useEffect(() => {
     const pack = packs.find((p) => p.id === packSeleccionado);
 
-    if (!pack) return;
-
-    const urls = {
-      1: "https://www.mercadopago.com.ar/checkout/v1/payment/redirect/exception?error_type=error_preference&router-request-id=29c8cdf5-56af-4628-b643-4437cdf45d3c&error_code=ND-099fb46e-615a-4e7f-9da3-c6d770a2080e&payer_id=&last_step=",
-      2: "https://www.mercadopago.com.ar/checkout/v1/payment/redirect/exception?error_type=error_preference&router-request-id=29c8cdf5-56af-4628-b643-4437cdf45d3c&error_code=ND-099fb46e-615a-4e7f-9da3-c6d770a2080e&payer_id=&last_step=",
-      3: "https://www.mercadopago.com.ar/checkout/v1/payment/redirect/exception?error_type=error_preference&router-request-id=29c8cdf5-56af-4628-b643-4437cdf45d3c&error_code=ND-099fb46e-615a-4e7f-9da3-c6d770a2080e&payer_id=&last_step=",
-      4: "https://www.mercadopago.com.ar/checkout/v1/payment/redirect/exception?error_type=error_preference&router-request-id=29c8cdf5-56af-4628-b643-4437cdf45d3c&error_code=ND-099fb46e-615a-4e7f-9da3-c6d770a2080e&payer_id=&last_step=",
-    };
-
-    const url = urls[pack.id];
-    if (url) window.location.href = url;
-  };
+    if (pack) {
+      createCreditoPreference(pack)
+        .then((data) => {
+          setPreferenceId(data.id);
+        });
+    }
+  }, [packSeleccionado]);
 
   return (
     <Modal open={open} onClose={onClose} title="Comprar créditos">
@@ -101,11 +63,10 @@ function ComprarModal({ open, packs, onClose, onConfirm }) {
           <button
             key={pack.id}
             onClick={() => setPackSeleccionado(pack.id)}
-            className={`w-full text-left p-3 rounded-xl border transition-colors ${
-              packSeleccionado === pack.id
-                ? "bg-white/10 border-white/40"
-                : "bg-transparent border-white/10 hover:bg-white/5"
-            }`}
+            className={`w-full text-left p-3 rounded-xl border transition-colors ${packSeleccionado === pack.id
+              ? "bg-white/10 border-white/40"
+              : "bg-transparent border-white/10 hover:bg-white/5"
+              }`}
           >
             <div className="flex items-center justify-between text-white">
               <span className="flex items-center gap-2">
@@ -127,13 +88,12 @@ function ComprarModal({ open, packs, onClose, onConfirm }) {
         >
           Cancelar
         </button>
-        <button
-          disabled={!packSeleccionado}
-          onClick={handleConfirmar}
-          className="px-4 py-2 rounded-xl bg-blue-500 text-white font-semibold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-blue-600 transition-colors"
-        >
-          Comprar
-        </button>
+        {preferenceId && (
+          <Wallet
+            customization={{ theme: "dark", showValueProp: false }}
+            initialization={{ preferenceId: preferenceId }}
+          />
+        )}
       </div>
     </Modal>
   );
@@ -162,41 +122,12 @@ function HistorialCompraRow({ fechaISO, antes, delta, despues, precioARS }) {
 }
 
 export default function CreditosPage() {
-  // Estados
-  const [saldo, setSaldo] = useState(0);
-  const [packs, setPacks] = useState([]);
-  const [historialCompras, setHistorialCompras] = useState([]);
+  const { packs, saldo, historialCompras, createCreditoPreference } = useCreditos();
   const [openComprar, setOpenComprar] = useState(false);
-
-  // Cargar datos iniciales
-  useEffect(() => {
-    const cargarDatos = async () => {
-      try {
-        const [saldoData, packsData] = await Promise.all([
-          apiCreditos.getSaldo(),
-          apiCreditos.getPacks(),
-        ]);
-        setSaldo(saldoData);
-        setPacks(packsData);
-      } catch (error) {
-        console.error("Error al cargar datos:", error);
-      }
-    };
-
-    cargarDatos();
-  }, []);
 
   // Manejar compra de créditos
   const handleConfirmCompra = async ({ packId, cantidad }) => {
-    try {
-      const resultado = await apiCreditos.comprar({ packId, cantidad });
 
-      setSaldo(resultado.saldo);
-      setHistorialCompras((prev) => [resultado.movimiento, ...prev]);
-      setOpenComprar(false);
-    } catch (error) {
-      console.error("Error al comprar créditos:", error);
-    }
   };
 
   return (
@@ -270,11 +201,11 @@ export default function CreditosPage() {
               {historialCompras.map((compra) => (
                 <HistorialCompraRow
                   key={compra.id}
-                  fechaISO={compra.fechaISO}
-                  antes={compra.antes}
-                  delta={compra.delta}
-                  despues={compra.despues}
-                  precioARS={compra.precioARS}
+                  fechaISO={compra.createdAt}
+                  antes={compra.creditosPrevios}
+                  delta={compra.creditos}
+                  despues={compra.creditosPosterior}
+                  precioARS={compra.precio}
                 />
               ))}
             </>
@@ -288,6 +219,7 @@ export default function CreditosPage() {
         onClose={() => setOpenComprar(false)}
         packs={packs}
         onConfirm={handleConfirmCompra}
+        createCreditoPreference={createCreditoPreference}
       />
     </div>
   );

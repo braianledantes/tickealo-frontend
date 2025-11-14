@@ -1,7 +1,10 @@
 import { Outlet } from "react-router-dom";
+import { CreditosProvider } from "../context/CreditosContext";
 
 export function CreditosLayout() {
   return (
-    <Outlet />
+    <CreditosProvider>
+      <Outlet />
+    </CreditosProvider>
   )
 }
