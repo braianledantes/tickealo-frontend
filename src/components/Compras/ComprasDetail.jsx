@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { useCompras } from "../../hooks/useCompras";
-import { formatearFecha } from "../../utils/formatearFecha";
+import { formatearFecha } from "../../utils/formatear";
 import { EstadoCompra } from "../FeedBack/Estados";
 import LoadingSpinner from "../LoadingSpinner";
 import IconButton from "../Button/IconButton";

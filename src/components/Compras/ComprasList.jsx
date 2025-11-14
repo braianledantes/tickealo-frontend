@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, X} from "lucide-react";
-import { formatearFecha } from "../../utils/formatearFecha";
+import { formatearFecha } from "../../utils/formatear";
 import ComprasDetail from "../Compras/ComprasDetail";
 import {EstadoCompra} from "../FeedBack/Estados";
 

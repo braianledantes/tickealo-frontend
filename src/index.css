@@ -78,6 +78,7 @@ input:-webkit-autofill {
   color-scheme: dark;
 }
 
+/* ANIMACIONES*/
 @keyframes fadeUp {
   0% {
     opacity: 0;
@@ -91,6 +92,36 @@ input:-webkit-autofill {
 
 .animate-fadeUp {
   animation: fadeUp 0.6s ease-out forwards;
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.4s ease-out forwards;
+}
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+}
+
+.animate-slideDown {
+  animation: slideDown 0.4s ease-out forwards;
 }
 
 @keyframes revealLetters {

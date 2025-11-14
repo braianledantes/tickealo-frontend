@@ -1,6 +1,6 @@
 import { Pin, PinOff, Trash, Star } from "lucide-react";
 import IconButton from "../Button/IconButton";
-import { recentTime } from "../../utils/formatearFecha";
+import { recentTime } from "../../utils/formatear";
 
 export default function Comentario({
   comentario,

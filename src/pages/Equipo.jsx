@@ -27,7 +27,7 @@ export default function Equipo() {
 
   return (
     <div className="p-10">
-      <div className="bg-[#05081b]/40 rounded-2xl shadow-2xl p-8 border border-white/20 mb-20 max-w-5xl mx-auto">
+      <div className="bg-[#05081b]/40 rounded-2xl shadow-2xl p-8 border border-white/20 mb-20 max-w-6xl mx-auto">
         <h2 className="text-3xl font-bold text-white mb-4">Equipo</h2>
 
         <div className="border-b border-white/20 mb-6 pb-4 space-y-5">

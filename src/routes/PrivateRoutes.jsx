@@ -56,10 +56,8 @@ export function PrivateRoutes() {
           <Route index element={<Compras />} />
         </Route>
 
-        <Route path="*" element={<Navigate to={PATHS.DASHBOARD} replace />} />
+        <Route path="*" element={<Navigate to={PATHS.EVENTOS} replace />} />
       </Route>
-
-      <Route path="*" element={<Navigate to={PATHS.DASHBOARD} replace />} />
     </Routes>
   )
 }

@@ -1,4 +1,4 @@
-import { formatearFecha } from "../../utils/formatearFecha";
+import { formatearFecha } from "../../utils/formatear";
 import {EstadoCompra} from "../FeedBack/Estados";
 import TicketDetail from "./TicketDetail";
 import { useState } from "react";

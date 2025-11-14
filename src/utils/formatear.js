@@ -22,6 +22,19 @@ export const formatearFechaLarga = (fecha) => {
   }).replace(" de ", " de ").replace(" ", " ") + "";
 };
 
+export const formatearFechaCorta = (isoString) =>
+  new Date(isoString).toLocaleDateString("es-AR");
+
+export const formatCurrency = (amount) =>
+  new Intl.NumberFormat("es-AR", {
+    style: "currency",
+    currency: "ARS",
+    maximumFractionDigits: 0,
+  }).format(amount);
+
+export const formatNumber = (number) => new Intl.NumberFormat("es-AR").format(number);
+
+
 //formato para comentarios
 export const recentTime = (fechaComentario) => {
   if (!fechaComentario) return "-";

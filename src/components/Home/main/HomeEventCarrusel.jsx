@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { formatearFechaLarga } from "../../../utils/formatearFecha";
+import { formatearFechaLarga } from "../../../utils/formatear";
 
 // ✅ Hook simple para detectar mobile
 function useIsMobile() {

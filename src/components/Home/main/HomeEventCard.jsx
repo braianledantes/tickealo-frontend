@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { formatearFechaLarga } from "../../../utils/formatearFecha";
+import { formatearFechaLarga } from "../../../utils/formatear";
 
 export function HomeEventCard({ eventos = [] }) {
   return (
