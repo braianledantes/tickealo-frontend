@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { formatearFechaLarga } from "../../../utils/formatear";
 
-// ✅ Hook simple para detectar mobile
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
 
@@ -15,7 +14,6 @@ function useIsMobile() {
   return isMobile;
 }
 
-// ✅ Loading Card mientras carga
 function CarouselLoading() {
   return (
     <div
@@ -49,13 +47,12 @@ export function HomeEventCarousel({ eventos = [] }) {
     return () => clearInterval(interval);
   }, [eventos]);
 
-  // ✅ Muestra loading mientras no hay datos
   if (eventos.length === 0) return <CarouselLoading />;
 
   const evento = eventos[index];
 
   return (
-    <div className="relative w-full aspect-[11/4] overflow-hidden mb-10 group">
+    <div className="relative w-full aspect-[11/4] overflow-hidden mt-20 my-10 group">
 
       {/* Imagen de fondo */}
       <div

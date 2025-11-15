@@ -116,23 +116,22 @@ export default function EventModified({ evento, onUpdate }) {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-4">
-          <Input
-            label="Direccion del evento"
-            placeholder={evento.lugar?.direccion || ""}
-            value={evento.lugar?.direccion || ""}
-            onChange={(e) => {}}
-            disabled
-          />
-
           <ImageUploader
             onFileSelect={(file) => handleChange("portadaFile", file)}
-            aspect="aspect-[11/4]"
+            aspect="aspect-[4/5]"
             value={getPreviewSrc(formData.portadaFile || evento.portadaUrl)}
             placeholder={
               !formData.portadaFile && !evento.portadaUrl
                 ? "Sin portada"
                 : undefined
             }
+          />
+          <Input
+            label="Direccion del evento"
+            placeholder={evento.lugar?.direccion || ""}
+            value={evento.lugar?.direccion || ""}
+            onChange={(e) => {}}
+            disabled
           />
         </div>
 

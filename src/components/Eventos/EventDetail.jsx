@@ -1,99 +1,88 @@
 import ImageUploader from "../../components/Images/ImageUploader";
-import Input from "../../components/Input/Input";
 import TertiaryButton from "../Button/TertiaryButton";
-import TextArea from "../Input/InputTextArea";
+import { MapPin } from "lucide-react";
+import { formatearFecha } from "../../utils/formatear";
+import EntradaCard from "../Entradas/EntradaCard";
 
 export default function EventDetail({ evento, onDelete }) {
-	const getPreviewSrc = (value) =>
-		value instanceof File ? URL.createObjectURL(value) : value;
-	return (
-		<div className="lg:col-span-7">
-			{/* Banner */}
-			{evento.bannerUrl ? (
-				<ImageUploader
-					onFileSelect={() => { }}
-					aspect="aspect-[11/4]"
-					value={getPreviewSrc(evento.bannerUrl)}
-					readOnly
-				/>
-			) : (
-				<div className="w-full aspect-[11/4] flex items-center justify-center bg-gray-800 text-gray-500 rounded-lg">
-					Sin banner
-				</div>
-			)}
+  const getPreviewSrc = (value) =>
+    value instanceof File ? URL.createObjectURL(value) : value;
 
-			{/* Datos básicos */}
-			<div className="border border-white/10 bg-[#05081b]/40 p-6 space-y-8">
-				{/* Nombre y fechas */}
-				<div className="grid grid-cols-1 lg:grid-cols-3 gap-x-6 gap-y-4">
-					<Input
-						label="Nombre del evento" placeholder={evento?.nombre}
-						value={evento.nombre} readOnly
-					/>
+  return (
+    <div className="lg:col-span-7">
+      {/* Banner */}
+      {evento.bannerUrl ? (
+        <ImageUploader
+          onFileSelect={() => {}}
+          aspect="aspect-[11/4]"
+          value={getPreviewSrc(evento.bannerUrl)}
+          readOnly
+        />
+      ) : (
+        <div className="w-full aspect-[11/4] flex items-center justify-center bg-gray-800 text-gray-500 rounded-lg">
+          Sin banner
+        </div>
+      )}
 
-					<Input
-						label="Fecha de inicio"
-						placeholder={evento?.inicioAt}
-						value={new Date(evento.inicioAt).toLocaleString("es-AR")}
-						readOnly
-					/>
+      {/* Datos básicos */}
+      <div className="border border-white/10 bg-[#05081b]/40 p-6 ">
+        <h1 className="tracking-wider text-white font-semibold text-xl">{evento.nombre}</h1>
+        <div className="text-blue-800 flex justify-start gap-2 mt-4">
+          <MapPin size={14} />
+          <span className="text-sm tracking-wider text-blue-800 font-semibold pb-2">
+            {evento.lugar.direccion}
+          </span>
+        </div>
 
-					<Input
-						label="Fecha de fin"
-						placeholder={evento?.finAt}
-						value={new Date(evento.finAt).toLocaleString("es-AR")}
-						readOnly
-					/>
-				</div>
+		<p className="text-white text-sm md:text-base lg:text-lg mt-2 tracking-wide border-b-[0.5px] border-white/20 pb-2 break-words overflow-hidden">
+		{evento.descripcion}
+		</p>
 
-				{/* Ubicación y portada */}
-				<div className="grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-4">
-					<div className="space-y-10">
-						<Input
-							label="Direccion del evento"
-							placeholder={evento.lugar?.direccion}
-							value={evento.lugar?.direccion || ""}
-							readOnly
-						/>
-					</div>
-				</div>
 
-				<div className="grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-4 pb-10 border-b border-white/50">
-					{evento.portadaUrl ? (
-						<ImageUploader
-							onFileSelect={() => { }}
-							aspect="aspect-[20/13]"
-							value={getPreviewSrc(evento.portadaUrl)}
-							readOnly
-						/>
-					) : (
-						<div className="w-full aspect-[20/13] flex items-center justify-center bg-gray-800 text-gray-500 rounded-lg">
-							Sin portada
-						</div>
-					)}
-					<TextArea label="Descripcion del evento" value={evento.descripcion} readOnly />
-				</div>
+        {/* Fecha */}
+        <p className="py-2 text-[#999] font-semibold tracking-wider">
+          {(() => {
+            const date = new Date(evento.inicioAt);
+            const fecha = date
+              .toLocaleDateString("es-AR", {
+                weekday: "long",
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+              })
+              .toUpperCase();
 
-				{/* Entradas */}
-				<div className="pb-4">
-					<h3 className="text-white text-2xl font-bold mb-4">Entradas</h3>
-					{evento.entradas?.map((entrada, i) => (
-						<div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
-							<Input placeholder="Tipo de entrada" value={entrada.tipo} readOnly />
-							<Input placeholder="Precio" value={entrada.precio} readOnly />
-							<Input placeholder="Cantidad" value={entrada.cantidad} readOnly />
-						</div>
-					))}
+            const hora = date.getHours().toString().padStart(2, "0");
+            const minutos = date.getMinutes().toString().padStart(2, "0");
 
-				</div>
-				<div className="relative pb-13">
-					<div className="absolute right-2 max-w-xl">
-						{onDelete && <TertiaryButton text="Eliminar" onClick={onDelete} />}
-					</div>
-				</div>
-			</div>
-		</div>
-	);
+            return `${fecha} • ${hora}:${minutos} HS`;
+          })()}
+        </p>
+
+        {/* Entradas debajo de la fecha */}
+        <div className="mt-4">
+          {evento.entradas?.map((entrada, i) => (
+            <EntradaCard
+              key={i}
+              tipo={entrada.tipo}
+              precio={entrada.precio}
+              priceValueOverride={entrada.precio}
+              disabled={false} 
+            />
+          ))}
+        </div>
+
+		<p className="text-blue-800/50 italic tracking-wider text-center py-4">Así verán los usuarios tu evento.</p>
+
+        <div className="flex justify-between items-center pb-10 pt-6 border-t border-white/10">
+          <span className="text-white text-sm tracking-wider italic">
+            Ultima actualizacion: {formatearFecha(evento.createdAt)}
+          </span>
+          <div>
+            {onDelete && <TertiaryButton text="Eliminar" onClick={onDelete} />}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
-
-
