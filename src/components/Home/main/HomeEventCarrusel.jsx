@@ -52,7 +52,7 @@ export function HomeEventCarousel({ eventos = [] }) {
   const evento = eventos[index];
 
   return (
-    <div className="relative w-full aspect-[11/4] overflow-hidden mt-20 my-10 group">
+    <div className="relative w-full aspect-[11/4] overflow-hidden mt-20 md:mt-0 my-10 group">
 
       {/* Imagen de fondo */}
       <div
