@@ -2,10 +2,12 @@ import { createContext, useEffect, useState } from "react";
 import * as apiEventos from "../api/eventos";
 import * as apiProductora from "../api/productora";
 import * as apiCuentaBancaria from "../api/cuentaBancaria";
+import { useAuth } from "../hooks/useAuth";
 
 export const EventosContext = createContext();
 
 export function EventosProvider({ children }) {
+  const { user } = useAuth();
   const [eventos, setEventos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,18 +16,33 @@ export function EventosProvider({ children }) {
   const [allEvents, setAllEvents] =useState([]);
   const [ loadingAllEvents, setLoadingAllEvents] = useState(false);
 
+  const isProductora = !!user?.user?.roles?.some(
+    (role) => role.name === "productora",
+  );
   useEffect(() => {
-    getEventos();
-  }, []);
+    if (user && isProductora) {
+      getEventos();
+    }
+    // eslint-disable-next-line
+  }, [user]);
 
   const getAllEvents = async () => {
     setLoadingAllEvents(true);
     try {
       const data = await apiEventos.getEventos();
-      const eventosOrdenados = data.sort((a, b) => 
-        new Date(b.createdAt) - new Date(a.createdAt)
-      );
-      setAllEvents(eventosOrdenados);
+      const ordenados = data.sort((a, b) => {
+        const fechaA = new Date(a.inicioAt);
+        const fechaB = new Date(b.inicioAt);
+        return fechaA - fechaB; 
+      });
+
+      const futuros = ordenados.filter(event => {
+        const fechaEvento = new Date(event.inicioAt);
+        return fechaEvento >= new Date(); 
+      });
+
+      setAllEvents(futuros);
+
     } catch (err) {
       setError(err.message || "Error desconocido");
       setAllEvents([]);
@@ -33,6 +50,7 @@ export function EventosProvider({ children }) {
       setLoadingAllEvents(false);
     }
   };
+
 
   // Traer eventos de la productora
   const getEventos = async () => {

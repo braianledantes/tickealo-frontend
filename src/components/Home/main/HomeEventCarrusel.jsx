@@ -74,10 +74,8 @@ export function HomeEventCarousel({ eventos = [] }) {
       "
       />
 
-      {/* ✅ Texto (responsive según pantalla) */}
       <div className="absolute bottom-10 left-8 right-8 text-white">
 
-        {/* ✅ MOBILE: solo título, más chico */}
         {isMobile ? (
           <h1 className="text-xl font-extrabold tracking-wide drop-shadow-lg italic animate-subtitle line-clamp-2">
             {evento.nombre}

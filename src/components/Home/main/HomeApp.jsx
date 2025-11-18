@@ -103,22 +103,22 @@ export function HomeApp() {
         >
             {displayText}
         </span>
-        <p className="animate-subtitle max-w-2xl my-5 text-white/70 tracking-wider italic">
+        <p className="animate-subtitle max-w-2xl my-5 text-white/70 tracking-wider italic text-xs md:text-sm">
           Todo en un solo lugar, pensado para que uses la plataforma de forma simple, rápida y sin vueltas.
         </p>
-        <p className="animate-subtitle max-w-2xl my-5 text-white/70 tracking-wider">
+        <p className="animate-subtitle max-w-2xl my-5 text-white/70 tracking-wider text-xs md:text-sm">
           Descarga Tickealo y disfruta al máximo de todo lo que te rodea. ¿Listo para empezar?
         </p>
 
         <div className="animate-subtitle my-5 text-white/70 tracking-wider flex space-x-4">
-            <button className="border-white rounded-full border px-6 py-3 cursor-pointer flex items-center justify-center gap-2 transition-all duration-300 hover:bg-gradient-to-r hover:from-[#03055F] hover:to-[#00B4D8] hover:border-transparent" >
+            <button className="border-white rounded-full border px-4 py-2 md:px-6 md:py-3 cursor-pointer flex items-center justify-center gap-2 transition-all duration-300 hover:bg-gradient-to-r hover:from-[#03055F] hover:to-[#00B4D8] hover:border-transparent" >
                 <PlaystoreIcon size={18} />
-                <span className="text-white font-medium">Playstore</span>
+                <span className="text-white font-medium text-sm md:text-md">Playstore</span>
             </button>
 
-            <button className="border-white rounded-full border px-6 py-3 cursor-pointer flex items-center justify-center gap-2 transition-all duration-300 hover:bg-gradient-to-r hover:from-[#03055F] hover:to-[#00B4D8] hover:border-transparent">
+            <button className="border-white rounded-full border px-4 py-2 md:px-6 md:py-3 cursor-pointer flex items-center justify-center gap-2 transition-all duration-300 hover:bg-gradient-to-r hover:from-[#03055F] hover:to-[#00B4D8] hover:border-transparent">
                 <AppStoreIcon size={24} />
-                <span className="text-white font-medium">App Store</span>
+                <span className="text-white font-medium text-sm md:text-md">App Store</span>
             </button>
         </div>
 

@@ -29,18 +29,22 @@ export function HomeWeb() {
     {
       title: "1. Crea eventos globales",
       desc: "Organizá tus eventos en cualquier lugar del mundo.",
+      className: "rounded-bl-none",
     },
     {
       title: "2. Gestiona ventas fácilmente",
       desc: "Cotizá, controlá y monitoreá todas las ventas de tus entradas en un solo lugar.",
+      className: "rounded-br-none",
     },
     {
       title: "3. Conoce opiniones reales",
       desc: "Visualizá valoraciones y comentarios auténticos de tus clientes.",
+      className: "rounded-bl-none",
     },
     {
       title: "4. Arma tu equipo ideal",
       desc: "Gestioná tu equipo de organización de manera sencilla.",
+      className: "rounded-br-none",
     },
   ];
 
@@ -56,11 +60,12 @@ export function HomeWeb() {
         transition-all duration-700 ease-out
       "
     >
-      <div className="flex flex-wrap gap-4 justify-center md:justify-start px-6">
+      {/* Tarjetas → en mobile van abajo */}
+      <div className="order-2 md:order-1 flex flex-wrap gap-4 justify-center md:justify-start px-6">
         {features.map((feature, i) => (
           <div
             key={i}
-            className="bg-[#0c0f2b] text-white/90 p-5 rounded-4xl shadow-lg min-w-[200px] md:min-w-[220px] animate-fadeUp"
+            className={`bg-[#0c0f2b] text-white/90 p-5 rounded-4xl shadow-lg min-w-[200px] md:min-w-[220px] animate-fadeUp ${feature.className}`}
           >
             <span className="font-semibold text-xl tracking-wider">{feature.title}</span>
             <p className="text-sm mt-2 tracking-wider">{feature.desc}</p>
@@ -68,23 +73,24 @@ export function HomeWeb() {
         ))}
       </div>
 
-      {/* Texto Productoras */}
-      <div className="text-center md:text-right px-6">
+      {/* Texto productoras → en mobile va primero */}
+      <div className="order-1 md:order-2 text-center md:text-right px-6">
         <h1 className="animate-subtitle text-2xl md:text-3xl font-semibold tracking-wider text-[#999]/70 mb-5 italic">
           PARA PRODUCTORAS
         </h1>
         <h2 className="animate-subtitle text-2xl md:text-3xl font-semibold tracking-wider text-white mb-5 italic">
           TODAS LAS HERRAMIENTAS QUE NECESITÁS
         </h2>
-        <p className="animate-subtitle max-w-2xl my-5 text-white/70 tracking-wider italic">
+        <p className="animate-subtitle max-w-2xl my-5 text-xs md:text-sm text-white/70 tracking-wider italic">
           Simplificá la organización y gestión de tus eventos. Desde la creación hasta la venta de entradas, todo en un solo lugar, pensado para productoras exigentes.
         </p>
         <div className="flex justify-end">
-          <div className="w-[150px] md:w-[250px]">
+          <div className="w-full md:w-[250px]">
             <SecondaryButton text="REGISTRAR MI PRODUCTORA" onClick={handleRegister} />
           </div>
         </div>
       </div>
     </div>
   );
+
 }
