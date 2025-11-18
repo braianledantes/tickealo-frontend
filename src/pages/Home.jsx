@@ -1,4 +1,3 @@
-import { HomeEventCard } from "../components/Home/main/HomeEventCard";
 import { HomeEventCarousel } from "../components/Home/main/HomeEventCarrusel";
 import {HomeApp} from "../components/Home/main/HomeApp";
 import {HomeEventList} from "../components/Home/main/HomeEventList"

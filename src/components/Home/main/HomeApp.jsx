@@ -110,7 +110,7 @@ export function HomeApp() {
           Descarga Tickealo y disfruta al máximo de todo lo que te rodea. ¿Listo para empezar?
         </p>
 
-        <div className="animate-subtitle my-5 text-white/70 tracking-wider flex space-x-4">
+        <div className="animate-subtitle my-5 text-white/70 tracking-wider flex justify-center md:justify-start items-center space-x-4">
             <button className="border-white rounded-full border px-4 py-2 md:px-6 md:py-3 cursor-pointer flex items-center justify-center gap-2 transition-all duration-300 hover:bg-gradient-to-r hover:from-[#03055F] hover:to-[#00B4D8] hover:border-transparent" >
                 <PlaystoreIcon size={18} />
                 <span className="text-white font-medium text-sm md:text-md">Playstore</span>
