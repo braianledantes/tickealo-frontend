@@ -1,18 +1,41 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, memo, useMemo } from "react";
 import SecondaryButton from "../../Button/SecondaryButton";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../../routes/paths";
 
-export function HomeWeb() {
+const featuresData = [
+  {
+    title: "1. Crea eventos globales",
+    desc: "Organizá tus eventos en cualquier lugar del mundo.",
+    className: "rounded-bl-none",
+  },
+  {
+    title: "2. Gestiona ventas fácilmente",
+    desc: "Cotizá, controlá y monitoreá todas las ventas de tus entradas en un solo lugar.",
+    className: "rounded-br-none",
+  },
+  {
+    title: "3. Conoce opiniones reales",
+    desc: "Visualizá valoraciones y comentarios auténticos de tus clientes.",
+    className: "rounded-bl-none",
+  },
+  {
+    title: "4. Arma tu equipo ideal",
+    desc: "Gestioná tu equipo de organización de manera sencilla.",
+    className: "rounded-br-none",
+  },
+];
+
+export default function HomeWebComponent() {
   const productRef = useRef(null);
   const navigate = useNavigate();
 
   const handleRegister = () => navigate(PATHS.REGISTER);
+
   useEffect(() => {
     const el = productRef.current;
     if (!el) return;
-
-    const observer = new IntersectionObserver(
+    const observer = new window.IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           el.classList.add("animate-fadeUp");
@@ -21,44 +44,16 @@ export function HomeWeb() {
       },
       { threshold: 0.25 }
     );
-
     observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
-  const features = [
-    {
-      title: "1. Crea eventos globales",
-      desc: "Organizá tus eventos en cualquier lugar del mundo.",
-      className: "rounded-bl-none",
-    },
-    {
-      title: "2. Gestiona ventas fácilmente",
-      desc: "Cotizá, controlá y monitoreá todas las ventas de tus entradas en un solo lugar.",
-      className: "rounded-br-none",
-    },
-    {
-      title: "3. Conoce opiniones reales",
-      desc: "Visualizá valoraciones y comentarios auténticos de tus clientes.",
-      className: "rounded-bl-none",
-    },
-    {
-      title: "4. Arma tu equipo ideal",
-      desc: "Gestioná tu equipo de organización de manera sencilla.",
-      className: "rounded-br-none",
-    },
-  ];
+  const features = useMemo(() => featuresData, []);
 
   return (
     <div
       ref={productRef}
-      className="
-        opacity-0
-        grid grid-cols-1 md:grid-cols-2
-        items-center gap-8
-        pt-5 pb-20
-        mx-10 md:mx-40
-        transition-all duration-700 ease-out
-      "
+      className="opacity-0 grid grid-cols-1 md:grid-cols-2 items-center gap-8 pt-5 pb-20 mx-10 md:mx-40 transition-all duration-700 ease-out"
     >
       {/* Tarjetas → en mobile van abajo */}
       <div className="order-2 md:order-1 flex flex-wrap gap-4 justify-center md:justify-start px-6">
@@ -72,7 +67,6 @@ export function HomeWeb() {
           </div>
         ))}
       </div>
-
       {/* Texto productoras → en mobile va primero */}
       <div className="order-1 md:order-2 text-center md:text-right px-6">
         <h1 className="animate-subtitle text-2xl md:text-3xl font-semibold tracking-wider text-[#999]/70 mb-5 italic">
@@ -92,5 +86,6 @@ export function HomeWeb() {
       </div>
     </div>
   );
-
 }
+
+export const HomeWeb = memo(HomeWebComponent);

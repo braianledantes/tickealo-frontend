@@ -33,7 +33,7 @@ function CarouselLoading() {
   );
 }
 
-export function HomeEventCarousel({ eventos = [] }) {
+export default function HomeEventCarousel({ eventos = [] }) {
   const [index, setIndex] = useState(0);
   const isMobile = useIsMobile();
 
@@ -54,12 +54,16 @@ export function HomeEventCarousel({ eventos = [] }) {
   return (
     <div className="relative w-full aspect-[11/4] overflow-hidden mt-20 md:mt-0 my-10 group">
 
-      {/* Imagen de fondo */}
-      <div
-        className="absolute inset-0 bg-cover bg-center transition-all duration-700"
-        style={{
-          backgroundImage: `url('${evento.bannerUrl || ""}')`,
-        }}
+      {/* Imagen de fondo optimizada */}
+      <img
+        src={evento.bannerUrl}
+        alt={evento.nombre}
+        className="absolute inset-0 w-full h-full object-cover transition-all duration-700"
+        fetchPriority="high"
+        decoding="async"
+        width="1100"
+        height="400"
+        style={{ zIndex: 0 }}
       />
 
       {/* Degradado */}
@@ -113,6 +117,7 @@ export function HomeEventCarousel({ eventos = [] }) {
       {!isMobile && (
         <>
           <button
+            aria-label="Anterior Evento"
             className="
             absolute left-0 top-1/2 -translate-y-1/2
             text-white px-3 py-2 rounded-full
@@ -128,6 +133,7 @@ export function HomeEventCarousel({ eventos = [] }) {
           </button>
 
           <button
+            aria-label="Siguiente Evento"
             className="
             absolute right-0 top-1/2 -translate-y-1/2
             text-white px-3 py-2 rounded-full

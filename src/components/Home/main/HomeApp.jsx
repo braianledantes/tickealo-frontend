@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import mobile from "../../../assets/mobile.png";
+import mobile from "../../../assets/mobile.webp";
 import { AppStoreIcon, PlaystoreIcon } from "../Icons";
 
-export function HomeApp() {
+export default function HomeApp() {
   const appRef = useRef(null);
 
   const features = [
@@ -25,16 +25,13 @@ export function HomeApp() {
 
     const timeout = setTimeout(() => {
       if (!isDeleting) {
-        // Escribir
         const nextText = currentText.slice(0, displayText.length + 1);
         setDisplayText(nextText);
 
         if (nextText === currentText) {
-          // Pausa al terminar
           setTimeout(() => setIsDeleting(true), 1200);
         }
       } else {
-        // Borrar
         const nextText = currentText.slice(0, displayText.length - 1);
         setDisplayText(nextText);
 
@@ -104,10 +101,7 @@ export function HomeApp() {
             {displayText}
         </span>
         <p className="animate-subtitle max-w-2xl my-5 text-white/70 tracking-wider italic text-xs md:text-sm">
-          Todo en un solo lugar, pensado para que uses la plataforma de forma simple, rápida y sin vueltas.
-        </p>
-        <p className="animate-subtitle max-w-2xl my-5 text-white/70 tracking-wider text-xs md:text-sm">
-          Descarga Tickealo y disfruta al máximo de todo lo que te rodea. ¿Listo para empezar?
+          Todo en un solo lugar, pensado para que uses la plataforma de forma simple, rápida y sin vueltas. Descarga Tickealo y disfruta al máximo de todo lo que te rodea. ¿Listo para empezar?
         </p>
 
         <div className="animate-subtitle my-5 text-white/70 tracking-wider flex justify-center md:justify-start items-center space-x-4">
@@ -128,8 +122,16 @@ export function HomeApp() {
       <div className="animate-subtitle max-w-2xl mx-auto mb-10 text-white/70 tracking-wider">
         <img
           src={mobile}
+          srcSet={`
+            /src/assets/mobile.webp 275w,
+            /src/assets/mobile.webp 380w
+          `}
+          sizes="(max-width: 600px) 275px, 380px"
           alt="App móvil"
           className="w-[220px] md:w-[280px] drop-shadow-xl animate-fadeUp"
+          loading="lazy"
+          width="275"
+          height="551"
         />
       </div>
     </div>

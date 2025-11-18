@@ -14,7 +14,7 @@ export default function Logo() {
         className="flex items-center gap-2 text-white font-bold text-2xl z-20 p-4 justify-center cursor-pointer z-1"
         onClick={() => navigate(PATHS.DASHBOARD)}
       >
-        TICKEALO <img src="/tickealo.svg" alt="Logo Tickealo" className="w-7 h-7 " />
+        TICKEALO <img src="/tickealo.svg" alt="Logo Tickealo" className="w-7 h-7 " fetchPriority="high" decoding="async" width="28" height="28" />
       </div>
     </>
   );
