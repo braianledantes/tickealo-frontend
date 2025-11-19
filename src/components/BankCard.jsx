@@ -1,6 +1,11 @@
 import Dropdown from "../components/Button/Dropdown";
 
-export default function BankCard({ cuenta = {}, onChange, edit = true, label }) {
+export default function BankCard({
+  cuenta = {},
+  onChange,
+  edit = true,
+  label,
+}) {
   const bancos = [
     { name: "Banco Nación" },
     { name: "Santander" },
@@ -50,7 +55,9 @@ export default function BankCard({ cuenta = {}, onChange, edit = true, label }) 
                 placeholder="Nombre del titular"
               />
             ) : (
-              <p className="text-xl text-white">{displayValue(cuenta?.nombreTitular)}</p>
+              <p className="text-xl text-white">
+                {displayValue(cuenta?.nombreTitular)}
+              </p>
             )}
           </div>
         </div>
@@ -64,6 +71,7 @@ export default function BankCard({ cuenta = {}, onChange, edit = true, label }) 
               value={cuenta?.cbu || ""}
               onChange={(e) => handleFieldChange("cbu", e.target.value)}
               placeholder="CBU"
+              maxLength={22}
             />
           ) : (
             <p className="text-lg text-white">{displayValue(cuenta?.cbu)}</p>
@@ -82,7 +90,9 @@ export default function BankCard({ cuenta = {}, onChange, edit = true, label }) 
                 placeholder="---"
               />
             ) : (
-              <p className="text-lg text-white">{displayValue(cuenta?.alias)}</p>
+              <p className="text-lg text-white">
+                {displayValue(cuenta?.alias)}
+              </p>
             )}
           </div>
 

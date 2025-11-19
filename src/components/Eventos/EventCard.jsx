@@ -15,7 +15,7 @@ export default function EventCard({ evento, onClick }) {
 
   const handleEventClick = () => {
     onClick(evento);
-  }
+  };
 
   const formatFecha = (fechaIso) => {
     if (!fechaIso) return "Fecha no definida";
@@ -37,7 +37,10 @@ export default function EventCard({ evento, onClick }) {
       className="overflow-hidden border border-white/10 bg-gradient-to-t from-[#0E1531] to-[#11215D] hover:bg-white/10
                   transition transform hover:scale-101 cursor-pointer flex flex-col
                   shadow-md hover:shadow-xl rounded-xl"
-      style={{ transition: "transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease" }}
+      style={{
+        transition:
+          "transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease",
+      }}
     >
       {/* Portada: siempre mantiene ratio 4:3 */}
       <div className="w-full aspect-[4/3] bg-gray-800 relative">
@@ -54,21 +57,24 @@ export default function EventCard({ evento, onClick }) {
         )}
         {/* Estado arriba a la derecha */}
         <span
-          className={`absolute -top-2 -left-2 m-2 px-3 py-1 rounded-br-xl text-xs tracking-wide font-medium shadow-md ${evento.cancelado
+          className={`absolute -top-2 -left-2 m-2 px-3 py-1 rounded-br-xl text-xs tracking-wide font-medium shadow-md ${
+            evento.cancelado
               ? "bg-red-600 text-white"
               : estado === "FINALIZADO"
-                ? "bg-gray-500 text-white"
-                : estado === "AGOTADO"
-                  ? "bg-yellow-500 text-white"
-                  : "bg-[#00DF81] text-white"
-            }`}
+              ? "bg-[#4B5563] text-white"
+              : estado === "AGOTADO"
+              ? "bg-[yellow-500] text-black"
+              : "bg-[#00A86B] text-white"
+          }`}
         >
           {estado}
         </span>
       </div>
       {/* Info: ocupa la otra mitad */}
       <div className="p-4 flex flex-col flex-grow">
-        <h3 className="text-lg font-semibold text-[#CAF0F8] mb-2">{evento.nombre}</h3>
+        <h3 className="text-lg font-semibold text-[#CAF0F8] mb-2">
+          {evento.nombre}
+        </h3>
         {/* Fechas */}
         <p className="text-sm text-gray-300 mb-1">
           {formatFecha(evento.inicioAt)} - {formatFecha(evento.finAt)}
