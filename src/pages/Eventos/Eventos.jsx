@@ -1,5 +1,5 @@
 import { LayoutGrid, LayoutList, Filter, Plus } from "lucide-react";
-import { useState, useEffect, useRef} from "react";
+import { useState, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import IconButton from "../../components/Button/IconButton";
 import SecondaryButton from "../../components/Button/SecondaryButton";
@@ -8,11 +8,11 @@ import EventsList from "../../components/Eventos/EventsList";
 import { useEventosList } from "../../hooks/useEventosList";
 import { PATHS } from "../../routes/paths";
 import ErrorModal from "../../components/Modal/ErrorModal";
-import { useAuth} from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function Eventos() {
   const { eventos, loading, error } = useEventosList();
-  const {user} = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const [view, setView] = useState("grid");
@@ -26,7 +26,7 @@ export default function Eventos() {
     if (error) setShowErrorModal(true);
   }, [error]);
 
- useEffect(() => {
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
@@ -50,13 +50,13 @@ export default function Eventos() {
   };
 
   //FILTRADO DE EVENTOS
-const filteredEventos = eventos.filter((evento) => {
-  const estado = getEventStatus(evento);
+  const filteredEventos = eventos.filter((evento) => {
+    const estado = getEventStatus(evento);
 
-  if (filter === "activo") return estado === "ACTIVO";
-  if (filter === "finalizado") return estado === "FINALIZADO";
-  return true;
-});
+    if (filter === "activo") return estado === "ACTIVO";
+    if (filter === "finalizado") return estado === "FINALIZADO";
+    return true;
+  });
 
   return (
     <main className="max-w-7xl w-full mx-auto p-10">
@@ -65,85 +65,87 @@ const filteredEventos = eventos.filter((evento) => {
         <h2 className="text-3xl font-bold text-white">Eventos</h2>
 
         <div className="flex gap-3 items-center">
-        {user.cuentaBancaria &&(
-        <>
-          {/* Botón de filtro */}
-            <div ref={dropdownRef} className="relative">
-              <button
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center gap-2 bg-gray-800 text-white px-4 py-2 rounded-full hover:bg-gray-700 transition"
-              >
-                <Filter size={18} className="text-gray-300" />
+          {user.cuentaBancaria && (
+            <>
+              {/* Botón de filtro */}
+              <div ref={dropdownRef} className="relative">
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="flex items-center gap-2 bg-gray-800 text-white px-4 py-2 rounded-full hover:bg-gray-700 transition"
+                >
+                  <Filter size={18} className="text-gray-300" />
 
-                <span>Estado</span>
-              </button>
+                  <span>Estado</span>
+                </button>
 
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-36 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-10">
-                  <button
-                    onClick={() => {
-                      setFilter("todos");
-                      setIsDropdownOpen(false);
-                    }}
-                    className={`block w-full text-left px-4 py-2 hover:bg-gray-700 ${
-                      filter === "todos" ? "text-blue-400" : "text-white"
-                    }`}
-                  >
-                    Todos
-                  </button>
-                  <button
-                    onClick={() => {
-                      setFilter("activo");
-                      setIsDropdownOpen(false);
-                    }}
-                    className={`block w-full text-left px-4 py-2 hover:bg-gray-700 ${
-                      filter === "activo" ? "text-blue-400" : "text-white"
-                    }`}
-                  >
-                    Activo
-                  </button>
-                  <button
-                    onClick={() => {
-                      setFilter("finalizado");
-                      setIsDropdownOpen(false);
-                    }}
-                    className={`block w-full text-left px-4 py-2 hover:bg-gray-700 ${
-                      filter === "finalizado" ? "text-blue-400" : "text-white"
-                    }`}
-                  >
-                    Finalizado
-                  </button>
-                </div>
-              )}
-            </div>
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-36 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-10">
+                    <button
+                      onClick={() => {
+                        setFilter("todos");
+                        setIsDropdownOpen(false);
+                      }}
+                      className={`block w-full text-left px-4 py-2 hover:bg-gray-700 ${
+                        filter === "todos" ? "text-blue-400" : "text-white"
+                      }`}
+                    >
+                      Todos
+                    </button>
+                    <button
+                      onClick={() => {
+                        setFilter("activo");
+                        setIsDropdownOpen(false);
+                      }}
+                      className={`block w-full text-left px-4 py-2 hover:bg-gray-700 ${
+                        filter === "activo" ? "text-blue-400" : "text-white"
+                      }`}
+                    >
+                      Activo
+                    </button>
+                    <button
+                      onClick={() => {
+                        setFilter("finalizado");
+                        setIsDropdownOpen(false);
+                      }}
+                      className={`block w-full text-left px-4 py-2 hover:bg-gray-700 ${
+                        filter === "finalizado" ? "text-blue-400" : "text-white"
+                      }`}
+                    >
+                      Finalizado
+                    </button>
+                  </div>
+                )}
+              </div>
 
-            {/* Botones de vista */}
-            <div className="hidden md:flex gap-2">
-              <IconButton
-                icon={<LayoutGrid />}
-                active={view === "grid"}
-                onClick={() => setView("grid")}
-              />
-              <IconButton
-                icon={<LayoutList />}
-                active={view === "list"}
-                onClick={() => setView("list")}
-              />
-            </div>
-          </>
-        )}
+              {/* Botones de vista */}
+              <div className="hidden md:flex gap-2">
+                <IconButton
+                  icon={<LayoutGrid />}
+                  active={view === "grid"}
+                  onClick={() => setView("grid")}
+                  aria-label="Cambiar a vista de cuadrícula"
+                />
+                <IconButton
+                  icon={<LayoutList />}
+                  active={view === "list"}
+                  onClick={() => setView("list")}
+                  aria-label="Cambiar a vista de lista"
+                />
+              </div>
+            </>
+          )}
           {/* Botón crear evento */}
           <SecondaryButton disabled={!user.cuentaBancaria}>
             {user.cuentaBancaria ? (
               <NavLink
                 to="/dashboard/eventos/nuevo"
-                className="flex gap-2 items-center"
+                className="flex gap-2 items-center px-4 py-3"
               >
                 <span className="uppercase">crear evento</span>
                 <Plus />
               </NavLink>
             ) : (
-              <span className="flex gap-2 items-center opacity-50 cursor-not-allowed">
+              <span className="flex gap-2 items-center px-4 py-3 opacity-50 cursor-not-allowed">
                 <span className="uppercase">crear evento</span>
                 <Plus />
               </span>
@@ -158,7 +160,9 @@ const filteredEventos = eventos.filter((evento) => {
       ) : (
         <>
           {!user.cuentaBancaria && (
-            <p className="text-sm text-yellow-400 mt-1 tracking-wider">No posees cuenta bancaria. Crea una para poder crear eventos.</p>
+            <p className="text-sm text-yellow-400 mt-1 tracking-wider">
+              No posees cuenta bancaria. Crea una para poder crear eventos.
+            </p>
           )}
           <EventsList
             viewType={view}
