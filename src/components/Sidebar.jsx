@@ -14,6 +14,7 @@ import { AuthContext } from "../context/AuthContext";
 import { PATHS } from "../routes/paths";
 import Avatar from "./Avatar";
 import Logo from "./Logo";
+import { TOUR_STEPS } from "../constants/tour";
 
 export default function Sidebar() {
   const { logout, user } = useContext(AuthContext);
@@ -121,6 +122,13 @@ export default function Sidebar() {
               <NavLink
                 to={it.to}
                 key={it.key}
+                data-tour={
+                  it.key === "creditos" ? TOUR_STEPS.SIDEBAR_CREDITOS :
+                  it.key === "cobros" ? TOUR_STEPS.SIDEBAR_COBROS :
+                  it.key === "equipo" ? TOUR_STEPS.SIDEBAR_EQUIPO :
+                  it.key === "compras" ? TOUR_STEPS.SIDEBAR_VENTAS :
+                  undefined
+                }
                 className={({ isActive }) =>
                   `w-full flex items-center relative px-4 py-2 transition-colors duration-200 ${collapsed ? "justify-center" : "gap-3 text-left"
                   } ${isActive && !collapsed

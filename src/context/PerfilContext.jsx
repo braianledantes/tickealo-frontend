@@ -14,12 +14,6 @@ export function PerfilProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchCantEventos();
-    fetchCantValidadores();
-    fetchCantSeguidores();
-  }, [user]);
-
   const fetchCantEventos = async () => {
     try {
       const eventos = await apiProductora.getEventosByProductora();
@@ -53,6 +47,27 @@ export function PerfilProvider({ children }) {
     }
   };
 
+  useEffect(() => {
+    if (!user) return;
+    (async () => {
+      setLoading(true);
+      await fetchCantEventos();
+      await fetchCantValidadores();
+      await fetchCantSeguidores();
+      setLoading(false);
+    })();
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const interval = setInterval(async () => {
+      await fetchCantValidadores();
+    }, 5000); // cada 5 segundos
+
+    return () => clearInterval(interval);
+  }, [user]);
+
   const actualizarPerfil = async (updateFormData) => {
     try {
       setLoading(true);
@@ -64,18 +79,20 @@ export function PerfilProvider({ children }) {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
-    <PerfilContext.Provider value={{
-      loading,
-      error,
-      user,
-      cantEventos,
-      cantValidadores,
-      cantSeguidores,
-      actualizarPerfil,
-    }}>
+    <PerfilContext.Provider
+      value={{
+        loading,
+        error,
+        user,
+        cantEventos,
+        cantValidadores,
+        cantSeguidores,
+        actualizarPerfil,
+      }}
+    >
       {children}
     </PerfilContext.Provider>
   );

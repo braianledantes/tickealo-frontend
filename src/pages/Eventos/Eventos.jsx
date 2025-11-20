@@ -9,6 +9,7 @@ import { useEventosList } from "../../hooks/useEventosList";
 import { PATHS } from "../../routes/paths";
 import ErrorModal from "../../components/Modal/ErrorModal";
 import { useAuth} from "../../hooks/useAuth";
+import { TOUR_STEPS } from "../../constants/tour";
 
 export default function Eventos() {
   const { eventos, loading, error } = useEventosList();
@@ -133,6 +134,7 @@ const filteredEventos = eventos.filter((evento) => {
           </>
         )}
           {/* Botón crear evento */}
+          <div data-tour={TOUR_STEPS.CREATE_EVENT}>
           <SecondaryButton disabled={!user.cuentaBancaria}>
             {user.cuentaBancaria ? (
               <NavLink
@@ -143,12 +145,13 @@ const filteredEventos = eventos.filter((evento) => {
                 <Plus />
               </NavLink>
             ) : (
-              <span className="flex gap-2 items-center opacity-50 cursor-not-allowed">
+              <span className="flex gap-2 items-center cursor-not-allowed">
                 <span className="uppercase">crear evento</span>
                 <Plus />
               </span>
             )}
           </SecondaryButton>
+          </div>
         </div>
       </div>
 
@@ -157,9 +160,6 @@ const filteredEventos = eventos.filter((evento) => {
         <EventLoading />
       ) : (
         <>
-          {!user.cuentaBancaria && (
-            <p className="text-sm text-yellow-400 mt-1 tracking-wider">No posees cuenta bancaria. Crea una para poder crear eventos.</p>
-          )}
           <EventsList
             viewType={view}
             eventos={filteredEventos}

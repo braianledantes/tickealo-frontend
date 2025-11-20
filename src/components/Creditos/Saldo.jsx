@@ -14,6 +14,7 @@ export default function Saldo({ saldo}) {
               Créditos disponibles
               <HandCoins color="white" strokeWidth={1}/>
               </div>
+              <p className="text-[#CAF0F8] text-sm tracking-wider italic pt-2">* 1 Crédito equivale a una entrada.</p>
           </div>
           <div className="mt-4 text-sm text-right text-[#CAF0F8]/70 tracking-wide italic">
             Usá tus créditos para comprar comisiones, publicar eventos y mantener la actividad de tu cuenta <br />

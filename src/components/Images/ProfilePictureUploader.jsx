@@ -59,7 +59,7 @@ export default function ProfilePictureUploader({ onFileSelect, value = null }) {
           className="text-gray-600 cursor-pointer hover:underline text-sm"
           onClick={() => inputRef.current.click()}
         >
-          {preview ? "Cambiar foto de Perfil" : "Subir foto de Perfil"}
+          {preview ? "Cambiar Logo" : "Sube tu Logo"}
         </label>
         {preview && (
           <button

@@ -1,7 +1,10 @@
-import { Trash2 } from "lucide-react";
 import Avatar from "../Avatar";
+import MiembroDetails from "./MiembroDetail";
+import { useState } from "react";
+import { ChevronRight } from "lucide-react";
 
 export default function MiembrosList({ miembros = [], text = "",onEliminar, loading = false }) {
+  const [ miembroSeleccionado, setMiembroSeleccionado] = useState(null);
 
   return (
     <div className="space-y-2">
@@ -31,20 +34,28 @@ export default function MiembrosList({ miembros = [], text = "",onEliminar, load
                   <p className="hidden lg:block text-gray-400 text-sm">{email}</p>
                 </div>
               </div>
-
-              {onEliminar && (
-                <button
-                  onClick={() => onEliminar(email)}
-                  className="text-red-400 hover:text-red-600 p-4"
-                  disabled={loading}
+              <button
+                  aria-label={`Ver detalle sobre ${miembro.nombre} ${miembro.apellido}`}
+                  title={`Ver detalle sobre ${miembro.nombre} ${miembro.apellido}`}
+                  onClick={() => setMiembroSeleccionado(miembro)}
+                  className="text-white hover:text-blue-800 flex items-center gap-2 rounded-full"
                 >
-                  <Trash2 className="w-5 h-5" />
+                  <ChevronRight className="w-10 h-10" />
                 </button>
-              )}
             </li>
           );
         })}
       </ul>
+      {miembroSeleccionado && (
+        <MiembroDetails
+          miembro={miembroSeleccionado} 
+          loading={loading}
+          onEliminar={onEliminar}      
+          onClose={() => {
+            setMiembroSeleccionado(null);
+          }}
+        />
+      )}
     </div>
   );
 }

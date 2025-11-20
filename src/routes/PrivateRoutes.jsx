@@ -24,14 +24,10 @@ export function PrivateRoutes() {
       <Route path={PATHS.DASHBOARD + "/*"} element={ <DashboardLayout /> }>
         <Route index element={<Navigate to={PATHS.EVENTOS} replace />} />
 
-        <Route element={<CountryLayout/>}>
-          <Route element={<ComentariosLayout />}>
-            <Route path="eventos" element={<EventosLayout />}>
-              <Route index element={<Eventos />} />
-              <Route path=":id" element={<Evento />} />
-              <Route path="nuevo" element={<CrearEvento />} />
-            </Route>
-          </Route>
+        <Route path="eventos" element={<EventosLayout />}>
+          <Route index element={<Eventos />} />
+          <Route path=":id" element={<Evento />} />
+          <Route path="nuevo" element={<CrearEvento />} />
         </Route>
 
         <Route element={<CountryLayout/>}>

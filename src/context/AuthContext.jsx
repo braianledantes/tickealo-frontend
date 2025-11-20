@@ -8,9 +8,9 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Al iniciar la app, chequeamos si hay token
   useEffect(() => {
     const storedToken = localStorage.getItem(TOKEN_KEY);
+
     if (storedToken) {
       apiAuth
         .me(storedToken)
@@ -25,11 +25,32 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
+  useEffect(() => {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return;
+
+    const interval = setInterval(async () => {
+      try {
+        const newProfile = await apiAuth.me(token);
+        setUser((prev) => {
+          const same =
+            JSON.stringify(prev) === JSON.stringify(newProfile);
+          return same ? prev : newProfile;
+        });
+      } catch (err) {
+        console.error("Error actualizando el usuario en tiempo real:", err);
+      }
+    }, 5000); 
+
+    return () => clearInterval(interval);
+  }, [user?.id]);
+
   const login = async (credentials) => {
     try {
       const data = await apiAuth.login(credentials);
       if (data?.access_token) {
-        localStorage.setItem("token", data.access_token);
+        localStorage.setItem(TOKEN_KEY, data.access_token);
+
         const profile = await apiAuth.me(data.access_token);
         setUser(profile);
       }
@@ -47,11 +68,7 @@ export function AuthProvider({ children }) {
   const registrarProductora = async (formData) => {
     try {
       const response = await apiAuth.registerProductora(formData);
-      if (
-        !response?.error &&
-        formData.get("email") &&
-        formData.get("password")
-      ) {
+      if (!response?.error) {
         await login({
           email: formData.get("email"),
           password: formData.get("password"),
@@ -67,6 +84,13 @@ export function AuthProvider({ children }) {
   const actualizarPerfilProductora = async (updateFormData) => {
     try {
       const response = await apiAuth.actualizarPerfilProductora(updateFormData);
+
+      const token = localStorage.getItem(TOKEN_KEY);
+      if (token) {
+        const updatedUser = await apiAuth.me(token);
+        setUser(updatedUser);
+      }
+
       return response;
     } catch (err) {
       console.error("Error actualizando el perfil de la productora", err);

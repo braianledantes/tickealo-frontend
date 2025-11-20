@@ -90,13 +90,13 @@ export default function HomeEventCarousel({ eventos = [] }) {
               {evento.nombre}
             </h1>
 
-            <p className="animate-subtitle my-6 text-xs text-white/80 max-w-xl font-semibold tracking-wider italic line-clamp-3">
+            <p className="animate-subtitle my-6 text-md text-white/80 max-w-xl font-semibold tracking-wider italic line-clamp-3">
               {evento.descripcion}
             </p>
 
             <span
               className="
-              px-4 py-1
+              px-4 py-3
               border border-white/90
               rounded-full
               text-xl md:text-sm

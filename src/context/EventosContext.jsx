@@ -14,11 +14,13 @@ export function EventosProvider({ children }) {
   const [evento, setEvento] = useState(null);
   const [tickets, setTickets] = useState([]); 
   const [allEvents, setAllEvents] =useState([]);
+  const [eventosPasados, setEventosPasados] = useState([]);
   const [ loadingAllEvents, setLoadingAllEvents] = useState(false);
 
   const isProductora = !!user?.user?.roles?.some(
     (role) => role.name === "productora",
   );
+  
   useEffect(() => {
     if (user && isProductora) {
       getEventos();
@@ -41,11 +43,17 @@ export function EventosProvider({ children }) {
         return fechaEvento >= new Date(); 
       });
 
-      setAllEvents(futuros);
+      const pasados = ordenados.filter(event => {
+        const fechaEvento = new Date(event.inicioAt);
+        return fechaEvento < new Date(); 
+      });
 
+      setAllEvents(futuros);
+      setEventosPasados(pasados);
     } catch (err) {
       setError(err.message || "Error desconocido");
       setAllEvents([]);
+      setEventosPasados([]);
     } finally {
       setLoadingAllEvents(false);
     }
@@ -203,6 +211,7 @@ export function EventosProvider({ children }) {
         loading,
         error,
         evento,
+        eventosPasados,
         tickets,
         getEventos,
         puedeCrearEvento,

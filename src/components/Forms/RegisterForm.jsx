@@ -34,6 +34,7 @@ export function RegisterForm() {
 
   const handleCountryChange = async (selectedName) => {
     setPais(selectedName);
+    setError('');
     setTouched(false);
     try {
       const country = countryOptions.find(c => c.label === selectedName);
@@ -59,6 +60,7 @@ export function RegisterForm() {
 
     if (Object.keys(errores).length > 0) {
       setError(Object.values(errores).join(' - '));
+      setLoading(false);
       return;
     }
 
@@ -183,8 +185,7 @@ export function RegisterForm() {
         </div>
 
         <div className="col-span-1 md:col-span-2 flex flex-col gap-4">
-          <Button type='submit'>{loading ? '...' : ''}
-        Registrarse</Button>
+          <Button type='submit'>{loading ? '...Registrando' : 'Registrarse'}</Button>
           {error && <p className="text-red-400 text-center font-medium">{error}</p>}
         </div>
       </div>

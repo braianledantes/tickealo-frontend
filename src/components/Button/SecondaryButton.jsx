@@ -47,16 +47,6 @@ export default function SecondaryButton({
           {children || text}
         </div>
       </span>
-
-      {disabled && (
-        <div
-          className="absolute inset-0 rounded-full"
-          style={{
-            backgroundColor: "rgba(0,0,0,0.45)",
-            pointerEvents: "none",
-          }}
-        />
-      )}
     </button>
   );
 }

@@ -27,27 +27,35 @@ export function EquipoProvider({ children }) {
   const agregarMiembroEquipo = async (email) => {
     try {
       setLoading(true);
+      setError(null);
 
-      if (!email) return;
-
+      if (!email) {
+        setError("Ingresa un correo.");
+        return;
+      }
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
         setError("Ingresa un correo válido.");
         return;
       }
-
       const response = await apiEquipo.agregarValidador(email);
-      if (response.error) {
+      if (response?.error) {
         setError(response.error);
-      } else {
-        await getMiembrosEquipo();
+        return;
       }
+      await getMiembrosEquipo();
+
     } catch (err) {
-      setError(err);
+      if (err?.response?.status === 404) {
+        setError("No existe un usuario con ese correo electrónico dentro del sistema.");
+      } else {
+        setError("Ocurrió un error al agregar al miembro.");
+      }
     } finally {
       setLoading(false);
     }
   };
+
 
   const eliminarMiembroEquipo = async (email) => {
     try {
