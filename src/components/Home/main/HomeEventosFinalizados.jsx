@@ -26,12 +26,18 @@ function AnimatedCard({ evento}) {
   }, []);
 
   const imageUrl = evento.portadaUrl || evento.bannerUrl;
-
+  const ahora = evento.finAt ? new Date() <= new Date(evento.finAt) : false;
   return (
     <div
       ref={cardRef}
       className="opacity-0 relative cursor-pointer overflow-hidden rounded-tr-5xl shadow-lg bg-black/20 backdrop-blur-sm w-[350px] h-[450px] transition-transform duration-700 ease-in-out hover:-translate-y-3 card-glow flex-shrink-0"
     >
+      {ahora && (
+        <div className="absolute z-3 top-4 -right-14 bg-gray-200 text-black font-bold tracking-wider py-2 px-16 text-sm transform rotate-45 shadow-lg pointer-events-none">
+          AHORA
+        </div>
+      )}
+
       <img
         src={imageUrl}
         alt={evento.nombre}
@@ -86,7 +92,7 @@ function HomeEventosFinalizados({ eventos = [] }) {
   return (
     <div className="relative flex flex-col items-center justify-center pt-5 pb-10 z-10">
       <h2 className="animate-subtitle text-2xl md:text-3xl px-4 font-semibold tracking-wider text-white mb-5 text-center italic">
-        EVENTOS PASADOS
+        EVENTOS EN CURSO Y FINALIZADOS
       </h2>
 
       <p className="text-sm md:text-2md px-8 animate-subtitle text-center max-w-2xl mx-auto mb-10 text-white/70 tracking-wider">
