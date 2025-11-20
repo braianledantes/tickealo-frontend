@@ -1,16 +1,24 @@
-import { useEffect, useState } from "react";
-import { useCompras } from "../../hooks/useCompras";
+import { useState, useEffect } from "react";
 import ButtonFilter from "../Button/ButtonFilter";
 import Dropdown from "../Button/Dropdown";
-import ComprasLoading from "./ComprasLoading";
+import { useCompras } from "../../hooks/useCompras";
 
 export default function ComprasFiltro({ onFiltrar }) {
-  const { getCompras, cargarComprasPorEstado, compras, comprasAceptadas, comprasRechazadas, comprasPendientes, loading, error } = useCompras();
+  const { 
+    getCompras, 
+    cargarComprasPorEstado, 
+    compras, 
+    comprasAceptadas, 
+    comprasRechazadas, 
+    comprasPendientes, 
+    loading, 
+    error 
+  } = useCompras();
 
   const [filtroActivo, setFiltroActivo] = useState("todos");
   const [filtroFecha, setFiltroFecha] = useState("todo");
 
-
+  // Traer todas las compras al montar
   useEffect(() => {
     const fetchCompras = async () => {
       try {
@@ -30,85 +38,52 @@ export default function ComprasFiltro({ onFiltrar }) {
 
   const handleFiltroClick = (estado) => {
     setFiltroActivo(estado);
-    aplicarFiltros(estado, filtroFecha);
+    onFiltrar({ estado, fecha: filtroFecha }); // enviamos estado y fecha
   };
 
   const handleFiltroFecha = (value) => {
     setFiltroFecha(value);
-    aplicarFiltros(filtroActivo, value);
+    onFiltrar({ estado: filtroActivo, fecha: value }); // reaplicamos filtro con fecha
   };
-
-  const aplicarFiltros = (comprasArray, rangoFecha) => {
-    const ahora = new Date();
-    const inicioSemana = new Date(ahora);
-
-    const filtradas = comprasArray.filter((c) => {
-      const fecha = new Date(c.createdAt);
-      switch (rangoFecha) {
-        case "hoy":
-          return (
-            fecha.getDate() === ahora.getDate() &&
-            fecha.getMonth() === ahora.getMonth() &&
-            fecha.getFullYear() === ahora.getFullYear()
-          );
-        case "semana":
-          inicioSemana.setDate(ahora.getDate() - ahora.getDay());
-          return fecha >= inicioSemana && fecha <= ahora;
-        case "mes":
-          return (
-            fecha.getMonth() === ahora.getMonth() &&
-            fecha.getFullYear() === ahora.getFullYear()
-          );
-        case "anio":
-          return fecha.getFullYear() === ahora.getFullYear();
-        default:
-          return true;
-      }
-    });
-
-    onFiltrar(filtradas);
-  };
-
 
   return (
     <div className="space-y-6 pb-6">
-
       <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-14 md:gap-6">
         <ButtonFilter
-          text={`TODAS (${compras?.data?.length || 0})`}
-          onClick={() => handleFiltroClick(compras.data)}
+          text={`TODAS (${compras?.pagination?.total || 0})`}
+          onClick={() => handleFiltroClick(undefined)}
           active={filtroActivo === "todos"}
         />
         <ButtonFilter
-          text={`PENDIENTE (${comprasPendientes?.data?.length || 0})`}
-          onClick={() => handleFiltroClick(comprasPendientes.data)}
+          text={`PENDIENTE (${comprasPendientes?.pagination?.total || 0})`}
+          onClick={() => handleFiltroClick("PENDIENTE")}
           active={filtroActivo === "pendiente"}
         />
         <ButtonFilter
-          text={`ACEPTADA (${comprasAceptadas?.data?.length || 0})`}
-          onClick={() => handleFiltroClick(comprasAceptadas.data)}
+          text={`ACEPTADA (${comprasAceptadas?.pagination?.total || 0})`}
+          onClick={() => handleFiltroClick("ACEPTADA")}
           active={filtroActivo === "aceptada"}
         />
         <ButtonFilter
-          text={`RECHAZADA (${comprasRechazadas?.data?.length || 0})`}
-          onClick={() => handleFiltroClick(comprasRechazadas.data)}
+          text={`RECHAZADA (${comprasRechazadas?.pagination?.total || 0})`}
+          onClick={() => handleFiltroClick("RECHAZADA")}
           active={filtroActivo === "rechazada"}
         />
 
         <Dropdown
-            value={filtroFecha}
-            onChange={(value) => handleFiltroFecha(value)}
-            options={[
-                { value: "todo", label: "Todo el tiempo" },
-                { value: "hoy", label: "Hoy" },
-                { value: "semana", label: "Esta semana" },
-                { value: "mes", label: "Este mes" },
-                { value: "anio", label: "Este año" },
-            ]}
+          value={filtroFecha}
+          onChange={handleFiltroFecha}
+          options={[
+            { value: "todo", label: "Todo el tiempo" },
+            { value: "hoy", label: "Hoy" },
+            { value: "semana", label: "Esta semana" },
+            { value: "mes", label: "Este mes" },
+            { value: "anio", label: "Este año" },
+          ]}
         />
       </div>
 
-      {loading && <ComprasLoading  />}
+      {loading && <p className="text-blue-800">Cargando...</p>}
       {error && <p className="text-red-400 text-sm mt-3">{error}</p>}
     </div>
   );

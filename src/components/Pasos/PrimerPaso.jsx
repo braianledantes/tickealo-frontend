@@ -44,21 +44,8 @@ export default function PrimerPaso({ onNext, initialData }) {
           message="Arrastrá o subí el banner de tu evento."
         />
 
-        <div className="relative p-6 pb-20 md:p-8">
+        <div className="p-6 pb-20 md:p-8 ">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-full">
-            {/* Mapa */}
-            <div className="flex-1 min-h-[320px]">
-              <LocationEventSelector
-                direccion={lugar.direccion}
-                ciudad={lugar.ciudad}
-                provincia={lugar.provincia}
-                onLocationSelect={handleLocationSelect}
-                country={showOnMap?.country}
-                capital={showOnMap?.capital}
-                iso={showOnMap?.iso}
-              />
-            </div>
-
             {/* Formulario */}
             <div className="flex flex-col h-full justify-between">
               <div className="space-y-6">
@@ -121,12 +108,27 @@ export default function PrimerPaso({ onNext, initialData }) {
               </div>
             </div>
 
-            <div className="absolute bottom-8 right-4 mt-8 w-[80px]">
-              <Button onClick={handleContinue}>
-                <ArrowRight />
-              </Button>
+            {/* Mapa */}
+            <div className="flex-1 min-h-[320px]">
+              <LocationEventSelector
+                direccion={lugar.direccion}
+                ciudad={lugar.ciudad}
+                provincia={lugar.provincia}
+                onLocationSelect={handleLocationSelect}
+                country={showOnMap?.country}
+                capital={showOnMap?.capital}
+                iso={showOnMap?.iso}
+              />
             </div>
           </div>
+          <div className="flex justify-between mt-8">
+              <div ></div>
+              <div className="w-[80px]">
+                <Button onClick={handleContinue}>
+                  <ArrowRight />
+                </Button>
+              </div>
+           </div>
         </div>
       </div>
     </div>

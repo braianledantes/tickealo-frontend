@@ -75,9 +75,14 @@ export default function EventDetail({ evento, onDelete }) {
 		<p className="text-blue-800/50 italic tracking-wider text-center py-4">Así verán los usuarios tu evento.</p>
 
         <div className="flex justify-between items-center pb-10 pt-6 border-t border-white/10">
-          <span className="text-white text-sm tracking-wider italic">
-            Ultima actualizacion: {formatearFecha(evento.createdAt)}
-          </span>
+          <div className="grid grid-cols-1 space-y-2">
+            <span className="text-white text-sm tracking-wider">
+              Fecha fin del evento: {formatearFecha(evento.finAt)}
+            </span>
+            <span className="text-white/70 text-sm tracking-wider italic">
+              Ultima actualizacion: {formatearFecha(evento.createdAt)}
+            </span>
+          </div>
           <div>
             {onDelete && <TertiaryButton text="Eliminar" onClick={onDelete} />}
           </div>

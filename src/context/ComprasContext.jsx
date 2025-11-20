@@ -53,7 +53,6 @@ export function ComprasProvider({ children }) {
                 default:
                     console.warn(`Estado de compra desconocido: ${estado}`);
             }
-
             return response;
         } catch (err) {
             setError(`No se pudo obtener las compras con estado ${estado}.`);
@@ -94,6 +93,14 @@ export function ComprasProvider({ children }) {
         }
     }
 
+    const paginarCompras = async ({ estado = undefined, page = 1, limit = 10 }) => {
+        if (estado) {
+            return cargarComprasPorEstado(estado, page, limit);
+        } else {
+            return getCompras(page, limit);
+        }
+    };
+
     return (
         <ComprasContext.Provider
             value={{
@@ -109,6 +116,7 @@ export function ComprasProvider({ children }) {
                 comprasPendientes,
                 comprasRechazadas,
                 cargarComprasPorEstado,
+                paginarCompras,
             }}
         >
             {children}
