@@ -21,12 +21,18 @@ export default function ProgressTicket({ evento, ticketsTotalesEvento = [] }) {
   // Total vendidos
   const totalVendidos = totalCapacidad - stockRestante;
 
-  // Entradas por tipo con cantidad vendida y stock
+  // Entradas por tipo con cantidad vendida, stock y validados
   const entradasPorTipo = {};
   entradas.forEach(e => {
     const stock = e.cantidad ?? 0;
     const vendidos = stock - (e.stock ?? 0);
-    entradasPorTipo[e.tipo] = { vendidos, stock };
+
+    // Contar tickets validados de este tipo usando ticket.entrada.tipo
+    const validados = ticketsTotalesEvento.filter(
+      t => t.estado === "VALIDADO" && t.entrada?.tipo === e.tipo
+    ).length;
+
+    entradasPorTipo[e.tipo] = { vendidos, stock, validados };
   });
 
   const porcentajeEvento = totalCapacidad > 0
@@ -55,7 +61,7 @@ export default function ProgressTicket({ evento, ticketsTotalesEvento = [] }) {
               width: `${porcentajeEvento}%`,
               height: "100%",
               borderRadius: "8px",
-              background: "linear-gradient(to right, #03055F, #00B4D8, #90E0EF, #CAF0F8)"
+              background: "linear-gradient(to right, #90E0EF, #CAF0F8)"
             }}
           />
         </div>
@@ -63,6 +69,7 @@ export default function ProgressTicket({ evento, ticketsTotalesEvento = [] }) {
 
       {/* Estadísticas adicionales */}
       <div className="mt-4 space-y-2 px-2">
+        <h1 className="text-white/70 tracking-wider italic">TICKETS</h1>
         <div className="flex justify-between">
           <span className="font-bold text-gray-400 text-md">Pendientes de validación</span>
           <span className="font-bold text-gray-400 text-md">{ticketsPendientes.length}</span>
@@ -73,6 +80,15 @@ export default function ProgressTicket({ evento, ticketsTotalesEvento = [] }) {
           <span className="font-bold text-gray-400 text-md">{ticketsRechazados.length}</span>
         </div>
 
+        {/* Entradas por tipo con validados / stock */}
+        {Object.entries(entradasPorTipo).map(([tipo, { validados, stock }]) => (
+          <div key={tipo} className="flex justify-between">
+            <span className="font-bold text-gray-300 text-md">{tipo}</span>
+            <span className="font-bold text-[#4da6ff] text-md">{validados} / {stock}</span>
+          </div>
+        ))}
+
+        <h1 className="text-white/70 pt-4 border-t-[0.5px] border-white/30 tracking-wider italic">TICKETS VENDIDOS</h1>
         {/* Tickets por tipo (tipo | vendidos / stock) */}
         {Object.entries(entradasPorTipo).map(([tipo, { vendidos, stock }]) => (
           <div key={tipo} className="flex justify-between">
@@ -82,7 +98,7 @@ export default function ProgressTicket({ evento, ticketsTotalesEvento = [] }) {
         ))}
 
         <div className="flex justify-between">
-          <span className="font-bold text-[#7a86b6] text-md">Total vendidos</span>
+          <span className="font-bold text-[#7a86b6] text-md">Total</span>
           <span className="font-bold text-[#7a86b6] text-md">{totalVendidos}</span>
         </div>
       </div>

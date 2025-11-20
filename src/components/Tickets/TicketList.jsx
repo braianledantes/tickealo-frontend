@@ -5,7 +5,6 @@ import { useState } from "react";
 
 export default function TicketList({ tickets = [], text = "" }) {
   const [selectedTicket, setSelectedTicket] = useState(null);
-  console.log(tickets)
   if (!tickets.length) return <div className="text-center text-white/20 uppercase italic tracking-wider font-semibold">No hay tickets validados para mostrar</div>;
   return (
     <div className="space-y-2">
@@ -22,7 +21,6 @@ export default function TicketList({ tickets = [], text = "" }) {
           </li>
           {tickets.map((t, i) => {
             const validador = t.validatedBy.cliente;
-            console.log(t);
             return (
               <li
                 key={i}
@@ -30,13 +28,13 @@ export default function TicketList({ tickets = [], text = "" }) {
               >
                   <span className="font-semibold tracking-wide text-gray-500">#{t.id}</span>
                     <span className="hidden lg:block md:block truncate" onClick={() => setSelectedTicket(t.id)}>{validador.nombre}{" "}{validador.apellido}</span>
-                    <span className="hidden lg:block text-gray-500">{formatearFecha(t.updatedAt)}</span>
+                    <span className="hidden lg:block  ">{formatearFecha(t.createdAt)}</span>
                     <span className="hidden lg:block truncate">{t.entrada.id}</span>
                     <EstadoCompra
                     estadoCompra={t.estado}
                     className="hidden lg:flex items-center break-words text-[clamp(0.30rem,1vw,0.75rem)] leading-tight"
                     />
-                    <span className="hidden lg:block md:block truncate">{t.codigoAlfanumerico}</span>
+                    <span className="">{t.codigoAlfanumerico}</span>
               </li>
             );
           })}
