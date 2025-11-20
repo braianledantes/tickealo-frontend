@@ -12,10 +12,6 @@ export default function Compras() {
     );
   };
 
-  const handleFiltrar = (estado, compras) => {
-    setComprasFiltradas(compras);
-  };
-
   return (
     <div className="p-10">
       <div className="bg-[#05081b]/40 rounded-2xl shadow-2xl p-8 border border-white/20 mb-20 max-w-5xl mx-auto">
@@ -24,7 +20,7 @@ export default function Compras() {
           Controla y gestiona los pagos de entradas recibidos por tus clientes de forma rápida y segura.
         </p>
 
-        <ComprasFiltro onFiltrar={handleFiltrar} />
+        <ComprasFiltro onFiltrar={setComprasFiltradas} />
 
         <ComprasList
           compras={comprasFiltradas}

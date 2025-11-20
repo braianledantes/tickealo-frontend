@@ -5,47 +5,23 @@ import Dropdown from "../Button/Dropdown";
 import ComprasLoading from "./ComprasLoading";
 
 export default function ComprasFiltro({ onFiltrar }) {
-  const { getCompras } = useCompras();
-  const [contadores, setContadores] = useState({
-    pendiente: 0,
-    aceptada: 0,
-    rechazada: 0,
-    iniciada: 0,
-  });
-  const [comprasBase, setComprasBase] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const { getCompras, cargarComprasPorEstado, compras, comprasAceptadas, comprasRechazadas, comprasPendientes, loading, error } = useCompras();
+
   const [filtroActivo, setFiltroActivo] = useState("todos");
   const [filtroFecha, setFiltroFecha] = useState("todo");
 
+
   useEffect(() => {
     const fetchCompras = async () => {
-      setLoading(true);
-      setError("");
       try {
-        const response = await getCompras(1);
-        const compras = response.data || [];
-        setComprasBase(compras);
-
-        const counts = compras.reduce(
-          (acc, c) => {
-            const estado = c.estado?.toLowerCase();
-            if (estado.includes("pendiente")) acc.pendiente++;
-            else if (estado.includes("aceptada")) acc.aceptada++;
-            else if (estado.includes("rechazada") || estado.includes("cancelada"))
-              acc.rechazada++;
-            else acc.iniciada++;
-            return acc;
-          },
-          { pendiente: 0, aceptada: 0, rechazada: 0, iniciada: 0 }
-        );
-
-        setContadores(counts);
-        onFiltrar("todos", compras);
+        await Promise.all([
+          getCompras(),
+          cargarComprasPorEstado("ACEPTADA"),
+          cargarComprasPorEstado("PENDIENTE"),
+          cargarComprasPorEstado("RECHAZADA"),
+        ]);
       } catch (err) {
-        setError("Error cargando filtros de compras");
-      } finally {
-        setLoading(false);
+        console.log("Error obteniendo todas las compras:", err);
       }
     };
     fetchCompras();
@@ -62,19 +38,11 @@ export default function ComprasFiltro({ onFiltrar }) {
     aplicarFiltros(filtroActivo, value);
   };
 
-  const aplicarFiltros = (estado, rangoFecha) => {
-    let filtradas = [...comprasBase];
+  const aplicarFiltros = (comprasArray, rangoFecha) => {
     const ahora = new Date();
+    const inicioSemana = new Date(ahora);
 
-    // 🔹 Filtrar por estado
-    if (estado !== "todos") {
-      filtradas = filtradas.filter((c) =>
-        c.estado?.toLowerCase().includes(estado)
-      );
-    }
-
-    // 🔹 Filtrar por fecha
-    filtradas = filtradas.filter((c) => {
+    const filtradas = comprasArray.filter((c) => {
       const fecha = new Date(c.createdAt);
       switch (rangoFecha) {
         case "hoy":
@@ -84,7 +52,6 @@ export default function ComprasFiltro({ onFiltrar }) {
             fecha.getFullYear() === ahora.getFullYear()
           );
         case "semana":
-          const inicioSemana = new Date(ahora);
           inicioSemana.setDate(ahora.getDate() - ahora.getDay());
           return fecha >= inicioSemana && fecha <= ahora;
         case "mes":
@@ -99,37 +66,33 @@ export default function ComprasFiltro({ onFiltrar }) {
       }
     });
 
-    onFiltrar(estado, filtradas);
+    onFiltrar(filtradas);
   };
+
 
   return (
     <div className="space-y-6 pb-6">
 
       <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-14 md:gap-6">
         <ButtonFilter
-          text={`TODAS (${Object.values(contadores).reduce((a, b) => a + b, 0)})`}
-          onClick={() => handleFiltroClick("todos")}
+          text={`TODAS (${compras?.data?.length || 0})`}
+          onClick={() => handleFiltroClick(compras.data)}
           active={filtroActivo === "todos"}
         />
         <ButtonFilter
-          text={`PENDIENTE (${contadores.pendiente})`}
-          onClick={() => handleFiltroClick("pendiente")}
+          text={`PENDIENTE (${comprasPendientes?.data?.length || 0})`}
+          onClick={() => handleFiltroClick(comprasPendientes.data)}
           active={filtroActivo === "pendiente"}
         />
         <ButtonFilter
-          text={`ACEPTADA (${contadores.aceptada})`}
-          onClick={() => handleFiltroClick("aceptada")}
+          text={`ACEPTADA (${comprasAceptadas?.data?.length || 0})`}
+          onClick={() => handleFiltroClick(comprasAceptadas.data)}
           active={filtroActivo === "aceptada"}
         />
         <ButtonFilter
-          text={`RECHAZADA (${contadores.rechazada})`}
-          onClick={() => handleFiltroClick("rechazada")}
+          text={`RECHAZADA (${comprasRechazadas?.data?.length || 0})`}
+          onClick={() => handleFiltroClick(comprasRechazadas.data)}
           active={filtroActivo === "rechazada"}
-        />
-        <ButtonFilter
-          text={`INICIADA (${contadores.iniciada})`}
-          onClick={() => handleFiltroClick("iniciada")}
-          active={filtroActivo === "iniciada"}
         />
 
         <Dropdown

@@ -141,7 +141,7 @@ export default function Eventos() {
             {user.cuentaBancaria ? (
               <NavLink
                 to="/dashboard/eventos/nuevo"
-                className="flex gap-2 items-center px-4 py-3"
+                className="flex gap-2 items-center"
               >
                 <span className="uppercase">crear evento</span>
                 <Plus />
