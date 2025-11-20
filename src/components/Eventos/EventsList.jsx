@@ -5,8 +5,9 @@ import EventGuide from "./EventGuide";
 export default function EventsList({ viewType = 'grid', eventos, onEventClick }) {
 
   if (!eventos || eventos.length === 0) {
-    return <EventGuide />;
+    return <div className="text-center text-gray-400 py-20">No hay eventos disponibles o creados.</div>;
   }
+
 
   if (viewType === "grid") {
     return (

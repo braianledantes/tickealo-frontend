@@ -10,6 +10,7 @@ import { PATHS } from "../../routes/paths";
 import ErrorModal from "../../components/Modal/ErrorModal";
 import { useAuth} from "../../hooks/useAuth";
 import { TOUR_STEPS } from "../../constants/tour";
+import EventGuide from "../../components/Eventos/EventGuide";
 
 export default function Eventos() {
   const { eventos, loading, error } = useEventosList();
@@ -162,11 +163,16 @@ export default function Eventos() {
         <EventLoading />
       ) : (
         <>
-          <EventsList
-            viewType={view}
-            eventos={filteredEventos}
-            onEventClick={handleEventClick}
-          />
+          {eventos.length === 0 ?(
+            <EventGuide />
+
+          ):(
+            <EventsList
+              viewType={view}
+              eventos={filteredEventos}
+              onEventClick={handleEventClick}
+            />
+          )}
         </>
       )}
 

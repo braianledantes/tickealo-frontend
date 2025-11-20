@@ -16,7 +16,7 @@ export default function EventCard({ evento, onClick }) {
   const handleEventClick = () => {
     onClick(evento);
   };
-
+console.log(evento)
   const formatFecha = (fechaIso) => {
     if (!fechaIso) return "Fecha no definida";
     try {
@@ -57,13 +57,13 @@ export default function EventCard({ evento, onClick }) {
         )}
         {/* Estado arriba a la derecha */}
         <span
-          className={`absolute -top-2 -left-2 m-2 px-3 py-1 rounded-br-xl text-xs tracking-wide font-medium shadow-md ${
+          className={`absolute text-center top-2 -right-18 m-2 px-16 py-2 rounded-br-xl text-sm tracking-wide font-bold uppercase shadow-md transform rotate-45 pointer-events-none ${
             evento.cancelado
               ? "bg-red-600 text-white"
               : estado === "FINALIZADO"
               ? "bg-[#4B5563] text-white"
               : estado === "AGOTADO"
-              ? "bg-[yellow-500] text-black"
+              ? "bg-red-500 text-white"
               : "bg-[#00A86B] text-white"
           }`}
         >
@@ -81,8 +81,8 @@ export default function EventCard({ evento, onClick }) {
         </p>
         {/* Lugar */}
         {evento.lugar && (
-          <div className="flex items-center text-sm text-[#1d347f] mb-2">
-            <MapPin className="w-4 h-4 mr-1" />
+          <div className="flex items-center text-sm text-blue-800 tracking-wider font-semibold mb-2">
+            <MapPin className="w-5 h-5 mr-1" />
             <span>{evento.lugar.direccion}</span>
           </div>
         )}
