@@ -78,7 +78,11 @@ export default function ImageUploader({
       >
         {preview ? (
           <>
-            <img src={preview} alt="Uploaded" className="w-full h-full object-cover" />
+            <img
+              src={preview}
+              alt="Uploaded"
+              className="w-full h-full object-cover"
+            />
             {!readOnly && (
               <button
                 type="button"
@@ -97,7 +101,7 @@ export default function ImageUploader({
         ) : (
           <div className="flex flex-col items-center justify-center text-gray-400 pointer-events-none text-center px-2">
             <Camera className="w-8 h-8 mb-1" />
-            <span className="text-xs">{message}</span>
+            <p className="text-xs whitespace-pre-line text-center">{message}</p>
           </div>
         )}
       </div>
@@ -115,7 +119,8 @@ export default function ImageUploader({
       {/* Mensaje debajo del uploader */}
       {fileType && !error && (
         <p className="text-xs text-gray-400 text-center mt-1">
-          Tipo de archivo detectado: <span className="font-semibold text-white">{fileType}</span>
+          Tipo de archivo detectado:{" "}
+          <span className="font-semibold text-white">{fileType}</span>
         </p>
       )}
 
