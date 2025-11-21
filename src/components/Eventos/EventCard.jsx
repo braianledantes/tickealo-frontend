@@ -59,7 +59,7 @@ console.log(evento)
         <span
           className={`absolute text-center top-2 -right-18 m-2 px-16 py-2 rounded-br-xl text-sm tracking-wide font-bold uppercase shadow-md transform rotate-45 pointer-events-none ${
             evento.cancelado
-              ? "bg-red-600 text-white"
+              ? "bg-gray-900 text-white"
               : estado === "FINALIZADO"
               ? "bg-[#4B5563] text-white"
               : estado === "AGOTADO"

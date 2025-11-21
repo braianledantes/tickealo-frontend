@@ -98,7 +98,7 @@ export default function Sidebar() {
       </div>
 
       {/* Usuario */}
-      <div className={`p-4 border-b border-white/20 flex items-center ${collapsed ? "justify-center" : "gap-3"}`}>
+      <div className={`p-4 border-b border-white/20 flex items-center ${collapsed ? "justify-center" : "gap-3"}`} data-tour={TOUR_STEPS.SIDEBAR_PRODUCTORA}>
         <Avatar src={user.imagenUrl} name={user.user.username} onClick={navigateToPerfil} />
         {
           collapsed ||
@@ -106,7 +106,7 @@ export default function Sidebar() {
             <h2 className="text-white font-semibold">
               {user.nombre}
             </h2>
-            <p className="text-gray-400 text-sm cursor-pointer" onClick={navigateToPerfil}>{user.user.email}</p>
+            <p className="text-gray-400 text-sm cursor-pointer" onClick={navigateToPerfil}>Mi productora</p>
           </div>
         }
       </div>
@@ -122,6 +122,7 @@ export default function Sidebar() {
               <NavLink
                 to={it.to}
                 key={it.key}
+                data-tour-highlighted
                 data-tour={
                   it.key === "creditos" ? TOUR_STEPS.SIDEBAR_CREDITOS :
                   it.key === "cobros" ? TOUR_STEPS.SIDEBAR_COBROS :

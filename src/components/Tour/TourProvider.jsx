@@ -10,6 +10,18 @@ export default function TourProvider({ children }) {
 
   const steps = [
     {
+      selector: `[data-tour="${TOUR_STEPS.SIDEBAR_PRODUCTORA}"]`,
+      content: (
+        <div>
+          <h3 className={HEADING_STYLE}>BIENVENIDO!</h3>
+          <p className={TEXT_STYLE}>
+            Aqui podras modificar todos tus datos de tu productora.
+          </p>
+        </div>
+      ),
+      position: 'right',
+    },
+    {
       selector: `[data-tour="${TOUR_STEPS.SIDEBAR_CREDITOS}"]`,
       content: (
         <div className="grid grid-cols-[10%_90%] gap-2">
@@ -114,8 +126,8 @@ export default function TourProvider({ children }) {
       components={{
         Badge: () => null,
       }}
-      padding={2}
-      disableInteraction
+  padding={2}
+  disableInteraction
     >
       {children}
     </ReactourProvider>

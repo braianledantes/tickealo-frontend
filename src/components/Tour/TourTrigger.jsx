@@ -2,7 +2,7 @@ import { HelpCircle } from "lucide-react";
 import {useTour} from "@reactour/tour";
 import { useTourStore } from "./TourStore";
 
-export default function TourTrigger() {
+export default function TourTrigger({ className = "px-4" }) {
   const { setIsOpen, setCurrentStep } = useTour();
   const { hasSeenTour, resetTour } = useTourStore();
 
@@ -14,7 +14,7 @@ export default function TourTrigger() {
 
   return (
     <button
-      className="flex justify-start items-center text-sm italic tracking-wider font-semibold gap-2 px-4 hover:text-blue-800 transition text-white cursor-pointer"
+      className={` ${className} flex justify-start items-center text-sm italic tracking-wider font-semibold gap-2 hover:text-blue-800 transition text-white cursor-pointer`}
       onClick={handleStartTour}
     >
       <HelpCircle className="w-5 h-5" />

@@ -79,7 +79,7 @@ export default function EventBanner({ evento, onClick }) {
         <span
           className={`absolute top-4 -right-14 px-16 py-2 rounded-br-xl text-xs tracking-wider font-bold transform rotate-45 shadow-md ${
             evento.cancelado
-              ? "bg-red-600 text-white"
+              ? "bg-gray-900 text-white"
               : estado === "FINALIZADO"
               ? "bg-[#4B5563] text-white"
               : estado === "AGOTADO"

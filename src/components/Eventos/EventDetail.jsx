@@ -5,6 +5,7 @@ import { formatearFecha } from "../../utils/formatear";
 import EntradaCard from "../Entradas/EntradaCard";
 
 export default function EventDetail({ evento, onDelete }) {
+  const noHayVentas = evento.stockEntradas < evento.capacidad;
   const getPreviewSrc = (value) =>
     value instanceof File ? URL.createObjectURL(value) : value;
 
@@ -25,7 +26,7 @@ export default function EventDetail({ evento, onDelete }) {
       )}
 
       {/* Datos básicos */}
-      <div className="border border-white/10 bg-[#05081b]/40 p-6 ">
+      <div className="border border-white/10 bg-[#05081b]/40 p-6 rounded-b-4xl">
         <h1 className="tracking-wider text-white font-semibold text-xl">{evento.nombre}</h1>
         <div className="text-blue-800 flex justify-start gap-2 mt-4">
           <MapPin size={14} />
@@ -80,11 +81,14 @@ export default function EventDetail({ evento, onDelete }) {
               Fecha fin del evento: {formatearFecha(evento.finAt)}
             </span>
             <span className="text-white/70 text-sm tracking-wider italic">
+              Una vez que haya finalizado el evento podrás eliminarlo.
+            </span>
+            <span className="text-white/70 text-sm tracking-wider italic">
               Ultima actualizacion: {formatearFecha(evento.createdAt)}
             </span>
           </div>
           <div>
-            {onDelete && <TertiaryButton text="Eliminar" onClick={onDelete} />}
+            {onDelete && noHayVentas && <TertiaryButton text="Eliminar" onClick={onDelete} />}
           </div>
         </div>
       </div>

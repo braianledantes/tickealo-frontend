@@ -28,7 +28,7 @@ export default function EventGuide() {
       title: "CREA TU EQUIPO DE TRABAJO",
       description: (
         <span className="text-white/70 italic">
-          Añade validadores para ayudarte en el evento.
+          Opcional: Añade validadores para ayudarte en el evento.
         </span>
       ),
       done: Boolean(cantValidadores > 0),
@@ -42,9 +42,10 @@ export default function EventGuide() {
 
   return (
     <>
-      <h2 className="font-semibold text-4xl italic tracking-wider text-[#CAF0F8]">
+      <h2 className="pb-4 font-semibold text-4xl italic tracking-wider text-[#CAF0F8]">
         Guía Express
       </h2>
+      <TourTrigger className="px-0" />
 
       <p className="text-sm text-white/70 tracking-wide py-4">
         * Esta información desaparecerá cuando hayas creado un evento.
@@ -109,9 +110,6 @@ export default function EventGuide() {
 
         </div>
         ))}
-        <div className="flex justify-center mt-4">
-            <TourTrigger />
-        </div>
       </div>
     </>
   );
