@@ -12,7 +12,7 @@ export default function EventModified({ evento, onUpdate }) {
     descripcion: evento.descripcion || "",
     inicioAt: evento.inicioAt || "",
     finAt: evento.finAt || "",
-    cancelado: evento.cancelado || false,
+    cancelado: evento.cancelado || false, // ⬅️ switch usa este estado
     lugarId: evento.lugar?.id || null,
     entradas:
       evento.entradas?.map((e) => ({
@@ -54,7 +54,7 @@ export default function EventModified({ evento, onUpdate }) {
       descripcion: formData.descripcion,
       inicioAt: formData.inicioAt,
       finAt: formData.finAt,
-      cancelado: formData.cancelado,
+      cancelado: formData.cancelado, // ⬅️ incluido
       lugarId: formData.lugarId,
       entradas: formData.entradas,
     };
@@ -64,7 +64,7 @@ export default function EventModified({ evento, onUpdate }) {
 
   const getPreviewSrc = (fileOrUrl) =>
     fileOrUrl instanceof File ? URL.createObjectURL(fileOrUrl) : fileOrUrl;
-
+ console.log(evento)
   return (
     <div>
       {/* Banner */}
@@ -93,11 +93,11 @@ export default function EventModified({ evento, onUpdate }) {
             name="inicioAt"
             value={formData.inicioAt}
             onChange={(e) => handleChange("inicioAt", e.target.value)}
-            min={new Date().toISOString().slice(0, 16)} // No permitir fechas pasadas
+            min={new Date().toISOString().slice(0, 16)}
             error={
               !formData.inicioAt || new Date(formData.inicioAt) <= new Date()
             }
-            showError={true} // o un estado `touched` si querés mostrar error solo después de interacción
+            showError={true}
           />
 
           <Input
@@ -106,7 +106,7 @@ export default function EventModified({ evento, onUpdate }) {
             name="finAt"
             value={formData.finAt}
             onChange={(e) => handleChange("finAt", e.target.value)}
-            min={formData.inicioAt || new Date().toISOString().slice(0, 16)} // fin >= inicio
+            min={formData.inicioAt || new Date().toISOString().slice(0, 16)}
             error={
               !formData.finAt ||
               new Date(formData.finAt) <= new Date(formData.inicioAt)
@@ -153,11 +153,13 @@ export default function EventModified({ evento, onUpdate }) {
         </div>
 
         {/* Entradas */}
-        <div className="pt-10 border-t border-white/50">
+        <div className="pt-10 border-t-[0.5px] border-white/30">
           <h3 className="text-white text-2xl font-bold mb-4">Entradas</h3>
           <Entradas
             entradas={formData.entradas}
-            setEntradas={(newEntradas) => handleChange("entradas", newEntradas)}
+            setEntradas={(newEntradas) =>
+              handleChange("entradas", newEntradas)
+            }
           />
         </div>
 
@@ -170,6 +172,38 @@ export default function EventModified({ evento, onUpdate }) {
               disabled={!hasChanges}
             />
           </div>
+        </div>
+
+        {/* cancelar evento */}
+        <div className="pt-10 border-t-[0.5px] border-white/30 flex justify-between items-center">
+          <h3 className="text-red-500 text-md tracking-wider font-medium mb-4">
+            Cancelar Evento
+          </h3>
+          <button
+            onClick={() => {
+              const nuevoValor = !formData.cancelado;
+              handleChange("cancelado", nuevoValor);
+
+              const payload = {
+                ...formData,
+                cancelado: nuevoValor,
+              };
+
+              onUpdate(payload, formData.bannerFile, formData.portadaFile);
+            }}
+            className={`
+              w-12 h-6 flex items-center rounded-full transition-colors duration-300
+              ${formData.cancelado ? "bg-red-500" : "bg-white/20"}
+            `}
+          >
+            <span
+              className={`
+                w-5 h-5 bg-white rounded-full shadow transform transition-transform duration-300
+                ${formData.cancelado ? "translate-x-6" : "translate-x-1"}
+              `}
+            ></span>
+          </button>
+
         </div>
       </div>
     </div>

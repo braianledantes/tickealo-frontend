@@ -31,6 +31,11 @@ function AnimatedCard({ evento, sinCupos, porFinalizar }) {
         </div>
       )}
 
+      {evento.cancelado && (
+        <div className="absolute z-3 top-5 -right-16 bg-gray-900 text-white font-bold tracking-wider py-2 px-16 text-sm transform rotate-45 shadow-lg pointer-events-none">
+          CANCELADO
+        </div>
+      )}
       {!sinCupos && porFinalizar && (
         <div
           className="

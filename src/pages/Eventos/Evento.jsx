@@ -24,6 +24,7 @@ export default function Evento() {
     tickets,
   } = useEventosList();
   const navigate = useNavigate();
+  console.log(evento)
 
   const [editing, setEditing] = useState(false);
   const [showChart, setShowChart] = useState(false);
@@ -136,7 +137,7 @@ export default function Evento() {
           </span>
         ) : esFinalizado ? (
           <p className="text-sm text-yellow-400 mt-1">
-            El evento ha finalizado. Se muestran únicamente las estadísticas y reseñas.
+            El evento se ha {evento.cancelado ? "cancelado" : "finalizado"}. Se muestran únicamente las estadísticas y reseñas.
           </p>
         ) : null}
       </div>
