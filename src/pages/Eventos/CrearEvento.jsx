@@ -39,7 +39,7 @@ export default function CrearEvento() {
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
 
-  // ✅ Submit final con loading y redirección
+  // Submit final con loading y redirección
   const handleSubmit = async (finalStepData) => {
     const finalData = { ...formData, ...finalStepData };
 
@@ -54,7 +54,7 @@ export default function CrearEvento() {
     };
 
     try {
-      setCreating(true); // 🔹 mostrar loading (se usa en TercerPaso)
+      setCreating(true); //  mostrar loading (se usa en TercerPaso)
       const created = await crearEvento(
         evento,
         finalData.banner,
@@ -67,7 +67,7 @@ export default function CrearEvento() {
         return;
       }
 
-      // 🔹 Esperar un poco para que el usuario vea el spinner (opcional)
+      // Esperar un poco para que el usuario vea el spinner (opcional)
       setTimeout(() => navigate("/dashboard/eventos"), 200);
     } catch (error) {
       console.error("Error en handleSubmit:", error);
