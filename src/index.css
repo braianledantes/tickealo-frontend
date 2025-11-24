@@ -1,44 +1,61 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "tailwindcss";
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
-body, #root {
+body,
+#root {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background-color: #00000B;
-  font-family: 'Poppins', sans-serif;
+  background-color: #00000b;
+  font-family: "Poppins", sans-serif;
 }
-
 
 /* Animación de panel compraId */
 @keyframes slide-in-right {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 .animate-slide-in-right {
   animation: slide-in-right 0.3s ease-out forwards;
 }
 
 @keyframes slide-out-right {
-  from { transform: translateX(0); opacity: 1; }
-  to { transform: translateX(100%); opacity: 0; }
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
 }
 .animate-slide-out-right {
   animation: slide-out-right 0.3s ease-in forwards;
 }
 /* Desenfoque para panel compraId */
-.blur-auto{
+.blur-auto {
   backdrop-filter: blur(2px);
 }
 
 /* Animacion para fondo gradiente del logo */
 @keyframes pulseGradient {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .gradient-triangle {
@@ -51,6 +68,20 @@ body, #root {
   animation: pulseGradient 3s ease-in-out infinite;
   filter: blur(40px);
   pointer-events: none;
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.25s ease-out;
 }
 
 /* Quitar icono default de date time */
@@ -67,9 +98,9 @@ input[type="datetime-local"]::-moz-calendar-picker-indicator {
 
 /* Quitar auto-relleno predeterminado en el input */
 input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0px 1000px #080C22 inset !important;
+  -webkit-box-shadow: 0 0 0px 1000px #080c22 inset !important;
   -webkit-text-fill-color: white !important;
-  background-color: #080C22 !important;
+  background-color: #080c22 !important;
   border: none !important;
 }
 
@@ -132,7 +163,7 @@ input:-webkit-autofill {
 .animate-title {
   opacity: 0;
   animation: fadeUp 0.6s ease-out forwards,
-             revealLetters 1.2s steps(20) forwards;
+    revealLetters 1.2s steps(20) forwards;
 }
 .animate-subtitle {
   opacity: 0;
@@ -149,7 +180,6 @@ input:-webkit-autofill {
 .scrollbar-dark {
   scrollbar-width: thin; /* Firefox */
   scrollbar-color: #1a1f3a #05081b; /* thumb y track */
-
 }
 .scrollbar-dark::-webkit-scrollbar {
   width: 8px;
@@ -174,7 +204,5 @@ input:-webkit-autofill {
 
 .scrollbar-disabled {
   -ms-overflow-style: none; /* IE y Edge */
-  scrollbar-width: none;    /* Firefox */
+  scrollbar-width: none; /* Firefox */
 }
-
-
