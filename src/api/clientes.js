@@ -1,4 +1,4 @@
-import api from "./api/axiosConfig";
+import api from "./axiosConfig";
 
 export const buscarClientes = async (term) => {
   const res = await api.get(`/api/clientes`, {
