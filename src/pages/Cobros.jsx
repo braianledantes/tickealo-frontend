@@ -96,6 +96,7 @@ export default function Cobros() {
               value={instrucciones}
               onChange={(e) => setInstrucciones(e.target.value)}
               maxLength={255}
+              height="250px"
             />
 
             {/* Mostrar errores de BankCard */}

@@ -74,21 +74,22 @@ export default function TercerPaso({ onBack, onSubmit, initialData }) {
           {/* Portada */}
           <div className="flex-1">
             <ImageUploader
+              label="Portada para celulares y Redes sociales"
               onFileSelect={(file) => setPortada(file)}
-              aspect="aspect-[20/13]"
+              aspect="aspect-[4/5]"
               message="Arrastrá o subí la portada de tu evento para redes sociales!"
             />
           </div>
 
           {/* Descripción */}
-          <div className="flex flex-col h-full justify-between">
+          <div className="flex flex-col h-full justify-between -mt-2">
             <TextArea
               label="Descripción del evento"
               placeholder="Escribe la descripción aquí..."
               value={descripcion}
               onChange={(e) => setDescripcion(e.target.value)}
               name="descripcion"
-              maxLength={200}
+              maxLength={1000}
               error={
                 descripcion.trim().length < 10 ? "Mínimo 10 caracteres" : ""
               }
@@ -99,7 +100,7 @@ export default function TercerPaso({ onBack, onSubmit, initialData }) {
           </div>
         </div>
 
-        <div className="absolute mb-2 flex space-y-4 w-full px-8 bottom-0 left-0 justify-between">
+        <div className=" flex justify-between items-center space-y-4 w-full px-8 bottom-0 left-0">
           <div className="bottom-2 left-4 w-[80px]">
             <Button onClick={onBack} disabled={loading}>
               <ArrowLeft />

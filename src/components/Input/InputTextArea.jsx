@@ -6,7 +6,8 @@ export default function TextArea({
   value,
   onChange,
   name,
-  maxLength = 200,
+  maxLength = 1000,
+  height="450px",
   error,
   touched: externalTouched = false, // permite controlar el touched desde el padre
 }) {
@@ -33,7 +34,7 @@ export default function TextArea({
   return (
     <div className="w-full relative">
       {label && (
-        <label className="block text-sm font-medium text-gray-300 mt-2 ml-3 mb-2">
+        <label className="block text-sm font-medium tracking-wider uppercase text-[#CAF0F8] mt-2 ml-3 mb-2">
           {label}
         </label>
       )}
@@ -45,7 +46,8 @@ export default function TextArea({
         value={value}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={`resize-none w-full min-h-[160px] p-4 mb-7 text-white rounded-lg bg-[#080C22] shadow-inner shadow-white/10 placeholder-pink outline-none ${borderClass} selection:bg-blue-500/30 selection:text-white`}
+        style={{ minHeight: height }}
+        className={`resize-none w-full p-4 mb-7 text-white rounded-lg bg-[#080C22] shadow-inner shadow-white/10 placeholder-pink outline-none ${borderClass} selection:bg-blue-500/30 selection:text-white`}
       />
 
       {/* Contador de caracteres si quedan ≤100 */}

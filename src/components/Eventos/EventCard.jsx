@@ -16,7 +16,6 @@ export default function EventCard({ evento, onClick }) {
   const handleEventClick = () => {
     onClick(evento);
   };
-console.log(evento)
   const formatFecha = (fechaIso) => {
     if (!fechaIso) return "Fecha no definida";
     try {
@@ -42,8 +41,8 @@ console.log(evento)
           "transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease",
       }}
     >
-      {/* Portada: siempre mantiene ratio 4:3 */}
-      <div className="w-full aspect-[4/3] bg-gray-800 relative overflow-hidden">
+      {/* Portada: siempre mantiene ratio 4:5 */}
+      <div className="w-full aspect-[4/5]  bg-gray-800 relative overflow-hidden">
         {evento.portadaUrl ? (
           <img
             src={evento.portadaUrl}

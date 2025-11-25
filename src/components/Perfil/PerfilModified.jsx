@@ -59,22 +59,16 @@ export default function PerfilModified () {
     return(
         <div>
             <div className="grid grid-cols-1 lg:grid-cols-2 space-y-4 space-x-8">
-                <div className="max-h-xl justify-top">
-                    <ProfilePictureUploader
-                        label="Imagen de Perfil (opcional)"
-                        value={getPreviewSrc(formData.imagenPerfil)}
-                        onFileSelect={(file) => handleChange("imagenPerfil", file)}
-                    />
-
-                    <div className="pt-10 space-y-5">
-                        <h2 className="text-white/40 font-sm tracking-wide ml-3">Información Personal.</h2>
-                        <Input
-                        label="Nombre de Usuario"
-                        type="text"
-                        value={formData.username}
-                        error={!formData.username}
-                        onChange={(e) => handleChange("username", e.target.value)}
+                <div className="max-h-xl">
+                    <div className="flex justify-center items-center">
+                      <ProfilePictureUploader
+                            label="Imagen de Perfil (opcional)"
+                            value={getPreviewSrc(formData.imagenPerfil)}
+                            onFileSelect={(file) => handleChange("imagenPerfil", file)}
                         />
+                    </div>
+                    <div className="pt-18 space-y-5">
+                        <h2 className="text-white/40 font-sm tracking-wide ml-3">Información Personal.</h2>
                         <Input
                         label="Email"
                         type="email"
@@ -113,10 +107,10 @@ export default function PerfilModified () {
                 </div>
             </div>
             
-            <div className="relative pb-13">
-                <div className="absolute right-2">
+            <div className="flex justify-end items-center mt-4">
+              <div>
                 <SecondaryButton text="Actualizar datos" onClick={() => handleActualizarPerfil(formData)} />
-                </div>
+              </div>
             </div>
         </div>
     )

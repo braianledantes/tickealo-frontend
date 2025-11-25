@@ -11,6 +11,7 @@ export default function Dropdown({
   className = "",
   error = "", 
   showError="",
+  label = ""
 }) {
   const [open, setOpen] = useState(false);
 
@@ -25,6 +26,11 @@ export default function Dropdown({
   return (
     <div className={`relative w-full ${className}`}>
       {/* Botón principal */}
+      {label && (
+        <label className="block text-sm font-medium tracking-wider uppercase text-[#CAF0F8] ml-3 mb-2">
+          {label}
+        </label>
+      )}
       <button
         onClick={() => setOpen(!open)}
         className={`

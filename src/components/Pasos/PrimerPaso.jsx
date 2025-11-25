@@ -43,108 +43,73 @@ export default function PrimerPaso({ onNext, initialData }) {
             <div className="flex flex-col h-full justify-between">
               <div className="space-y-6">
                 {/* Nombre*/}
-                <div>
-                  <label
-                    htmlFor="nombre"
-                    className="text-[#90E0EF] text-sm mb-1 uppercase tracking-wide block"
-                  >
-                    Nombre del evento
-                  </label>
-                  <Input
-                    id="nombre"
-                    placeholder="Escribe el nombre aquí"
-                    value={nombre}
-                    onChange={(e) => setNombre(e.target.value)}
-                    name="nombre"
-                    error={!nombre}
-                    showError={touched}
-                  />
-                </div>
+                <Input
+                  id="nombre"
+                  label="Nombre del evento"
+                  placeholder="Escribe el nombre aquí"
+                  value={nombre}
+                  onChange={(e) => setNombre(e.target.value)}
+                  name="nombre"
+                  error={!nombre}
+                  showError={touched}
+                />
 
                 {/* País */}
-                <div>
-                  <label
-                    htmlFor="pais"
-                    className="text-[#90E0EF] text-sm  mb-1 uppercase tracking-wide block"
-                  >
-                    País
-                  </label>
-                  <Dropdown
-                    id="pais"
-                    options={countryOptions}
-                    value={selectedCountry}
-                    onChange={handleCountryChange}
-                    placeholder="Seleccioná un país"
-                    error={!selectedCountry}
-                    showError={touched}
-                  />
-                </div>
+                <Dropdown
+                  id="pais"
+                  label="País"
+                  options={countryOptions}
+                  value={selectedCountry}
+                  onChange={handleCountryChange}
+                  placeholder="Seleccioná un país"
+                  error={!selectedCountry}
+                  showError={touched}
+                />
 
                 {/* Dirección */}
-                <div>
-                  <label
-                    htmlFor="direccion"
-                    className="text-[#90E0EF] text-sm mb-1 uppercase tracking-wide block"
-                  >
-                    Dirección
-                  </label>
-                  <Input
-                    id="direccion"
-                    placeholder="Selecciona un punto en el mapa"
-                    value={lugar.direccion}
-                    onChange={(e) =>
-                      setLugar((prev) => ({
-                        ...prev,
-                        direccion: e.target.value,
-                      }))
-                    }
-                    name="direccion"
-                    error={!lugar.direccion}
-                    showError={touched}
-                    disabled={!selectedCountry}
-                  />
-                </div>
+                <Input
+                  id="direccion"
+                  label="Dirección"
+                  placeholder="Selecciona un punto en el mapa"
+                  value={lugar.direccion}
+                  onChange={(e) =>
+                    setLugar((prev) => ({
+                      ...prev,
+                      direccion: e.target.value,
+                    }))
+                  }
+                  name="direccion"
+                  error={!lugar.direccion}
+                  showError={touched}
+                  disabled={!selectedCountry}
+                />
 
                 {/* Fechas */}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
-                  <div>
-                    <label
-                      htmlFor="inicioAt"
-                      className="text-[#90E0EF] text-sm mb-1 uppercase tracking-wide block"
-                    >
-                      Fecha y hora de inicio
-                    </label>
-                    <Input
-                      id="inicioAt"
-                      type="datetime-local"
-                      value={inicioAt}
-                      onChange={(e) => setInicioAt(e.target.value)}
-                      name="inicioAt"
-                      min={new Date().toISOString().slice(0, 16)}
-                      error={!inicioAt || new Date(inicioAt) <= new Date()}
-                      showError={touched}
-                    />
-                  </div>
+                  <Input
+                    id="inicioAt"
+                    label="Fecha y hora de inicio"
+                    type="datetime-local"
+                    value={inicioAt}
+                    onChange={(e) => setInicioAt(e.target.value)}
+                    name="inicioAt"
+                    min={new Date().toISOString().slice(0, 16)}
+                    error={!inicioAt || new Date(inicioAt) <= new Date()}
+                    showError={touched}
+                  />
 
-                  <div>
-                    <label
-                      htmlFor="finAt"
-                      className="text-[#90E0EF] text-sm mb-1 uppercase tracking-wide block"
-                    >
-                      Fecha y hora de fin
-                    </label>
-                    <Input
-                      id="finAt"
-                      type="datetime-local"
-                      value={finAt}
-                      onChange={(e) => setFinAt(e.target.value)}
-                      name="finAt"
-                      min={inicioAt || new Date().toISOString().slice(0, 16)}
-                      error={!finAt || new Date(finAt) <= new Date(inicioAt)}
-                      showError={touched}
-                    />
-                  </div>
+                  <Input
+                    id="finAt"
+                    label="Fecha y hora de fin"
+                    type="datetime-local"
+                    value={finAt}
+                    onChange={(e) => setFinAt(e.target.value)}
+                    name="finAt"
+                    min={inicioAt || new Date().toISOString().slice(0, 16)}
+                    error={!finAt || new Date(finAt) <= new Date(inicioAt)}
+                    showError={touched}
+                  />
                 </div>
 
                 {error && (
@@ -168,12 +133,10 @@ export default function PrimerPaso({ onNext, initialData }) {
           </div>
 
           {/* Banner */}
-          <div className="mt-10 px-6 md:px-8">
-            <label className="text-[#90E0EF] text-sm mb-1 uppercase tracking-wide block">
-              Banner del evento
-            </label>
+          <div className="mt-8">
             <ImageUploader
               onFileSelect={setBanner}
+              label="Banner del evento"
               aspect="aspect-[11/4]"
               message={`Arrastrá o subí el banner de tu evento.
                         Tamaño recomendado: 1200x400px`}

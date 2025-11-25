@@ -9,6 +9,7 @@ export default function ImageUploader({
   value,
   readOnly = false,
   allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/gif"], // formatos permitidos
+  label=""
 }) {
   const [preview, setPreview] = useState(null);
   const [dragOver, setDragOver] = useState(false);
@@ -67,6 +68,11 @@ export default function ImageUploader({
 
   return (
     <div className="flex flex-col gap-2 w-full relative">
+      {label && (
+        <label className="block text-sm text-center font-medium tracking-wider uppercase text-[#CAF0F8] ml-3 mb-2">
+          {label}
+        </label>
+      )}
       <div
         className={`w-full ${aspect} border-2 border-dashed ${
           dragOver ? "border-blue-500 bg-blue-50" : "border-black"

@@ -43,7 +43,7 @@ export default function Input({
   return (
     <div className="w-full relative">
       {label && (
-        <label className="block text-sm font-medium text-gray-300 mt-2 ml-3 mb-2">
+        <label className="block text-sm font-medium tracking-wider uppercase text-[#CAF0F8] mt-2 ml-3 mb-2">
           {label}
         </label>
       )}
