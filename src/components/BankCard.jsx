@@ -7,6 +7,7 @@ export default function BankCard({
   label,
 }) {
   const bancos = [
+    { name: "Mercado Pago"},
     { name: "Banco Nación" },
     { name: "Santander" },
     { name: "Galicia" },
@@ -44,7 +45,7 @@ export default function BankCard({
         {/* Titular */}
         <div className="mb-6 flex items-center justify-between">
           <div className="w-full">
-            <p className="text-sm text-white/70 uppercase mb-1">Titular</p>
+            <p className="text-sm text-[#CAF0F8] uppercase mb-1">Titular</p>
             {edit ? (
               <input
                 className={inputStyle + " text-xl w-full"}
@@ -64,7 +65,7 @@ export default function BankCard({
 
         {/* CBU */}
         <div className="mb-4">
-          <p className="text-sm text-white/70 uppercase mb-1">CBU</p>
+          <p className="text-sm text-[#CAF0F8] uppercase mb-1">CBU</p>
           {edit ? (
             <input
               className={inputStyle + " text-lg w-full"}
@@ -81,7 +82,7 @@ export default function BankCard({
         {/* Alias y Banco */}
         <div className="mb-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div>
-            <p className="text-sm text-white/70 uppercase mb-1">Alias</p>
+            <p className="text-sm text-[#CAF0F8]uppercase mb-1">Alias</p>
             {edit ? (
               <input
                 className={inputStyle + " text-lg w-full"}
@@ -97,7 +98,7 @@ export default function BankCard({
           </div>
 
           <div>
-            <p className="text-sm text-white/70 uppercase mb-1">Banco</p>
+            <p className="text-sm text-[#CAF0F8] uppercase mb-1">Banco</p>
             {edit ? (
               <Dropdown
                 value={cuenta?.nombreBanco || ""}

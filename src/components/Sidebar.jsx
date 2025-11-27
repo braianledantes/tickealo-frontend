@@ -76,6 +76,7 @@ export default function Sidebar() {
 
         {collapsed && hoverLogo && (
           <button
+            tabIndex={0}
             onClick={() => setCollapsed(false)}
             className="cursor-pointer text-white bg-[#FFFFFF1A] w-9 h-9 flex items-center justify-center rounded-full transition-all duration-200"
           >
@@ -135,7 +136,7 @@ export default function Sidebar() {
                   } ${isActive && !collapsed
                     ? "text-white bg-white/10 rounded-r-full"
                     : "text-gray-300 hover:bg-white/10"
-                  } ${!collapsed ? "rounded-r-full" : ""
+                  } ${!collapsed ? "rounded-r-full" : "rounded-r-full"
                   } group` // Necesario para hover interno
                 }
               >

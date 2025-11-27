@@ -34,28 +34,26 @@ export default function Navbar() {
     },
     { key: "cobros", label: "Cobros", to: PATHS.COBROS, icon: PiggyBank },
     { key: "equipo", label: "Equipo", to: PATHS.EQUIPO, icon: Users },
-    { key: "entradas", label: "Entradas", to: PATHS.ENTRADAS, icon: Tickets },
+    { key: "entradas", label: "Entradas", to: PATHS.COMPRAS, icon: Tickets },
   ];
 
-  // const handleClose = () => {
-  // if (!open) {
-  //     setOpen(true);
-  //     setClosing(false);
-  // } else {
-  //     setClosing(true);
-  //     setTimeout(() => {
-  //     setOpen(false);
-  //     }, 300);
-  // }
-  // };
+  const handleToggle = () => {
+    if (!open) {
+      setOpen(true);
+    } else {
+      setClosing(true);
+    }
+  };
 
   return (
     <nav className="fixed top-0 left-0 w-full h-18 bg-[#05081b] border-b border-white/20 z-50 md:hidden">
       {/* Header con logo y botón menú */}
-      <div className="grid grid-cols-3 px-4 py-1">
+      <div className="grid grid-cols-3 px-4 py-1 items-center">
         <button
-          onClick={() => setOpen(!open)}
-          className="text-white focus:outline-none"
+          onClick={handleToggle}
+          tabIndex={0}
+          className="text-white focus:outline-none cursor-pointer focus:ring-2 focus:ring-white w-7 h-7 rounded-full
+             focus:ring-offset-2 focus:ring-offset-[#05081b]"
           aria-label={open ? "Cerrar menú" : "Abrir menú"}
         >
           {open ? <X size={26} /> : <Menu size={26} />}
@@ -64,10 +62,24 @@ export default function Navbar() {
         <div></div>
       </div>
 
-      {/* Menú desplegable */}
-      {open && (
+      {/* Menú con animación */}
+      {(open || closing) && (
         <div
-          className={`flex flex-col justify-between  border-r border-white/20 bg-[#05081b] w-64 h-screen `}
+          className={`
+            h-screen w-64 bg-[#05081b] border-r border-white/20 z-40 
+            flex flex-col justify-between 
+
+            transition-all duration-300 ease-in-out
+            ${open && !closing ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"}
+          `}
+          inert={!open ? "" : undefined}
+          aria-hidden={!open}
+          onTransitionEnd={() => {
+            if (closing) {
+              setOpen(false);
+              setClosing(false);
+            }
+          }}
         >
           <div className="p-4 flex items-center border-b border-white/20 gap-3">
             {user?.imagenUrl ? (
@@ -100,7 +112,8 @@ export default function Navbar() {
                 <NavLink
                   key={key}
                   to={to}
-                  onClick={() => setOpen(false)}
+                  end
+                  onClick={() => handleToggle()}
                   className={({ isActive }) =>
                     `w-full flex items-center relative gap-3 px-3 py-2 rounded-tr-full rounded-br-full transition-colors duration-200 ${
                       isActive
@@ -111,12 +124,10 @@ export default function Navbar() {
                 >
                   {({ isActive }) => (
                     <>
-                      {/* Indicador lateral degradado activo */}
                       {isActive && (
                         <span className="absolute left-0 top-0 h-full w-1 rounded-tr-full rounded-br-full bg-gradient-to-b from-[#03055F] via-[#00B4D8] via-[#90E0EF] to-[#CAF0F8]"></span>
                       )}
 
-                      {/* Indicador lateral degradado solo en hover */}
                       {!isActive && (
                         <span className="absolute left-0 top-0 h-full w-1 rounded-tr-full rounded-br-full bg-gradient-to-b from-[#03055F] via-[#00B4D8] via-[#90E0EF] to-[#CAF0F8] opacity-0 group-hover:opacity-30 transition-opacity duration-200"></span>
                       )}
@@ -130,16 +141,13 @@ export default function Navbar() {
             </nav>
           </div>
 
-          {/* Logout */}
           <div className="p-4 mt-auto">
             <button
-              onClick={() => {
-                logout();
-              }}
+              onClick={() => logout()}
               className="w-full flex items-center gap-2 px-4 py-2 text-gray-300 hover:text-white hover:bg-white/10 rounded-full transition-colors duration-200"
             >
               <LogOut className="h-5 w-5" />
-              {"Cerrar sesión"}
+              Cerrar sesión
             </button>
           </div>
         </div>

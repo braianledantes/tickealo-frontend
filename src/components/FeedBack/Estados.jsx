@@ -26,8 +26,19 @@ export function EstadoCompra({
 }
 
 
-// export function EstadoEvento ( estadoEvento ) {
-//     return (
-//         null
-//     )
-// }
+export function EstadoEvento ( estadoEvento ) {
+  
+  return (
+    <div
+      className="
+        absolute z-30 top-8 -right-16
+        bg-blue-900 text-white font-bold tracking-wider
+        py-2 px-16 text-sm
+        transform rotate-45
+        shadow-lg pointer-events-none
+      "
+    >
+      POR EMPEZAR
+    </div>
+  )
+}

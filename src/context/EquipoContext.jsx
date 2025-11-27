@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import * as apiEquipo from "../api/equipo";
+import { useAuth } from "../hooks/useAuth";
 
 export const EquipoContext = createContext();
 
@@ -7,8 +8,10 @@ export function EquipoProvider({ children }) {
   const [equipo, setEquipo] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { user } = useAuth();
 
   useEffect(() => {
+    if (!user) return;
       setLoading(true);
       getMiembrosEquipo()
         .catch((err) => setError(err))

@@ -111,7 +111,7 @@ function HomeEventosFinalizados({ eventos = [] }) {
                   ? "grid-cols-1 place-items-center"
                   : count === 2
                   ? "grid-cols-2 place-items-center"
-                  : "grid-cols-3"
+                  : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
               }`
         }
       >

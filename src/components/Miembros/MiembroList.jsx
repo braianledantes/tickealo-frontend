@@ -25,6 +25,7 @@ export default function MiembrosList({
           const miembro = m.user || m.cliente || {};
           const imagen = miembro.imagenUrl || miembro.imagenPerfilUrl;
           const nombre = miembro.nombre || miembro.username || "Usuario";
+          const apellido = miembro.apellido || "";
           const email =
             miembro.email || (miembro.user && miembro.user.email) || "";
 
@@ -36,7 +37,7 @@ export default function MiembrosList({
               <div className="flex items-center gap-3">
                 <Avatar src={imagen} name={nombre} size={12} />
                 <div>
-                  <p className="text-white text-xl font-semibold">{nombre}</p>
+                  <p className="text-white text-xl font-semibold">{nombre}{""}{apellido}</p>
                   <p className="hidden lg:block text-gray-400 text-sm">
                     {email}
                   </p>

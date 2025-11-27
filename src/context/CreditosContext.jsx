@@ -1,8 +1,9 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import * as mercadopagoapi from "../api/mercadopago";
 import * as creditosapi from "../api/creditos";
 import * as authApi from "../api/auth";
 import { initMercadoPago } from "@mercadopago/sdk-react";
+import { useAuth } from "../hooks/useAuth";
 
 const apiCreditos = {
   async getSaldo() {
@@ -35,8 +36,10 @@ export function CreditosProvider({ children }) {
   const [packs, setPacks] = useState([]);
   const [saldo, setSaldo] = useState(0);
   const [historialCompras, setHistorialCompras] = useState([]);
+  const { user }  = useAuth();
 
   useEffect(() => {
+    if(!user) return;
     const cargarDatos = async () => {
       try {
         setError(null);

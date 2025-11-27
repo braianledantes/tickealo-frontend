@@ -10,7 +10,6 @@ export const CountryProvider = ({ children }) => {
   useEffect(() => {
     getCountries()
       .then((options) => {
-        console.log("Países recibidos desde el backend:", options);
         setCountries(options.countries);
       })
       .catch((err) => console.error("Error al obtener países:", err))

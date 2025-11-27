@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import mobile from "../../../assets/mobile.webp";
 import { AppStoreIcon, PlaystoreIcon } from "../Icons";
 
 export default function HomeApp() {
@@ -20,7 +19,6 @@ export default function HomeApp() {
 
   useEffect(() => {
     const currentText = features[currentIndex];
-
     const typingSpeed = isDeleting ? 50 : 90;
 
     const timeout = setTimeout(() => {
@@ -83,49 +81,49 @@ export default function HomeApp() {
           EN NUESTRA APP PODRÁS
         </h2>
         <span
-            className="
-                animate-title
-                font-bold 
-                text-transparent 
-                bg-clip-text 
-                bg-gradient-to-r 
-                from-[#03055F] to-[#00B4D8]
-                text-xs md:text-xl
-                tracking-wide
-                italic
-                pr-2
-                whitespace-nowrap
-                min-w-[200px] md:min-w-[350px] inline-block
-            "
+          className="
+            animate-title
+            font-bold 
+            text-transparent 
+            bg-clip-text 
+            bg-gradient-to-r 
+            from-[#03055F] to-[#00B4D8]
+            text-xs md:text-xl
+            tracking-wide
+            italic
+            pr-2
+            whitespace-nowrap
+            min-w-[200px] md:min-w-[350px] inline-block
+          "
         >
-            {displayText}
+          {displayText}
         </span>
         <p className="animate-subtitle max-w-2xl my-5 text-white/70 tracking-wider italic text-xs md:text-sm">
-          Todo en un solo lugar, pensado para que uses la plataforma de forma simple, rápida y sin vueltas. Descarga Tickealo y disfruta al máximo de todo lo que te rodea. ¿Listo para empezar?
+          Todo en un solo lugar, pensado para que uses la plataforma de forma simple, rápida y sin vueltas. 
+          Descarga Tickealo y disfruta al máximo de todo lo que te rodea. ¿Listo para empezar?
         </p>
 
         <div className="animate-subtitle my-5 text-white/70 tracking-wider flex justify-center md:justify-start items-center space-x-4">
-            <button className="border-white rounded-full border px-4 py-2 md:px-6 md:py-3 cursor-pointer flex items-center justify-center gap-2 transition-all duration-300 hover:bg-gradient-to-r hover:from-[#03055F] hover:to-[#00B4D8] hover:border-transparent" >
-                <PlaystoreIcon size={18} />
-                <span className="text-white font-medium text-sm md:text-md">Playstore</span>
-            </button>
+          <button className="border-white rounded-full border px-4 py-2 md:px-6 md:py-3 cursor-pointer flex items-center justify-center gap-2 transition-all duration-300 hover:bg-gradient-to-r hover:from-[#03055F] hover:to-[#00B4D8] hover:border-transparent">
+            <PlaystoreIcon size={18} />
+            <span className="text-white font-medium text-sm md:text-md">Playstore</span>
+          </button>
 
-            <button className="border-white rounded-full border px-4 py-2 md:px-6 md:py-3 cursor-pointer flex items-center justify-center gap-2 transition-all duration-300 hover:bg-gradient-to-r hover:from-[#03055F] hover:to-[#00B4D8] hover:border-transparent">
-                <AppStoreIcon size={24} />
-                <span className="text-white font-medium text-sm md:text-md">App Store</span>
-            </button>
+          <button className="border-white rounded-full border px-4 py-2 md:px-6 md:py-3 cursor-pointer flex items-center justify-center gap-2 transition-all duration-300 hover:bg-gradient-to-r hover:from-[#03055F] hover:to-[#00B4D8] hover:border-transparent">
+            <AppStoreIcon size={24} />
+            <span className="text-white font-medium text-sm md:text-md">App Store</span>
+          </button>
         </div>
-
       </div>
 
       {/* Imagen */}
       <div className="animate-subtitle max-w-2xl mx-auto mb-10 text-white/70 tracking-wider">
         <img
-          src={mobile}
-          srcSet={`
-            /src/assets/mobile.webp 275w,
-            /src/assets/mobile.webp 380w
-          `}
+          src="/mobile.webp"
+          srcSet="
+            /mobile.webp 275w,
+            /mobile.webp 380w
+          "
           sizes="(max-width: 600px) 275px, 380px"
           alt="App móvil"
           className="w-[220px] md:w-[280px] drop-shadow-xl animate-fadeUp"

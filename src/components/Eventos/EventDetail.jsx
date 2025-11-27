@@ -35,9 +35,9 @@ export default function EventDetail({ evento, onDelete }) {
           </span>
         </div>
 
-		<p className="text-white text-sm md:text-base lg:text-lg mt-2 tracking-wide border-b-[0.5px] border-white/20 pb-2 break-words overflow-hidden">
-		{evento.descripcion}
-		</p>
+        <p className="text-white text-sm md:text-base lg:text-md mt-2 tracking-wide border-b-[0.5px] border-white/20 pb-6 break-words overflow-hidden whitespace-pre-line">
+          {evento.descripcion}
+        </p>
 
 
         {/* Fecha */}

@@ -14,7 +14,7 @@ export default function HomeEventosProximos({ eventos = [] }) {
           TICKETERA QR
         </span>.
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-15 mx-10 min-h-[400px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-15 mx-10 min-h-[400px]">
         {hasEventos ? (
           <HomeEventCard eventos={eventos} />
         ) : (

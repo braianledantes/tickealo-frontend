@@ -24,7 +24,6 @@ export default function Evento() {
     tickets,
   } = useEventosList();
   const navigate = useNavigate();
-  console.log(evento)
 
   const [editing, setEditing] = useState(false);
   const [showChart, setShowChart] = useState(false);

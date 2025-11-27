@@ -1,16 +1,27 @@
 export default function Avatar({ src, name = "Usuario", size = 10, onClick }) {
-  const firtsLetter = name ? name.charAt(0).toUpperCase() : "?";
-  
+  const firstLetter = name ? name.charAt(0).toUpperCase() : "?";
+
+  const baseClasses = `
+    w-${size} h-${size} rounded-full 
+    focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 
+    focus:ring-offset-[#05081b]
+  `;
+
   return src ? (
     <img
       src={src}
       alt={name}
-      className={`w-${size} h-${size} rounded-full object-cover ${onClick ? "cursor-pointer" : ""}`}
+      tabIndex={0}
       onClick={onClick}
+      className={`${baseClasses} object-cover ${onClick ? "cursor-pointer" : ""}`}
     />
   ) : (
-    <div className={`w-${size} h-${size} rounded-full bg-purple-600 flex items-center justify-center text-white font-semibold`}>
-      {firtsLetter}
+    <div
+      tabIndex={0}
+      onClick={onClick}
+      className={`${baseClasses} bg-purple-600 flex items-center justify-center text-white font-semibold ${onClick ? "cursor-pointer" : ""}`}
+    >
+      {firstLetter}
     </div>
-  )
+  );
 }
