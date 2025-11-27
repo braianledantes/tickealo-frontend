@@ -5,11 +5,12 @@ import { formatearFecha } from "../../utils/formatear";
 import EntradaCard from "../Entradas/EntradaCard";
 
 export default function EventDetail({ evento, onDelete }) {
-  const noHayVentas = evento.stockEntradas < evento.capacidad;
+  const noHayVentas = evento.stockEntradas > evento.capacidad;
   const getPreviewSrc = (value) =>
     value instanceof File ? URL.createObjectURL(value) : value;
 
   return (
+    <>
     <div className="lg:col-span-7">
       {/* Banner */}
       {evento.bannerUrl ? (
@@ -73,25 +74,30 @@ export default function EventDetail({ evento, onDelete }) {
           ))}
         </div>
 
-		<p className="text-blue-800/50 italic tracking-wider text-center py-4">Así verán los usuarios tu evento.</p>
-
-        <div className="flex justify-between items-center pb-10 pt-6 border-t border-white/10">
-          <div className="grid grid-cols-1 space-y-2">
-            <span className="text-white text-sm tracking-wider">
-              Fecha fin del evento: {formatearFecha(evento.finAt)}
-            </span>
-            <span className="text-white/70 text-sm tracking-wider italic">
-              Una vez que haya finalizado el evento podrás eliminarlo.
-            </span>
-            <span className="text-white/70 text-sm tracking-wider italic">
-              Ultima actualizacion: {formatearFecha(evento.createdAt)}
-            </span>
-          </div>
-          <div>
-            {onDelete && noHayVentas && <TertiaryButton text="Eliminar" onClick={onDelete} />}
-          </div>
-        </div>
+		    <p className="text-blue-800/50 italic tracking-wider text-center py-4">Así verán los usuarios tu evento.</p>
       </div>
     </div>
+
+    <div className="bg-[#05081b]/40 p-6 rounded-4xl my-5 border border-white/10 space-y-2">
+      <p className="text-white text-sm tracking-wider">
+        Fecha fin del evento: {formatearFecha(evento.finAt)}
+      </p>
+      <p className="text-white/70 text-sm tracking-wider italic">
+        Ultima actualizacion: {formatearFecha(evento.createdAt)}
+      </p>
+    </div>
+
+    <div className="bg-[#05081b]/40 p-6 rounded-4xl border border-white/10">
+      <p className="text-white/70 text-sm tracking-wider">
+        El evento podrá eliminarse si ya finalizó o si aún no tiene ventas.
+      </p>
+      {onDelete && noHayVentas && 
+        <div className="mt-4">
+          <TertiaryButton text="Eliminar Evento" aspect="warn" onClick={onDelete} />
+        </div>
+      }
+
+    </div>
+    </>
   );
 }

@@ -186,7 +186,8 @@ export default function ComprasDetail({ compraId, onClose, onActualizar }) {
               bg="bg-green-400"
             />
             <TertiaryButton
-              text="CANCELAR"
+              text="RECHAZAR"
+              aspect="warn"
               onClick={() => handleCancelarCompra(compra.id)}
             />
           </div>
