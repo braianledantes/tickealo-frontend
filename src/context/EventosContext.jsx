@@ -43,10 +43,12 @@ export function EventosProvider({ children }) {
         return fechaEvento >= new Date(); 
       });
 
-      const pasados = ordenados.filter(event => {
-        const fechaEvento = new Date(event.inicioAt);
-        return fechaEvento < new Date(); 
-      });
+      const pasados = ordenados
+        .filter(event => {
+          const fechaEvento = new Date(event.inicioAt);
+          return fechaEvento < new Date(); 
+        })
+        .sort((a, b) => new Date(b.inicioAt) - new Date(a.inicioAt));
 
       setAllEvents(futuros);
       setEventosPasados(pasados);
