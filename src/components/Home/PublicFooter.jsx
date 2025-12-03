@@ -3,21 +3,54 @@ import Logo from "../Logo";
 
 export function PublicFooter() {
   return (
-    <footer className="
-      w-full text-white mt-auto
+    <footer
+      className="
+        w-full text-white mt-auto
         bg-gradient-to-b
         from-[#0A0F2D]
         to-[#05081b]
         shadow-md
-    ">
-      <div className="flex flex-col items-center justify-center mx-auto space-y-4 py-6">
+      "
+    >
+      <div
+        className="
+          max-w-6xl mx-auto
+          flex flex-col items-center justify-center
+          space-y-6 py-8 px-4
+        "
+      >
+        {/* LOGO */}
         <Logo />
-        <div className="flex items-center gap-4"> 
-          <a href="" className="text-white text-sm tracking-wider italic font-bold">HOME</a>
-          <a href="https://tickealo-backend-nest-development.up.railway.app/" className="text-white text-sm tracking-wider italic font-bold">SOBRE NOSOTROS</a>
-           <a href="https://www.figma.com/design/kUr5ukFXmlJNAJpi1bMSlv/TFTUDW?node-id=0-1&t=lesYZRF4CbTVIc6O-1" className="text-white text-sm tracking-wider italic font-bold">TÉRMINOS Y CONDICIONES</a>
+
+        {/* NAV LINKS */}
+        <div
+          className="
+            flex flex-col items-center gap-2
+            sm:flex-row sm:gap-6
+          "
+        >
+          <a
+            href=""
+            className="text-white text-sm tracking-wider italic font-bold hover:underline"
+          >
+            HOME
+          </a>
+          <a
+            href="https://tickealo-backend-nest-development.up.railway.app/"
+            className="text-white text-sm tracking-wider italic font-bold hover:underline"
+          >
+            SOBRE NOSOTROS
+          </a>
+          <a
+            href="https://www.figma.com/design/kUr5ukFXmlJNAJpi1bMSlv/TFTUDW?node-id=0-1&t=lesYZRF4CbTVIc6O-1"
+            className="text-white text-sm tracking-wider italic font-bold hover:underline"
+          >
+            TÉRMINOS Y CONDICIONES
+          </a>
         </div>
-        <div className="flex items-center gap-4">
+
+        {/* SOCIAL ICONS */}
+        <div className="flex items-center gap-6 sm:gap-8">
           <a
             href="https://facebook.com"
             target="_blank"
@@ -48,8 +81,11 @@ export function PublicFooter() {
             <InstagramIcon />
           </a>
         </div>
-        <div className="text-sm tracking-wider text-white/70">
-          Copyright ©{new Date().getFullYear()} Tickealo. Todos los derechos reservados.
+
+        {/* COPYRIGHT */}
+        <div className="text-xs sm:text-sm tracking-wider text-white/70 text-center">
+          Copyright ©{new Date().getFullYear()} Tickealo. Todos los derechos
+          reservados.
         </div>
       </div>
     </footer>
