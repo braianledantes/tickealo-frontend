@@ -5,9 +5,12 @@ import { formatearFecha } from "../../utils/formatear";
 import EntradaCard from "../Entradas/EntradaCard";
 
 export default function EventDetail({ evento, onDelete }) {
-  const noHayVentas = evento.stockEntradas > evento.capacidad;
+  const noHayVentas = evento.stockEntradas === evento.capacidad;
   const getPreviewSrc = (value) =>
     value instanceof File ? URL.createObjectURL(value) : value;
+
+  const yaFinalizo = new Date(evento.finAt) < new Date();
+
 
   return (
     <>
@@ -89,9 +92,9 @@ export default function EventDetail({ evento, onDelete }) {
 
     <div className="bg-[#05081b]/40 p-6 rounded-4xl border border-white/10">
       <p className="text-white/70 text-sm tracking-wider">
-        El evento podrá eliminarse si ya finalizó o si aún no tiene ventas.
+        El evento podrá eliminarse si esta cancelado o si aún no tiene ventas.
       </p>
-      {onDelete && noHayVentas && 
+      {onDelete && (noHayVentas || evento.cancelado || yaFinalizo) &&
         <div className="mt-4">
           <TertiaryButton text="Eliminar Evento" aspect="warn" onClick={onDelete} />
         </div>

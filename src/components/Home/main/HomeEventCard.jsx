@@ -56,7 +56,7 @@ function AnimatedCard({ evento, sinCupos, porFinalizar, onClick }) {
         )}
 
         {evento.cancelado && (
-          <div className="absolute z-3 top-5 -right-16 bg-gray-900 text-white font-bold tracking-wider py-2 px-16 text-sm transform rotate-45 shadow-lg pointer-events-none">
+          <div className="absolute z-4 top-5 -right-16 bg-gray-900 text-white font-bold tracking-wider py-2 px-16 text-sm transform rotate-45 shadow-lg pointer-events-none">
             CANCELADO
           </div>
         )}
@@ -67,7 +67,7 @@ function AnimatedCard({ evento, sinCupos, porFinalizar, onClick }) {
           </div>
         )}
 
-        {!sinCupos && porFinalizar && (
+        {!sinCupos && porFinalizar && !evento.cancelado && (
           <div
             className="
               absolute z-30 top-8 -right-16
